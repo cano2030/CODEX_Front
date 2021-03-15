@@ -33,6 +33,7 @@
             <v-text-field label="Edad" disabled="isDisabled"></v-text-field>
           </v-col>
         </v-row>
+        <v-text-field label="Correo" disabled="isDisabled"></v-text-field>
         <v-text-field label="Teléfono" disabled="isDisabled"></v-text-field>
         <v-text-field label="Dirección" disabled="isDisabled"></v-text-field>
       </div>
