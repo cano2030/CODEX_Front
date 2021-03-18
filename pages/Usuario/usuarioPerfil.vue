@@ -5,36 +5,45 @@
       <div>
         <v-row>
           <v-col cols="12" sm="6">
-            <v-text-field
-              label="Nombres"
-              :rules="rules"
-              hide-details="auto"
-              disabled="isDisabled"
-            ></v-text-field>
+            <v-text-field label="Nombres" disabled="isDisabled"></v-text-field>
           </v-col>
           <v-col cols="12" sm="6">
             <v-text-field
               label="Apellidos"
-              :rules="rules"
-              hide-details="auto"
               disabled="isDisabled"
             ></v-text-field>
           </v-col>
         </v-row>
         <v-text-field label="Cédula" disabled="isDisabled"></v-text-field>
         <v-row>
+          <v-col cols="12" sm="4">
+            <v-text-field
+              label="Fecha de Nacimiento"
+              disabled="isDisabled"
+            ></v-text-field>
+          </v-col>
+          <v-col cols="12" sm="4">
+            <v-text-field label="Edad" disabled="isDisabled"></v-text-field>
+          </v-col>
+          <v-col cols="12" sm="4">
+            <v-text-field label="Sexo" disabled="isDisabled"></v-text-field>
+          </v-col>
+        </v-row>
+        <v-text-field label="Ocupación" disabled="isDisabled"></v-text-field>
+        <v-text-field label="Estado civil" disabled="isDisabled"></v-text-field>
+        <v-text-field label="Correo" disabled="isDisabled"></v-text-field>
+        <v-text-field label="Teléfono" disabled="isDisabled"></v-text-field>
+        <v-row>
           <v-col cols="12" sm="6">
             <v-text-field
-              label="Fecha de nacimiento"
+              label="Departamento"
               disabled="isDisabled"
             ></v-text-field>
           </v-col>
           <v-col cols="12" sm="6">
-            <v-text-field label="Edad" disabled="isDisabled"></v-text-field>
+            <v-text-field label="Ciudad" disabled="isDisabled"></v-text-field>
           </v-col>
         </v-row>
-        <v-text-field label="Correo" disabled="isDisabled"></v-text-field>
-        <v-text-field label="Teléfono" disabled="isDisabled"></v-text-field>
         <v-text-field label="Dirección" disabled="isDisabled"></v-text-field>
       </div>
     </template>
