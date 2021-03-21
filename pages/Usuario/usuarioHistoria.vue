@@ -7,7 +7,7 @@
       hide-default-footer
     >
       <template v-slot:header>
-        <v-toolbar class="mb-2" color="indigo darken-5" dark flat>
+        <v-toolbar class="mb-2" color="blue darken-2" dark flat>
           <v-row>
             <v-col cols="12" sm="6">
               <v-select
@@ -61,6 +61,9 @@
           <v-col v-for="item in props.items" :key="item.name" cols="12">
             <v-card>
               <v-card-title class="subheading font-weight-bold">
+                <!--<v-btn class="mx-2" fab dark small color="primary">
+                  <v-icon dark> mdi-share </v-icon>
+                </v-btn>-->
                 {{ item.name }}
               </v-card-title>
 
@@ -109,13 +112,13 @@
           <v-btn
             fab
             dark
-            color="blue darken-3"
+            color="blue darken-2"
             class="mr-1"
             @click="formerPage"
           >
             <v-icon>mdi-chevron-left</v-icon>
           </v-btn>
-          <v-btn fab dark color="blue darken-3" class="ml-1" @click="nextPage">
+          <v-btn fab dark color="blue darken-2" class="ml-1" @click="nextPage">
             <v-icon>mdi-chevron-right</v-icon>
           </v-btn>
         </v-row>

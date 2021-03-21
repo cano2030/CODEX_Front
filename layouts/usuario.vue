@@ -3,13 +3,13 @@
     <!-- Menu hamburguesa -->
     <v-navigation-drawer v-model="openMenu" class="blue lighten-3" fixed app>
       <template v-slot:prepend>
-        <v-list-item two-line>
+        <v-list-item two-line class="d-flex justify-center">
           <v-avatar size="180">
             <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
           </v-avatar>
         </v-list-item>
 
-        <v-list-item-content>
+        <v-list-item-content class="text-md-center">
           <v-list-item-title class="title"> Jhon Jimenez </v-list-item-title>
           <v-list-item-subtitle>Paciente</v-list-item-subtitle>
         </v-list-item-content>
@@ -43,7 +43,7 @@
     </v-navigation-drawer>
 
     <!--Barra de navegacion superior-->
-    <v-app-bar :clipped-left="clipped" fixed app>
+    <v-app-bar :clipped-left="clipped" color="blue lighten-3" fixed app >
       <!--Icono que controla el menú hamburguesa -->
       <v-app-bar-nav-icon @click.stop="openMenu = !openMenu" />
     </v-app-bar>
