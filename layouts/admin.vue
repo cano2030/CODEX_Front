@@ -1,0 +1,127 @@
+<template>
+  <v-app>
+    <!-- Menu hamburguesa -->
+    <v-navigation-drawer v-model="openMenu" color="#a4ebf3" fixed app>
+      <template v-slot:prepend>
+        
+      </template>
+
+      <v-list>
+        <v-list-item
+          v-for="item in items"
+          :key="item.id"
+          :to="item.to"
+          router
+          exact
+        >
+          <v-list-item-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title v-text="item.title" />
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+
+      <template v-slot:append>
+        <div>
+          <v-btn block>
+            Logout
+            <v-icon> mdi-exit-to-app </v-icon>
+          </v-btn>
+        </div>
+      </template>
+    </v-navigation-drawer>
+
+    <!--Barra de navegacion superior-->
+    <v-app-bar :clipped-left="clipped" fixed app color="#ccf2f4">
+      <!--Icono que controla el menú hamburguesa -->
+      <v-app-bar-nav-icon @click.stop="openMenu = !openMenu" />
+
+      <v-toolbar-items>
+        <img
+          src="../static/images/logoapolo.PNG"
+          max-width="64"
+          min-width="64"
+        />
+      </v-toolbar-items>
+    </v-app-bar>
+    <v-main>
+      <v-container>
+        <nuxt />
+      </v-container>
+    </v-main>
+    <v-footer :absolute="!fixed" app>
+      <v-spacer></v-spacer>
+      <span>Codex &copy; {{ new Date().getFullYear() }}</span>
+      <small>Historias clinicas</small>
+      <v-spacer></v-spacer>
+    </v-footer>
+    <!--Barra de navegacion superior-->
+    <v-app-bar :clipped-left="clipped" fixed app color="#ccf2f4">
+      <!--Icono que controla el menú hamburguesa -->
+      <v-app-bar-nav-icon @click.stop="openMenu = !openMenu" />
+
+      <v-toolbar-items>
+        <img
+          src="../static/images/logoapolo.PNG"
+          max-width="64"
+          min-width="64"
+        />
+      </v-toolbar-items>
+    </v-app-bar>
+    <v-main>
+      <v-container>
+        <nuxt />
+      </v-container>
+    </v-main>
+    <v-footer :absolute="!fixed" app>
+      <v-spacer></v-spacer>
+      <span>Codex &copy; {{ new Date().getFullYear() }}</span>
+      <small>Historias clinicas</small>
+      <v-spacer></v-spacer>
+    </v-footer>
+  </v-app>
+</template>
+
+<script>
+export default {
+    data() {
+    return {
+      openMenu: false,
+          
+      items: [
+        {
+          id: "adminCrearUsuarios",
+          icon: "mdi-account",
+          title: "Usuarios",
+          to: "/Administrador/adminCrearUsuarios",
+        },
+        {
+          id: "adminHistoriasClinicas",
+          icon: "mdi-clipboard-edit-outline",
+          title: "Historias Clinicas",
+          to: "/Administrador/adminHistoriaClinica",
+        },
+        {
+          id: "adminMedicamentos",
+          icon: "mdi-bottle-tonic-plus",
+          title: "Medicamentos",
+          to: "/Administrador/adminMedicamentos",
+        },
+        {
+          id: "adminEspecialidades",
+          icon: "mdi-star-box-outline",
+          title: "Especialidades",
+          to: "/Administrador/adminEspecialidades",
+        },
+      ],
+      title: "Vuetify.js",
+    };
+  },
+}
+</script>
+
+<style>
+
+</style>
