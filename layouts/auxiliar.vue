@@ -41,7 +41,7 @@
 
       <template v-slot:append>
         <div>
-          <v-btn block>
+          <v-btn block text to="/">
             Logout
             <v-icon> mdi-exit-to-app </v-icon>
           </v-btn>
