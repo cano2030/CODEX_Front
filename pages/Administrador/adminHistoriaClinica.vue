@@ -4,8 +4,10 @@
 
 <script>
 export default {
-  data: () => ({
-    
-  }),
-};
+        layout: "admin",
+}
 </script>
+
+<style>
+
+</style>
