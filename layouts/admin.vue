@@ -2,9 +2,7 @@
   <v-app>
     <!-- Menu hamburguesa -->
     <v-navigation-drawer v-model="openMenu" color="#a4ebf3" fixed app>
-      <template v-slot:prepend>
-        
-      </template>
+      <template v-slot:prepend> </template>
 
       <v-list>
         <v-list-item
@@ -54,7 +52,7 @@
     <v-footer :absolute="!fixed" app>
       <v-spacer></v-spacer>
       <span>Codex &copy; {{ new Date().getFullYear() }}</span>
-      <small>Historias clinicas</small>
+      <small>Administrador</small>
       <v-spacer></v-spacer>
     </v-footer>
     <!--Barra de navegacion superior-->
@@ -70,26 +68,15 @@
         />
       </v-toolbar-items>
     </v-app-bar>
-    <v-main>
-      <v-container>
-        <nuxt />
-      </v-container>
-    </v-main>
-    <v-footer :absolute="!fixed" app>
-      <v-spacer></v-spacer>
-      <span>Codex &copy; {{ new Date().getFullYear() }}</span>
-      <small>Historias clinicas</small>
-      <v-spacer></v-spacer>
-    </v-footer>
   </v-app>
 </template>
 
 <script>
 export default {
-    data() {
+  data() {
     return {
       openMenu: false,
-          
+
       items: [
         {
           id: "adminCrearUsuarios",
@@ -105,7 +92,7 @@ export default {
         },
         {
           id: "adminMedicamentos",
-          icon: "mdi-bottle-tonic-plus",
+          icon: "mdi-pill",
           title: "Medicamentos",
           to: "/Administrador/adminMedicamentos",
         },
@@ -119,9 +106,8 @@ export default {
       title: "Vuetify.js",
     };
   },
-}
+};
 </script>
 
 <style>
-
 </style>
