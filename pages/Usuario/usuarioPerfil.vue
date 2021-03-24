@@ -5,7 +5,7 @@
       <v-spacer></v-spacer>
       <v-btn
         class="white--text"
-        color="#ff5722"
+        color="#ee6f57"
         fab
         small
         @click="isEditing = !isEditing"
@@ -58,7 +58,7 @@
       <v-btn
         class="white--text"
         :disabled="!isEditing"
-        color="#ff5722"
+        color="#ee6f57"
         @click="save"
       >
         Guardar

@@ -7,7 +7,7 @@
       hide-default-footer
     >
       <template v-slot:header>
-        <v-toolbar class="mb-2" color="blue darken-1" dark flat>
+        <v-toolbar class="mb-2" color="#3797a4" dark flat>
           <v-row>
             <v-col cols="12" sm="5">
               <v-select
@@ -55,7 +55,7 @@
               </v-menu>
             </v-col>
             <v-col cols="12" sm="2" justify="center" align="center">
-              <v-btn class="text-center" small color="orange darken-2" dark @click="limpiarFiltros">
+              <v-btn class="text-center" small color="#ee6f57" dark @click="limpiarFiltros">
                 Limpiar filtros
               </v-btn>
             </v-col>
@@ -119,13 +119,13 @@
           <v-btn
             fab
             dark
-            color="blue darken-1"
+            color="#3797a4"
             class="mr-1"
             @click="formerPage"
           >
             <v-icon>mdi-chevron-left</v-icon>
           </v-btn>
-          <v-btn fab dark color="blue darken-1" class="ml-1" @click="nextPage">
+          <v-btn fab dark color="#3797a4" class="ml-1" @click="nextPage">
             <v-icon>mdi-chevron-right</v-icon>
           </v-btn>
         </v-row>

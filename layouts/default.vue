@@ -131,4 +131,7 @@ export default {
   },
 };
 </script>
-
+<style>
+ #app { background: url("../static/images/FondoIndex.jpg") no-repeat center
+    fixed !important; background-size: cover; }
+</style>
