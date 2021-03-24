@@ -2,25 +2,7 @@
   <v-app>
     <!-- Menu hamburguesa -->
     <v-navigation-drawer v-model="openMenu" color="#a4ebf3" fixed app>
-      <template v-slot:prepend>
-        <v-list-item two-line>
-          <v-avatar size="180">
-            <v-img
-              src="https://res.cloudinary.com/postedin/image/upload/d_psu:no-image.jpg,f_auto,q_80/psu/c-postedin-image-65344.jpeg"
-             
-            ></v-img>
-          </v-avatar>
-        </v-list-item>
-
-        <v-list-item-content>
-          <v-list-item-title class="text-md-center">
-            Karen Johana Mosquera
-          </v-list-item-title>
-          <v-list-item-subtitle class="text-md-center"
-            >Auxiliar de Enfermeria</v-list-item-subtitle
-          >
-        </v-list-item-content>
-      </template>
+      <template v-slot:prepend> </template>
 
       <v-list>
         <v-list-item
@@ -41,7 +23,7 @@
 
       <template v-slot:append>
         <div>
-          <v-btn block text to="/">
+          <v-btn block>
             Logout
             <v-icon> mdi-exit-to-app </v-icon>
           </v-btn>
@@ -70,9 +52,22 @@
     <v-footer :absolute="!fixed" app>
       <v-spacer></v-spacer>
       <span>Codex &copy; {{ new Date().getFullYear() }}</span>
-      <small>Historias clinicas</small>
+      <small>Administrador</small>
       <v-spacer></v-spacer>
     </v-footer>
+    <!--Barra de navegacion superior-->
+    <v-app-bar :clipped-left="clipped" fixed app color="#ccf2f4">
+      <!--Icono que controla el menú hamburguesa -->
+      <v-app-bar-nav-icon @click.stop="openMenu = !openMenu" />
+
+      <v-toolbar-items>
+        <img
+          src="../static/images/logoapolo.PNG"
+          max-width="64"
+          min-width="64"
+        />
+      </v-toolbar-items>
+    </v-app-bar>
   </v-app>
 </template>
 
@@ -81,18 +76,31 @@ export default {
   data() {
     return {
       openMenu: false,
+
       items: [
         {
-          id: "homeauxiliar",
-          icon: "mdi-home",
-          title: "Home",
-          to: "/Auxiliar/auxiliarHome",
+          id: "adminCrearUsuarios",
+          icon: "mdi-account",
+          title: "Usuarios",
+          to: "/Administrador/adminCrearUsuarios",
         },
         {
-          id: "perfilauxiliar",
-          icon: "mdi-account",
-          title: "Perfil",
-          to: "/Auxiliar/auxiliarPerfil",
+          id: "adminHistoriasClinicas",
+          icon: "mdi-clipboard-edit-outline",
+          title: "Historias Clinicas",
+          to: "/Administrador/adminHistoriaClinica",
+        },
+        {
+          id: "adminMedicamentos",
+          icon: "mdi-pill",
+          title: "Medicamentos",
+          to: "/Administrador/adminMedicamentos",
+        },
+        {
+          id: "adminEspecialidades",
+          icon: "mdi-star-box-outline",
+          title: "Especialidades",
+          to: "/Administrador/adminEspecialidades",
         },
       ],
       title: "Vuetify.js",
@@ -100,3 +108,6 @@ export default {
   },
 };
 </script>
+
+<style>
+</style>

@@ -83,7 +83,7 @@ export default {
           id: "examenes",
           icon: "mdi-note",
           title: "Exámenes",
-          to: "/Usuario/examenes",
+          to: "/Usuario/usuarioExamenes",
         },
         {
           id: "medicamentos",

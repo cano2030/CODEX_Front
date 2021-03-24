@@ -1,75 +1,134 @@
 <template>
-  <v-app>
-    <!-- Menu hamburguesa -->
-    <v-navigation-drawer
-      v-model="openMenu"
-      fixed
-      app
-    >
-      <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
+  <v-app background="../static/images/FondoIndex.png">
+   
+    <br />
+    <center>
+      <h1 style="font-family: Copperplate; color: #0c354a">APOLO SALUD</h1>
+    </center>
+    <br />
 
-    <!--Barra de navegacion superior-->
-    <v-app-bar :clipped-left="clipped" fixed app>
-      <!--Icono que controla el menú hamburguesa -->
-      <v-app-bar-nav-icon @click.stop="openMenu = !openMenu" />
-    </v-app-bar>
-    <v-main>
-      <v-container>
-        <nuxt />
-      </v-container>
-    </v-main>
-    <v-footer
-      :absolute="!fixed"
-      app
-    >
-    <v-spacer></v-spacer>
-      <span>Codex &copy; {{ new Date().getFullYear() }}</span>
-      <small>Historias clinicas</small>
-    <v-spacer></v-spacer>
+    <v-footer :absolute="!fixed" app>
+      <v-spacer></v-spacer>
+      <span> &copy; {{ new Date().getFullYear() }}</span>
+      <small>| Codex</small>
+      <v-spacer></v-spacer>
     </v-footer>
+
+    <template>
+      <v-row>
+        <v-col cols="12" md="7"> </v-col>
+        <v-col cols="12" md="4">
+          <v-card class="mx-auto" style="width: 350px" elevation="12">
+            <v-toolbar color="#a4ebf3">
+              <v-card-title class="#0c354a--text">
+                <center>Log in</center>
+              </v-card-title>
+              <v-spacer></v-spacer>
+            </v-toolbar>
+
+            <v-form
+              ref="form"
+              v-model="valid"
+              class="pa-3 pt-4"
+              lazy-validation
+              color="#ccf2f4"
+            >
+              <v-spacer></v-spacer>
+              <v-text-field
+                v-model="usuario.user"
+                :rules="rules.required"
+                label="User"
+                style="height: 100px"
+                required
+              ></v-text-field>
+
+              <v-text-field
+                v-model="usuario.password"
+                :rules="rules.required"
+                label="Password"
+                style="height: 100px"
+                required
+              ></v-text-field>
+            </v-form>
+            <v-divider></v-divider>
+            <v-card-actions>
+              <v-btn class="white--text" color="#ff5722" @click="validate">
+                Ingresar
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-dialog v-model="dialog" max-width="600px">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    color="#0c354a"
+                    class="ma-1"
+                    v-bind="attrs"
+                    v-on="on"
+                    plain
+                  >
+                    ¿Eres administrador?
+                  </v-btn>
+                </template>
+
+                <v-card>
+                  <v-toolbar color="#a4ebf3">
+                    <v-card-title class="#0c354a--text">
+                      <center>Ingresa tu codigo de administrador</center>
+                    </v-card-title>
+                    <v-spacer></v-spacer>
+                  </v-toolbar>
+                  <v-card-text>
+                    <v-container>
+                      <v-form ref="form" v-model="valid" lazy-validation>
+                        <v-text-field
+                          v-model="code"
+                          :rules="rules.required"
+                          label="Code"
+                          style="height: 100px"
+                          required
+                        ></v-text-field>
+                        <center>
+                          <v-btn
+                            class="white--text"
+                            color="#ff5722"
+                            @click="validate"
+                          >
+                            Ingresar
+                          </v-btn>
+                        </center>
+                      </v-form>
+                    </v-container>
+                  </v-card-text>
+                </v-card>
+              </v-dialog>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
+    </template>
+  </v-app>
+</template>
+
   </v-app>
 </template>
 
 <script>
 export default {
-  data () {
-    return {
-      openMenu: false,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Home',
-          to: '/'
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Iniciar sesion',
-          to: '/inspire'
-        },
-        {
-          icon: 'mdi-cigar',
-          title: 'Sobre nosotros',
-          to: '/about'
-        }
-      ],
-      title: 'Vuetify.js'
-    }
-  }
-}
+  data: () => ({
+    dialog: false,
+    usuario: {
+      user: "",
+      password: "",
+    },
+    rules: {
+      required: [(v) => !!v || "El campo es obligatorio"],
+    },
+  }),
+
+  methods: {
+    validate() {
+      this.$refs.form.validate();
+    },
+  },
+};
 </script>
+

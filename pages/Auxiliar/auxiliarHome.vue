@@ -1,7 +1,4 @@
 <template>
-
-
-
   <v-card>
     <v-card-title>
       <v-icon large left> </v-icon>
