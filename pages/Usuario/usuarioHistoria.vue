@@ -7,9 +7,9 @@
       hide-default-footer
     >
       <template v-slot:header>
-        <v-toolbar class="mb-2" color="blue darken-2" dark flat>
+        <v-toolbar class="mb-2" color="blue darken-1" dark flat>
           <v-row>
-            <v-col cols="12" sm="6">
+            <v-col cols="12" sm="5">
               <v-select
                 prepend-inner-icon="mdi-magnify"
                 solo-inverted
@@ -17,9 +17,10 @@
                 :items="especializaciones"
                 label="Buscar por especialización"
                 @change="filterEspecializacion"
+                v-model="especializacion_seleccionada"
               ></v-select>
             </v-col>
-            <v-col cols="12" sm="6">
+            <v-col cols="12" sm="5">
               <v-menu
                 ref="menu"
                 v-model="menu"
@@ -27,6 +28,7 @@
                 :return-value.sync="date"
                 transition="scale-transition"
                 offset-y
+                max-width="290px"
                 min-width="auto"
               >
                 <template v-slot:activator="{ on, attrs }">
@@ -35,13 +37,13 @@
                     solo-inverted
                     hide-details
                     label="Buscar por fecha"
-                    prepend-inner-icon="mdi-calendar"
+                    prepend-icon="mdi-calendar"
                     readonly
                     v-bind="attrs"
                     v-on="on"
                   ></v-text-field>
                 </template>
-                <v-date-picker v-model="date" no-title scrollable>
+                <v-date-picker @change="filterMes" v-model="date" type="month" no-title scrollable>
                   <v-spacer></v-spacer>
                   <v-btn text color="primary" @click="menu = false">
                     Cancel
@@ -52,19 +54,24 @@
                 </v-date-picker>
               </v-menu>
             </v-col>
+            <v-col cols="12" sm="2" justify="center" align="center">
+              <v-btn class="text-center" small color="orange darken-2" dark @click="limpiarFiltros">
+                Limpiar filtros
+              </v-btn>
+            </v-col>
           </v-row>
         </v-toolbar>
       </template>
 
       <template v-slot:default="props">
         <v-row>
-          <v-col v-for="item in props.items" :key="item.name" cols="12">
+          <v-col v-for="item in props.items" :key="item.especializacion" cols="12">
             <v-card>
               <v-card-title class="subheading font-weight-bold">
                 <!--<v-btn class="mx-2" fab dark small color="primary">
                   <v-icon dark> mdi-share </v-icon>
                 </v-btn>-->
-                {{ item.name }}
+                {{ item.especializacion }}
               </v-card-title>
 
               <v-divider></v-divider>
@@ -112,13 +119,13 @@
           <v-btn
             fab
             dark
-            color="blue darken-2"
+            color="blue darken-1"
             class="mr-1"
             @click="formerPage"
           >
             <v-icon>mdi-chevron-left</v-icon>
           </v-btn>
-          <v-btn fab dark color="blue darken-2" class="ml-1" @click="nextPage">
+          <v-btn fab dark color="blue darken-1" class="ml-1" @click="nextPage">
             <v-icon>mdi-chevron-right</v-icon>
           </v-btn>
         </v-row>
@@ -130,10 +137,16 @@
 <script>
 export default {
   layout: "usuario",
+  beforeMount() {
+    this.items = this.historias;
+  },
   data: () => ({
+    date: new Date().toISOString().substr(0, 7),
+    menu: false,
     page: 1,
     itemsPerPage: 3,
-    filters: {},
+    especializacion_seleccionada: null,
+    filter: {},
     especializaciones: [
       "Medicina general",
       "Odontología",
@@ -144,9 +157,10 @@ export default {
       "Ortopedía y traumatología",
     ],
     headers: [],
-    items: [
+    items: [],
+    historias: [
       {
-        name: "Medicina general",
+        especializacion: "Medicina general",
         num_historia: "23659",
         fecha: "2021-03-18",
         motivo_consulta: "Fiebre",
@@ -154,7 +168,7 @@ export default {
           "On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain.",
       },
       {
-        name: "Odontología",
+        especializacion: "Odontología",
         num_historia: "36985",
         fecha: "2021-11-02",
         motivo_consulta: "Carie",
@@ -162,7 +176,7 @@ export default {
           "On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain.",
       },
       {
-        name: "Dermatología",
+        especializacion: "Dermatología",
         num_historia: "8547",
         fecha: "2021-09-10",
         motivo_consulta: "Grano",
@@ -170,9 +184,9 @@ export default {
           "On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain.",
       },
       {
-        name: "Oftalmología",
+        especializacion: "Oftalmología",
         num_historia: "123",
-        fecha: "2021-03-01",
+        fecha: "2020-03-01",
         motivo_consulta: "Ciego",
         descripcion:
           "On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain.",
@@ -195,17 +209,24 @@ export default {
       this.itemsPerPage = number;
     },
 
-    filterEspecializacion(val) {
-      this.filters = this.$MultiFilters.updateFilters(this.filters, {
-        added_by: val,
-      });
+    filterEspecializacion() {
+      console.log(this.especializacion_seleccionada);
+      this.items = this.historias.filter(
+        (item) => item.especializacion === this.especializacion_seleccionada
+      );
+    },
+    filterMes(){
+      this.items = this.historias.filter(
+        (item) => item.fecha.substr(0,7) == this.date
+      );
+    },
+
+    limpiarFiltros() {
+      this.items = this.historias;
     },
   },
 };
 </script>
-
-<style>
-</style>
 <!--items: [
         'Medicina general',
         'Odontología',

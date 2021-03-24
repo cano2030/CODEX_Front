@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <!-- Menu hamburguesa -->
-    <v-navigation-drawer v-model="openMenu" class="blue lighten-3" fixed app>
+    <v-navigation-drawer v-model="openMenu" class="blue lighten-4" fixed app>
       <template v-slot:prepend>
         <v-list-item two-line class="d-flex justify-center">
           <v-avatar size="180">
@@ -43,7 +43,7 @@
     </v-navigation-drawer>
 
     <!--Barra de navegacion superior-->
-    <v-app-bar :clipped-left="clipped" color="blue lighten-3" fixed app >
+    <v-app-bar :clipped-left="clipped" color="blue lighten-4" fixed app >
       <!--Icono que controla el menú hamburguesa -->
       <v-app-bar-nav-icon @click.stop="openMenu = !openMenu" />
     </v-app-bar>

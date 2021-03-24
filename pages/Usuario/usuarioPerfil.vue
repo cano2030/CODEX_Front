@@ -74,6 +74,7 @@
 <script>
 export default {
   layout: "usuario",
+  isDisabled: false,
   data() {
     return {
       hasSaved: false,
@@ -84,8 +85,6 @@ export default {
       ciudades: ["Medellín", "Bogotá", "Barranquilla", "Cartagena"],
     };
   },
-  isDisabled: false,
-
   methods: {
     save() {
       this.isEditing = !this.isEditing;
