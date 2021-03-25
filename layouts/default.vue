@@ -1,6 +1,5 @@
 <template>
   <v-app background="../static/images/FondoIndex.png">
-   
     <br />
     <center>
       <h1 style="font-family: Copperplate">APOLO SALUD</h1>
@@ -34,6 +33,7 @@
               color="#ccf2f4"
             >
               <v-spacer></v-spacer>
+
               <v-text-field
                 v-model="usuario.user"
                 :rules="rules.required"
@@ -49,6 +49,15 @@
                 style="height: 100px"
                 required
               ></v-text-field>
+
+              <v-select
+                solo-inverted
+                hide-details
+                :items="rol"
+                label="Elegir rol"
+                v-model="rol_seleccionado"
+              ></v-select>
+              <!--@change="filterRol"-->
             </v-form>
             <v-divider></v-divider>
             <v-card-actions>
@@ -122,6 +131,7 @@ export default {
     rules: {
       required: [(v) => !!v || "El campo es obligatorio"],
     },
+    rol: ["Paciente", "Medico", "Auxiliar"],
   }),
 
   methods: {
@@ -132,6 +142,8 @@ export default {
 };
 </script>
 <style>
- #app { background: url("../static/images/FondoIndex.png") no-repeat center
-    fixed !important; background-size: cover; }
+#app {
+  background: url("../static/images/FondoIndex.png") no-repeat center fixed !important;
+  background-size: cover;
+}
 </style>

@@ -2,33 +2,64 @@
   <v-container>
     <v-row>
       <v-col>
-        <v-card style="width: 550px; height: 600px" elevation="12">
+        <v-card style="width: 550px" elevation="12">
           <v-toolbar color="#3797a4">
             <v-card-title class="#0c354a--text">
               <center>Auxiliar - Medico</center>
             </v-card-title>
           </v-toolbar>
           <v-card-text>
-            <v-form ref="form" v-model="valid" lazy-validation>
-              <v-text-field
-                v-model="code"
-                :rules="rules.required"
-                label="Form"
-                style="height: 100px"
-                required
-              ></v-text-field>
-              <center>
-                <v-btn class="white--text" color="#ee6f57" @click="validate">
-                  Crear
-                </v-btn>
-              </center>
-            </v-form>
+            <v-card-text>
+              <v-row>
+                <v-col cols="12" sm="6">
+                  <v-text-field label="Nombres"></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-text-field label="Apellidos"></v-text-field>
+                </v-col>
+              </v-row>
+              <v-text-field label="Cédula"></v-text-field>
+              <v-row>
+                <v-col cols="12" sm="4">
+                  <v-text-field label="Fecha de Nacimiento"></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="4">
+                  <v-text-field label="Edad"></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="4">
+                  <v-text-field label="Sexo"></v-text-field>
+                </v-col>
+              </v-row>
+              <v-select :items="especialidad" label="Especialidad"></v-select>
+              <v-select :items="estado_civil" label="Estado civil"></v-select>
+              <v-text-field label="Correo"></v-text-field>
+              <v-text-field label="Teléfono"></v-text-field>
+              <v-row>
+                <v-col cols="12" sm="6">
+                  <v-select
+                    :items="departamentos"
+                    label="Departamento"
+                  ></v-select>
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-select :items="ciudades" label="Ciudad"></v-select>
+                </v-col>
+              </v-row>
+              <v-text-field label="Dirección"></v-text-field>
+              <v-col>
+                <center>
+                  <v-btn class="white--text" color="#ee6f57">
+                    Crear
+                  </v-btn>
+                </center>
+              </v-col>
+            </v-card-text>
           </v-card-text>
         </v-card>
       </v-col>
 
       <v-col>
-        <v-card style="width: 550px; height: 600px" elevation="12">
+        <v-card style="width: 550px" elevation="12">
           <v-toolbar color="#3797a4">
             <v-card-title class="#0c354a--text">
               <center>Paciente</center>
@@ -36,20 +67,51 @@
             <v-spacer></v-spacer>
           </v-toolbar>
           <v-card-text>
-            <v-form ref="form" v-model="valid" lazy-validation>
-              <v-text-field
-                v-model="code"
-                :rules="rules.required"
-                label="Form"
-                style="height: 100px"
-                required
-              ></v-text-field>
-              <center>
-                <v-btn class="white--text" color="#ee6f57" @click="validate">
-                  Crear
-                </v-btn>
-              </center>
-            </v-form>
+            <v-card-text>
+              <v-row>
+                <v-col cols="12" sm="6">
+                  <v-text-field label="Nombres"></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-text-field label="Apellidos"></v-text-field>
+                </v-col>
+              </v-row>
+              <v-text-field label="Cédula"></v-text-field>
+              <v-row>
+                <v-col cols="12" sm="4">
+                  <v-text-field label="Fecha de Nacimiento"></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="4">
+                  <v-text-field label="Edad"></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="4">
+                  <v-text-field label="Sexo"></v-text-field>
+                </v-col>
+              </v-row>
+              <v-text-field label="Ocupación"></v-text-field>
+              <v-select :items="estado_civil" label="Estado civil"></v-select>
+              <v-text-field label="Correo"></v-text-field>
+              <v-text-field label="Teléfono"></v-text-field>
+              <v-row>
+                <v-col cols="12" sm="6">
+                  <v-select
+                    :items="departamentos"
+                    label="Departamento"
+                  ></v-select>
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-select :items="ciudades" label="Ciudad"></v-select>
+                </v-col>
+              </v-row>
+              <v-text-field label="Dirección"></v-text-field>
+              <v-col>
+                <center>
+                  <v-btn class="white--text" color="#ee6f57">
+                    Crear
+                  </v-btn>
+                </center>
+              </v-col>
+            </v-card-text>
           </v-card-text>
         </v-card>
       </v-col>
