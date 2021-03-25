@@ -6,7 +6,7 @@
           <v-list-item two-line>
             <v-avatar size="180">
               <v-img
-                src="https://randomuser.me/api/portraits/women/21.jpg"
+                src="https://randomuser.me/api/portraits/men/85.jpg"
               ></v-img>
             </v-avatar>
             <span> Date &copy; {{ new Date().getFullYear()}}</span>
