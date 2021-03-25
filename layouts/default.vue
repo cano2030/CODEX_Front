@@ -3,7 +3,7 @@
    
     <br />
     <center>
-      <h1 style="font-family: Copperplate; color: #0c354a">APOLO SALUD</h1>
+      <h1 style="font-family: Copperplate">APOLO SALUD</h1>
     </center>
     <br />
 
@@ -19,9 +19,9 @@
         <v-col cols="12" md="7"> </v-col>
         <v-col cols="12" md="4">
           <v-card class="mx-auto" style="width: 350px" elevation="12">
-            <v-toolbar color="#a4ebf3">
-              <v-card-title class="#0c354a--text">
-                <center>Log in</center>
+            <v-toolbar color="#3797a4">
+              <v-card-title class="#white--text">
+                <center>Iniciar sesion</center>
               </v-card-title>
               <v-spacer></v-spacer>
             </v-toolbar>
@@ -37,7 +37,7 @@
               <v-text-field
                 v-model="usuario.user"
                 :rules="rules.required"
-                label="User"
+                label="Usuario"
                 style="height: 100px"
                 required
               ></v-text-field>
@@ -45,14 +45,14 @@
               <v-text-field
                 v-model="usuario.password"
                 :rules="rules.required"
-                label="Password"
+                label="Contraseña"
                 style="height: 100px"
                 required
               ></v-text-field>
             </v-form>
             <v-divider></v-divider>
             <v-card-actions>
-              <v-btn class="white--text" color="#ff5722" @click="validate">
+              <v-btn class="white--text" color="#ee6f57" @click="validate">
                 Ingresar
               </v-btn>
               <v-spacer></v-spacer>
@@ -82,7 +82,7 @@
                         <v-text-field
                           v-model="code"
                           :rules="rules.required"
-                          label="Code"
+                          label="Codigo"
                           style="height: 100px"
                           required
                         ></v-text-field>
@@ -132,6 +132,6 @@ export default {
 };
 </script>
 <style>
- #app { background: url("../static/images/FondoIndex.jpg") no-repeat center
+ #app { background: url("../static/images/FondoIndex.png") no-repeat center
     fixed !important; background-size: cover; }
 </style>

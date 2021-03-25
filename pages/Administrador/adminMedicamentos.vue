@@ -2,7 +2,7 @@
   <v-template>
     <center>
       <v-card style="width: 800px" elevation="12">
-        <v-toolbar color="#a4ebf3">
+        <v-toolbar color="#3797a4">
           <v-card-title class="#0c354a--text">
             <center>Agregar medicamento</center>
           </v-card-title>
@@ -22,7 +22,7 @@
               style="height: 100px"
             ></v-text-field>
             <center>
-              <v-btn class="white--text" color="#ff5722" @click="validate">
+              <v-btn class="white--text" color="#ee6f57" @click="validate">
                 Agregar
               </v-btn>
               <v-btn
@@ -42,39 +42,21 @@
     <v-container>
       <v-card>
         <v-card-title>
-          <v-icon large left> </v-icon>
-
-          <div>
-            <strong class="#0c354a">Buscar Medicamento</strong>
-          </div>
-        </v-card-title>
-
-        <v-toolbar flat color="transparent">
+          Base de datos de Medicamentos
+          <v-spacer></v-spacer>
           <v-text-field
             v-model="search"
             append-icon="mdi-magnify"
-            label="Buscar medicamento"
+            label="Buscar"
             single-line
+            hide-details
           ></v-text-field>
-        </v-toolbar>
-
-        <v-list three-line color="#f4f9f9">
-          <v-list-item
-            v-for="(item, i) in searching"
-            :key="i"
-            ripple
-            @click="() => {}"
-          >
-            <v-list-item-content>
-              <div v-text="item.id"></div>
-              <div v-text="item.nombre"></div>
-              <span
-                class="text-uppercase font-weight-regular caption"
-                v-text="item.descripcion"
-              ></span>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
+        </v-card-title>
+        <v-data-table
+          :headers="headers"
+          :items="desserts"
+          :search="search"
+        ></v-data-table>
       </v-card>
     </v-container>
   </v-template>
@@ -87,36 +69,36 @@ export default {
     rules: {
       required: [(v) => !!v || "El campo es obligatorio"],
     },
-    items: [
+
+    search: "",
+
+    headers: [
       {
-        nombre: "Acetaminofen",
+        text: "Nombre del medicamento",
+        align: "start",
+        sortable: false,
+        value: "nombre",
+      },
+      { text: "ID", value: "id" },
+      { text: "Descripcion", value: "descripcion" },
+    ],
+    desserts: [
+      {
+        
         id: "111",
-        descripcion: "analgesico",
+        nombre: "Acetaminofen",
+        descripcion: "Analgesico",
       },
       {
-        nombre: "Loratadina",
         id: "222",
+        nombre: "Loratadina",
         descripcion: "Antialergico",
       },
     ],
-    search: "",
   }),
   methods: {
     validate() {
       this.$refs.form.validate();
-    },
-  },
-  computed: {
-    searching() {
-      if (!this.search) return this.items;
-
-      const search = this.search.toLowerCase();
-
-      return this.items.filter((item) => {
-        const text = item.id.toLowerCase();
-
-        return text.indexOf(search) > -1;
-      });
     },
   },
 };

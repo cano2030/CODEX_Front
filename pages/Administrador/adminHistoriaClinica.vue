@@ -7,7 +7,7 @@
         <v-text-field
           v-model="search"
           append-icon="mdi-magnify"
-          label="Search"
+          label="Buscar"
           single-line
           hide-details
         ></v-text-field>
@@ -27,7 +27,7 @@
         hide-default-footer
       >
         <template v-slot:header>
-          <v-toolbar class="mb-2" color="#a4ebf3"  flat>
+          <v-toolbar class="mb-2" color="#3797a4" dark flat>
             <v-row>
               <v-col cols="12" sm="6">
                 <v-select
@@ -63,10 +63,10 @@
                   </template>
                   <v-date-picker v-model="date" no-title scrollable>
                     <v-spacer></v-spacer>
-                    <v-btn text color="primary" @click="menu = false">
+                    <v-btn text color="ee6f57" @click="menu = false">
                       Cancel
                     </v-btn>
-                    <v-btn text color="primary" @click="$refs.menu.save(date)">
+                    <v-btn text color="ee6f57" @click="$refs.menu.save(date)">
                       OK
                     </v-btn>
                   </v-date-picker>
@@ -119,7 +119,7 @@
                     </v-list-item-content>
                   </v-list-item>
 
-                  <v-btn class="mx-2" fab  small color="#ff5722">
+                  <v-btn class="mx-2" fab  small color="#ee6f57">
                   <v-icon color="#f4f9f9"> mdi-pencil </v-icon>
                 </v-btn>
                 </v-list>
@@ -132,12 +132,12 @@
           <v-row class="mt-2" align="center" justify="center">
             <v-spacer></v-spacer>
             <span class="mr-4 grey--text">
-              Page {{ page }} of {{ numberOfPages }}
+              Pagina {{ page }} de {{ numberOfPages }}
             </span>
             <v-btn
               fab
               dark
-              color="#0c354a"
+              color="#ee6f57"
               class="mr-1"
               @click="formerPage"
             >
@@ -146,7 +146,7 @@
             <v-btn
               fab
               dark
-              color="#0c354a"
+              color="#ee6f57"
               class="ml-1"
               @click="nextPage"
             >

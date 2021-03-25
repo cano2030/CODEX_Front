@@ -3,7 +3,7 @@
     <v-row>
       <v-col>
         <v-card style="width: 550px; height: 600px" elevation="12">
-          <v-toolbar color="#a4ebf3">
+          <v-toolbar color="#3797a4">
             <v-card-title class="#0c354a--text">
               <center>Auxiliar - Medico</center>
             </v-card-title>
@@ -18,7 +18,7 @@
                 required
               ></v-text-field>
               <center>
-                <v-btn class="white--text" color="#ff5722" @click="validate">
+                <v-btn class="white--text" color="#ee6f57" @click="validate">
                   Crear
                 </v-btn>
               </center>
@@ -29,7 +29,7 @@
 
       <v-col>
         <v-card style="width: 550px; height: 600px" elevation="12">
-          <v-toolbar color="#a4ebf3">
+          <v-toolbar color="#3797a4">
             <v-card-title class="#0c354a--text">
               <center>Paciente</center>
             </v-card-title>
@@ -45,7 +45,7 @@
                 required
               ></v-text-field>
               <center>
-                <v-btn class="white--text" color="#ff5722" @click="validate">
+                <v-btn class="white--text" color="#ee6f57" @click="validate">
                   Crear
                 </v-btn>
               </center>
