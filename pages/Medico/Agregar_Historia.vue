@@ -63,7 +63,7 @@
               :rules="emailRules"
               label="Receta"
               required
-            ></v-text-field>
+            ></v-text-field>    
             <v-btn elevation="2" fab small>
               <v-icon>mdi-plus</v-icon>
             </v-btn>
