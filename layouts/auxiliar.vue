@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <!-- Menu hamburguesa -->
-    <v-navigation-drawer v-model="openMenu" color="#a4ebf3" fixed app>
+    <v-navigation-drawer v-model="openMenu" color="#8bcdcd" fixed app>
       <template v-slot:prepend>
         <v-list-item two-line>
           <v-avatar size="180">
@@ -41,8 +41,9 @@
 
       <template v-slot:append>
         <div>
-          <v-btn block text to="/">
-            Logout
+          <v-btn 
+          block text to="/">
+            Cerrar sesión
             <v-icon> mdi-exit-to-app </v-icon>
           </v-btn>
         </div>
@@ -50,7 +51,7 @@
     </v-navigation-drawer>
 
     <!--Barra de navegacion superior-->
-    <v-app-bar :clipped-left="clipped" fixed app color="#ccf2f4">
+    <v-app-bar :clipped-left="clipped" fixed app color="#8bcdcd">
       <!--Icono que controla el menú hamburguesa -->
       <v-app-bar-nav-icon @click.stop="openMenu = !openMenu" />
 
@@ -85,7 +86,7 @@ export default {
         {
           id: "homeauxiliar",
           icon: "mdi-home",
-          title: "Home",
+          title: "Inicio",
           to: "/Auxiliar/auxiliarHome",
         },
         {
