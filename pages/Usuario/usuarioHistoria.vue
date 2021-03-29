@@ -34,13 +34,13 @@
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
                     v-model="date"
-                    solo-inverted
-                    hide-details
-                    label="Buscar por fecha"
-                    prepend-icon="mdi-calendar"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
+                      solo-inverted
+                      hide-details
+                      label="Buscar por fecha"
+                      prepend-inner-icon="mdi-calendar"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
                   ></v-text-field>
                 </template>
                 <v-date-picker @change="filterMes" v-model="date" type="month" no-title scrollable>
