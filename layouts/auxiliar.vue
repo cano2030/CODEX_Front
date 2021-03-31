@@ -7,17 +7,16 @@
           <v-avatar size="180">
             <v-img
               src="https://res.cloudinary.com/postedin/image/upload/d_psu:no-image.jpg,f_auto,q_80/psu/c-postedin-image-65344.jpeg"
-             
             ></v-img>
           </v-avatar>
         </v-list-item>
 
         <v-list-item-content>
           <v-list-item-title class="text-md-center">
-            Karen Johana Mosquera
+            {{usuario.nombre }}{{ usuario.apellidos}}
           </v-list-item-title>
           <v-list-item-subtitle class="text-md-center"
-            >Auxiliar de Enfermeria</v-list-item-subtitle
+            >{{usuario.especialidad}}</v-list-item-subtitle
           >
         </v-list-item-content>
       </template>
@@ -41,8 +40,7 @@
 
       <template v-slot:append>
         <div>
-          <v-btn 
-          block text to="/">
+          <v-btn block text to="/">
             Cerrar sesión
             <v-icon> mdi-exit-to-app </v-icon>
           </v-btn>
@@ -75,12 +73,17 @@
       <v-spacer></v-spacer>
     </v-footer>
   </v-app>
+  
 </template>
 
 <script>
 export default {
+  beforeMount() {
+    this.loadUser();
+  },
   data() {
     return {
+      usuario: null,
       openMenu: false,
       items: [
         {
@@ -98,6 +101,17 @@ export default {
       ],
       title: "Vuetify.js",
     };
+  },
+  methods: {
+    loadUser() {
+      let stringUser=localStorage.getItem("user-system");
+      this.usuario = JSON.parse(stringUser);
+      this.validarRol(this.usuario);
+    },
+    validarRol(usuario){
+      //if(usuario.perfil)
+
+    }
   },
 };
 </script>

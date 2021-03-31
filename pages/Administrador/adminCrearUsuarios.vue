@@ -375,6 +375,7 @@ export default {
       departamento: "",
       ciudad: "",
       direccion: "",
+      perfil:"Paciente",
     },
     personal: {
       nombre: "",

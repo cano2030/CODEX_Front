@@ -153,6 +153,8 @@ export default {
               );
             });
             if (findUser) {
+              delete findUser.password;
+              localStorage.setItem("user-system", JSON.stringify(findUser));
               this.$router.push("Auxiliar/auxiliarHome");
             } else {
               this.$swal.fire({
@@ -196,6 +198,7 @@ export default {
               );
             });
             if (findUser) {
+  
               this.$router.push("Usuario/usuarioPerfil");
             } else {
               this.$swal.fire({
