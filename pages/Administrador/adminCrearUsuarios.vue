@@ -9,51 +9,149 @@
             </v-card-title>
           </v-toolbar>
           <v-card-text>
-            <v-card-text>
+            <v-form ref="formPersonalMedico" v-model="valid" lazy-validation>
               <v-row>
                 <v-col cols="12" sm="6">
-                  <v-text-field label="Nombres"></v-text-field>
+                  <v-text-field
+                    v-model="personal.nombre"
+                    label="Nombre"
+                    :rules="rules.required"
+                    required
+                  ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <v-text-field label="Apellidos"></v-text-field>
+                  <v-text-field
+                    v-model="personal.apellidos"
+                    label="Apellidos"
+                    :rules="rules.required"
+                    required
+                  ></v-text-field>
                 </v-col>
               </v-row>
-              <v-text-field label="Cédula"></v-text-field>
+              <v-text-field
+                v-model="personal.cedula"
+                label="Cédula"
+                :rules="rules.required"
+                required
+              ></v-text-field>
               <v-row>
                 <v-col cols="12" sm="4">
-                  <v-text-field label="Fecha de Nacimiento"></v-text-field>
+                  <v-menu
+                    v-model="menu1"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="auto"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        v-model="personal.fecha_nac"
+                        label="Fecha de Nacimiento"
+                        prepend-icon="mdi-calendar"
+                        readonly
+                        v-bind="attrs"
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker
+                      v-model="personal.fecha_nac"
+                      @input="menu1 = false"
+                    ></v-date-picker>
+                  </v-menu>
                 </v-col>
                 <v-col cols="12" sm="4">
-                  <v-text-field label="Edad"></v-text-field>
+                  <v-text-field
+                    v-model="personal.edad"
+                    label="Edad"
+                    :rules="rules.required"
+                    required
+                  ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="4">
-                  <v-text-field label="Sexo"></v-text-field>
+                  <v-select
+                    v-model="personal.sexo"
+                    :items="sexo"
+                    label="Sexo"
+                    :rules="rules.required"
+                    required
+                  ></v-select>
                 </v-col>
               </v-row>
-              <v-select :items="especialidad" label="Especialidad"></v-select>
-              <v-select :items="estado_civil" label="Estado civil"></v-select>
-              <v-text-field label="Correo"></v-text-field>
-              <v-text-field label="Teléfono"></v-text-field>
               <v-row>
                 <v-col cols="12" sm="6">
                   <v-select
-                    :items="departamentos"
-                    label="Departamento"
+                    :items="especialidad"
+                    v-model="personal.especialidad"
+                    label="Especialidad"
+                    :rules="rules.required"
+                    required
                   ></v-select>
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <v-select :items="ciudades" label="Ciudad"></v-select>
+                  <v-select
+                    :items="perfil"
+                    v-model="personal.perfil"
+                    label="Peril"
+                    :rules="rules.required"
+                    required
+                  ></v-select>
                 </v-col>
               </v-row>
-              <v-text-field label="Dirección"></v-text-field>
-              <v-col>
-                <center>
-                  <v-btn class="white--text" color="#ee6f57">
-                    Crear
-                  </v-btn>
-                </center>
-              </v-col>
-            </v-card-text>
+
+              <v-select
+                :items="estado_civil"
+                v-model="personal.estado_civil"
+                label="Estado civil"
+                :rules="rules.required"
+                required
+              ></v-select>
+              <v-text-field
+                v-model="personal.correo"
+                label="Correo"
+                :rules="rules.required"
+                required
+              ></v-text-field>
+              <v-text-field
+                v-model="personal.telefono"
+                label="Teléfono"
+                :rules="rules.required"
+                required
+              ></v-text-field>
+              <v-row>
+                <v-col cols="12" sm="6">
+                  <v-select
+                    v-model="personal.departamento"
+                    :items="departamentos"
+                    label="Departamento"
+                    :rules="rules.required"
+                    required
+                  ></v-select>
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-select
+                    v-model="personal.ciudad"
+                    :items="ciudades"
+                    label="Ciudad"
+                    :rules="rules.required"
+                    required
+                  ></v-select>
+                </v-col>
+              </v-row>
+              <v-text-field
+                v-model="personal.direccion"
+                label="Dirección"
+                :rules="rules.required"
+                required
+              ></v-text-field>
+              <v-btn
+                class="white--text"
+                color="#ee6f57"
+                @click="GuardarPersonal()"
+              >
+                Crear
+              </v-btn>
+            </v-form>
           </v-card-text>
         </v-card>
       </v-col>
@@ -66,52 +164,136 @@
             </v-card-title>
             <v-spacer></v-spacer>
           </v-toolbar>
+
           <v-card-text>
-            <v-card-text>
+            <v-form ref="formPaciente" v-model="valid" lazy-validation>
               <v-row>
                 <v-col cols="12" sm="6">
-                  <v-text-field label="Nombres"></v-text-field>
+                  <v-text-field
+                    v-model="paciente.nombre"
+                    label="Nombre"
+                    :rules="rules.required"
+                    required
+                  ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <v-text-field label="Apellidos"></v-text-field>
+                  <v-text-field
+                    v-model="paciente.apellidos"
+                    label="Apellidos"
+                    :rules="rules.required"
+                    required
+                  ></v-text-field>
                 </v-col>
               </v-row>
-              <v-text-field label="Cédula"></v-text-field>
+              <v-text-field
+                v-model="paciente.cedula"
+                label="Cédula"
+                :rules="rules.required"
+                required
+              ></v-text-field>
               <v-row>
                 <v-col cols="12" sm="4">
-                  <v-text-field label="Fecha de Nacimiento"></v-text-field>
+                  <v-menu
+                    v-model="menu2"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="auto"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        v-model="paciente.fecha_nac"
+                        label="Fecha de Nacimiento"
+                        prepend-icon="mdi-calendar"
+                        readonly
+                        v-bind="attrs"
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker
+                      v-model="paciente.fecha_nac"
+                      @input="menu2 = false"
+                    ></v-date-picker>
+                  </v-menu>
                 </v-col>
                 <v-col cols="12" sm="4">
-                  <v-text-field label="Edad"></v-text-field>
+                  <v-text-field
+                    v-model="paciente.edad"
+                    label="Edad"
+                    :rules="rules.required"
+                    required
+                  ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="4">
-                  <v-text-field label="Sexo"></v-text-field>
+                  <v-select
+                    v-model="paciente.sexo"
+                    :items="sexo"
+                    label="Sexo"
+                    :rules="rules.required"
+                    required
+                  ></v-select>
                 </v-col>
               </v-row>
-              <v-text-field label="Ocupación"></v-text-field>
-              <v-select :items="estado_civil" label="Estado civil"></v-select>
-              <v-text-field label="Correo"></v-text-field>
-              <v-text-field label="Teléfono"></v-text-field>
+              <v-text-field
+                v-model="paciente.ocupacion"
+                label="Ocupación"
+                :rules="rules.required"
+                required
+              ></v-text-field>
+              <v-select
+                :items="estado_civil"
+                v-model="paciente.estado_civil"
+                label="Estado civil"
+                :rules="rules.required"
+                required
+              ></v-select>
+              <v-text-field
+                v-model="paciente.correo"
+                label="Correo"
+                :rules="rules.required"
+                required
+              ></v-text-field>
+              <v-text-field
+                v-model="paciente.telefono"
+                label="Teléfono"
+                :rules="rules.required"
+                required
+              ></v-text-field>
               <v-row>
                 <v-col cols="12" sm="6">
                   <v-select
+                    v-model="paciente.departamento"
                     :items="departamentos"
                     label="Departamento"
+                    :rules="rules.required"
+                    required
                   ></v-select>
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <v-select :items="ciudades" label="Ciudad"></v-select>
+                  <v-select
+                    v-model="paciente.ciudad"
+                    :items="ciudades"
+                    label="Ciudad"
+                    :rules="rules.required"
+                    required
+                  ></v-select>
                 </v-col>
               </v-row>
-              <v-text-field label="Dirección"></v-text-field>
-              <v-col>
-                <center>
-                  <v-btn class="white--text" color="#ee6f57">
-                    Crear
-                  </v-btn>
-                </center>
-              </v-col>
-            </v-card-text>
+              <v-text-field
+                v-model="paciente.direccion"
+                label="Dirección"
+                :rules="rules.required"
+                required
+              ></v-text-field>
+              <v-btn
+                class="white--text"
+                color="#ee6f57"
+                @click="GuardarPaciente()"
+              >
+                Crear
+              </v-btn>
+            </v-form>
           </v-card-text>
         </v-card>
       </v-col>
@@ -162,9 +344,54 @@
 </template>
 
 <script>
+const url_apipaciente = "http://localhost:3001/pacientes/";
+const url_apimedico = "http://localhost:3001/medicos/";
+const url_apiauxiliar = "http://localhost:3001/auxiliares/";
 export default {
   layout: "admin",
   data: () => ({
+    date: new Date().toISOString().substr(0, 10),
+    menu2: false,
+    menu1: false,
+    valid: true,
+    sexo: ["Masculino", "Femenino"],
+    estado_civil: ["Soltero", "Casado", "Divoriado", "Viudo"],
+    departamentos: ["Antioquia", "Arauca", "Atlántico", "Bolívar"],
+    ciudades: ["Medellín", "Bogotá", "Barranquilla", "Cartagena"],
+    especialidad: ["a", "b", "c", "d"],
+    perfil: ["Medico", "Auxiliar"],
+
+    paciente: {
+      nombre: "",
+      apellidos: "",
+      cedula: "",
+      fecha_nac: new Date().toISOString().substr(0, 10),
+      edad: "",
+      sexo: "",
+      ocupacion: "",
+      estado_civil: "",
+      correo: "",
+      telefono: "",
+      departamento: "",
+      ciudad: "",
+      direccion: "",
+    },
+    personal: {
+      nombre: "",
+      apellidos: "",
+      cedula: "",
+      fecha_nac: new Date().toISOString().substr(0, 10),
+      edad: "",
+      sexo: "",
+      perfil: "",
+      especialidad: "",
+      estado_civil: "",
+      correo: "",
+      telefono: "",
+      departamento: "",
+      ciudad: "",
+      direccion: "",
+    },
     rules: {
       required: [(v) => !!v || "El campo es obligatorio"],
     },
@@ -250,9 +477,81 @@ export default {
     ],
     search: "",
   }),
+
   methods: {
     validate() {
       this.$refs.form.validate();
+    },
+
+    async GuardarPaciente() {
+      if (this.$refs.formPaciente.validate()) {
+        // Crear un nuevo objeto con la info del usuario
+        try {
+          let paciente = Object.assign({}, this.paciente);
+          let response = await this.$axios.post(url_apipaciente, paciente);
+          this.$swal.fire({
+            type: "success",
+            title: "Operación exitosa.",
+            text: "El paciente se guardó correctamente.",
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        this.$swal.fire({
+          type: "warning",
+          title: "Formulario incompleto.",
+          text: "Hay campos que deben ser diligenciados.",
+        });
+      }
+    },
+
+    async GuardarPersonal() {
+      if (this.$refs.formPersonalMedico.validate()) {
+        if (this.personal.perfil == "Medico") {
+          try {
+            let medico = Object.assign({}, this.personal);
+            let response = await this.$axios.post(url_apimedico, medico);
+            this.$swal.fire({
+              type: "success",
+              title: "Operación exitosa.",
+              text: "El medico se guardó correctamente.",
+            });
+          } catch (error) {
+            console.log(error);
+          }
+        } else if (this.personal.perfil == "Auxiliar") {
+          try {
+            let auxiliar = Object.assign({}, this.personal);
+            let response = await this.$axios.post(url_apiauxiliar, auxiliar);
+            this.$swal.fire({
+              type: "success",
+              title: "Operación exitosa.",
+              text: "El auxiliar se guardó correctamente.",
+            });
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      } else {
+        this.$swal.fire({
+          type: "warning",
+          title: "Formulario incompleto.",
+          text: "Hay campos que deben ser diligenciados.",
+        });
+      }
+    },
+
+    DeletePaciente() {
+      //Enviar una solicitud (Request) en un metodo delete
+    },
+
+    BuscarPaciente() {
+      //Enviar una solicitud (Request) en un metodo get
+    },
+
+    ActualizarPaciente() {
+      //Enviar una solicitud (Request) en un metodo update
     },
   },
   computed: {
