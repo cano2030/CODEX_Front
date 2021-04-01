@@ -43,7 +43,7 @@
     </v-navigation-drawer>
 
     <!--Barra de navegacion superior-->
-    <v-app-bar :clipped-left="clipped" color="#8bcdcd" fixed app >
+    <v-app-bar color="#8bcdcd" fixed app >
       <!--Icono que controla el menú hamburguesa -->
       <v-app-bar-nav-icon @click.stop="openMenu = !openMenu" />
     </v-app-bar>
@@ -52,7 +52,7 @@
         <nuxt />
       </v-container>
     </v-main>
-    <v-footer :absolute="!fixed" app>
+    <v-footer app>
       <v-spacer></v-spacer>
       <span>Codex &copy; {{ new Date().getFullYear() }}</span>
       <small>Historias clinicas</small>
@@ -106,5 +106,4 @@ export default {
 <style scoped>
   #app { background: url("../static/images/enfermera.jpeg") no-repeat center
     fixed !important; background-size: cover; }
-</style>
 </style>
