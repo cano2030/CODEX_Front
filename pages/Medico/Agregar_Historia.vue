@@ -1,30 +1,26 @@
 <template>
-  <div>
-    <h1>Agregar entrada a historia clinica</h1>
-    <center>
-      - Especialidad (Spinner) - Peso - Estatura - Descripcion - Examen (Boton+)
-      - Medicamento (Boton+) - Receta (Boton+) - Remision (Boton+)
-
+    <div>
+      <h1>Agregar entrada a historia clinica</h1>
       <template>
         <v-form ref="form" v-model="valid" lazy-validation>
           <v-select
             v-model="Especialidad"
-            :items="items"
-            :rules="[v => !!v || 'Item is required']"
+            :items="especializaciones"
+            :rules="especialidadRules"
             label="Especialidad"
             required
           ></v-select>
 
           <v-text-field
             v-model="Peso"
-            :rules="emailRules"
+            :rules="pesoRules"
             label="Peso"
             required
           ></v-text-field>
 
           <v-text-field
             v-model="Estatura"
-            :rules="emailRules"
+            :rules="estaturaRules"
             label="Estatura"
             required
           ></v-text-field>
@@ -48,7 +44,7 @@
           <v-row>
             <v-text-field
               v-model="Medicamento"
-              :rules="emailRules"
+              :rules="medicamentoRules"
               label="Medicamento"
               required
             ></v-text-field>
@@ -59,11 +55,11 @@
 
           <v-row>
             <v-text-field
-              v-model="Receta"
-              :rules="emailRules"
+              v-model="Posologia"
+              :rules="posologiaRules"
               label="Receta"
               required
-            ></v-text-field>    
+            ></v-text-field>
             <v-btn elevation="2" fab small>
               <v-icon>mdi-plus</v-icon>
             </v-btn>
@@ -72,7 +68,7 @@
           <v-row>
             <v-text-field
               v-model="Remision"
-              :rules="emailRules"
+              :rules="remisionRules"
               label="Remision"
               required
             ></v-text-field>
@@ -81,20 +77,15 @@
             </v-btn>
           </v-row>
 
-          <v-checkbox
-            v-model="checkbox"
-            :rules="[v => !!v || 'You must agree to continue!']"
-            label="Do you agree?"
-            required
-          ></v-checkbox>
-
           <v-btn
             :disabled="!valid"
             color="success"
             class="mr-4"
             @click="validate"
+            text
+            to="/Medico/Historia_clinica"
           >
-            Validar
+            Agregar
           </v-btn>
 
           <v-btn color="error" class="mr-4" @click="reset">
@@ -106,27 +97,36 @@
           </v-btn>
         </v-form>
       </template>
-    </center>
-  </div>
+    </div>
 </template>
 
 <script>
 export default {
+  layout: "medico",
   data: () => ({
     valid: true,
-    name: "",
-    nameRules: [
-      v => !!v || "Name is required",
-      v => (v && v.length <= 10) || "Name must be less than 10 characters"
-    ],
-    email: "",
-    emailRules: [
-      v => !!v || "E-mail is required",
-      v => /.+@.+\..+/.test(v) || "E-mail must be valid"
-    ],
+    posologia: "",
+    posologiaRules: [v => /.+@.+\..+/.test(v) || "Posologia must be valid"],
+    especialidad: "",
+    especialidadRules: [v => !!v || "Especialidad is required"],
+    peso: "",
+    pesoRules: [v => !!v || "Peso is required"],
+    estatura: "",
+    estaturaRules: [v => !!v || "Estatura is required"],
+    medicamento: "",
+    medicamentoRules: [v => !!v || "Medicamento is required"],
+    remision: "",
+    remisionRules: [v => !!v || "Remision is required"],
     select: null,
-    items: ["Item 1", "Item 2", "Item 3", "Item 4"],
-    checkbox: false
+    especializaciones: [
+      "Medicina general",
+      "Odontología",
+      "Ginecología",
+      "Oftalmología",
+      "Cirugía general",
+      "Dermatología",
+      "Ortopedía y traumatología",
+    ],
   }),
 
   methods: {

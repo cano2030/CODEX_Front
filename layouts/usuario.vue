@@ -34,7 +34,7 @@
 
       <template v-slot:append>
         <div>
-          <v-btn block>
+          <v-btn block to="/">
             Cerrar sesión
             <v-icon> mdi-exit-to-app </v-icon>
           </v-btn>

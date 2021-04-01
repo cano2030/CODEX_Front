@@ -43,7 +43,13 @@
                     v-on="on"
                   ></v-text-field>
                 </template>
-                <v-date-picker @change="filterMes" v-model="date" type="month" no-title scrollable>
+                <v-date-picker
+                  @change="filterMes"
+                  v-model="date"
+                  type="month"
+                  no-title
+                  scrollable
+                >
                   <v-spacer></v-spacer>
                   <v-btn text color="primary" @click="menu = false">
                     Cancel
@@ -55,8 +61,25 @@
               </v-menu>
             </v-col>
             <v-col cols="12" sm="2" justify="center" align="center">
-              <v-btn class="text-center" small color="#ee6f57" dark @click="limpiarFiltros">
+              <v-btn
+                class="text-center"
+                small
+                color="#ee6f57"
+                dark
+                @click="limpiarFiltros"
+              >
                 Limpiar filtros
+              </v-btn>
+              <v-btn
+                class="text-center"
+                small
+                color="#FFFFFF"
+                @click="Agregar_Historia"
+                text
+                to="/Medico/Agregar_Historia"
+                style="margin:4px; background-color:#ee6f57"
+              >
+                Agregar Entrada
               </v-btn>
             </v-col>
           </v-row>
@@ -65,7 +88,11 @@
 
       <template v-slot:default="props">
         <v-row>
-          <v-col v-for="item in props.items" :key="item.especializacion" cols="12">
+          <v-col
+            v-for="item in props.items"
+            :key="item.especializacion"
+            cols="12"
+          >
             <v-card>
               <v-card-title class="subheading font-weight-bold">
                 <!--<v-btn class="mx-2" fab dark small color="primary">
@@ -116,13 +143,7 @@
           <span class="mr-4 grey--text">
             Page {{ page }} of {{ numberOfPages }}
           </span>
-          <v-btn
-            fab
-            dark
-            color="#3797a4"
-            class="mr-1"
-            @click="formerPage"
-          >
+          <v-btn fab dark color="#3797a4" class="mr-1" @click="formerPage">
             <v-icon>mdi-chevron-left</v-icon>
           </v-btn>
           <v-btn fab dark color="#3797a4" class="ml-1" @click="nextPage">
@@ -136,7 +157,7 @@
 
 <script>
 export default {
-  layout: "usuario",
+  layout: "medico",
   beforeMount() {
     this.items = this.historias;
   },
@@ -154,7 +175,7 @@ export default {
       "Oftalmología",
       "Cirugía general",
       "Dermatología",
-      "Ortopedía y traumatología",
+      "Ortopedía y traumatología"
     ],
     headers: [],
     items: [],
@@ -165,7 +186,7 @@ export default {
         fecha: "2021-03-18",
         motivo_consulta: "Fiebre",
         descripcion:
-          "On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain.",
+          "On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain."
       },
       {
         especializacion: "Odontología",
@@ -173,7 +194,7 @@ export default {
         fecha: "2021-11-02",
         motivo_consulta: "Carie",
         descripcion:
-          "On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain.",
+          "On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain."
       },
       {
         especializacion: "Dermatología",
@@ -181,7 +202,7 @@ export default {
         fecha: "2021-09-10",
         motivo_consulta: "Grano",
         descripcion:
-          "On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain.",
+          "On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain."
       },
       {
         especializacion: "Oftalmología",
@@ -189,14 +210,14 @@ export default {
         fecha: "2020-03-01",
         motivo_consulta: "Ciego",
         descripcion:
-          "On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain.",
-      },
-    ],
+          "On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain."
+      }
+    ]
   }),
   computed: {
     numberOfPages() {
       return Math.ceil(this.items.length / this.itemsPerPage);
-    },
+    }
   },
   methods: {
     nextPage() {
@@ -212,18 +233,18 @@ export default {
     filterEspecializacion() {
       console.log(this.especializacion_seleccionada);
       this.items = this.historias.filter(
-        (item) => item.especializacion === this.especializacion_seleccionada
+        item => item.especializacion === this.t5
       );
     },
-    filterMes(){
+    filterMes() {
       this.items = this.historias.filter(
-        (item) => item.fecha.substr(0,7) == this.date
+        item => item.fecha.substr(0, 7) == this.date  
       );
     },
 
     limpiarFiltros() {
       this.items = this.historias;
-    },
-  },
+    }
+  }
 };
 </script>

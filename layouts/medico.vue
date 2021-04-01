@@ -14,10 +14,10 @@
 
         <v-list-item-content>
           <v-list-item-title class="text-md-center">
-            Karen Johana Mosquera
+            Luisa Lopez
           </v-list-item-title>
           <v-list-item-subtitle class="text-md-center"
-            >Auxiliar de Enfermeria</v-list-item-subtitle
+            >Doctor especialista</v-list-item-subtitle
           >
         </v-list-item-content>
       </template>
@@ -83,13 +83,13 @@ export default {
       openMenu: false,
       items: [
         {
-          id: "homeauxiliar",
+          id: "homemeedico",
           icon: "mdi-home",
           title: "Home",
           to: "/Medico/MedicoHome",
         },
         {
-          id: "perfilauxiliar",
+          id: "perfilmeedico",
           icon: "mdi-account",
           title: "Perfil",
           to: "/Medico/MedicoPerfil",
