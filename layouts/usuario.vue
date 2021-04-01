@@ -1,4 +1,5 @@
 <template>
+  <!-- <v-app v-if="user"> -->
   <v-app>
     <!-- Menu hamburguesa -->
     <v-navigation-drawer v-model="openMenu" color="#8bcdcd" fixed app>
@@ -10,7 +11,7 @@
         </v-list-item>
 
         <v-list-item-content class="text-md-center">
-          <v-list-item-title class="title"> Jhon Jimenez </v-list-item-title>
+          <v-list-item-title class="title"> aaaaa </v-list-item-title>
           <v-list-item-subtitle>Paciente</v-list-item-subtitle>
         </v-list-item-content>
       </template>
@@ -43,7 +44,7 @@
     </v-navigation-drawer>
 
     <!--Barra de navegacion superior-->
-    <v-app-bar :clipped-left="clipped" color="#8bcdcd" fixed app >
+    <v-app-bar color="#8bcdcd" fixed app>
       <!--Icono que controla el menú hamburguesa -->
       <v-app-bar-nav-icon @click.stop="openMenu = !openMenu" />
     </v-app-bar>
@@ -52,20 +53,34 @@
         <nuxt />
       </v-container>
     </v-main>
-    <v-footer :absolute="!fixed" app>
+    <v-footer app>
       <v-spacer></v-spacer>
       <span>Codex &copy; {{ new Date().getFullYear() }}</span>
       <small>Historias clinicas</small>
       <v-spacer></v-spacer>
     </v-footer>
   </v-app>
+  <!-- <v-app v-else>
+    <v-main>
+      <center>
+        <h3>Por favor inicie sesión</h3>
+        <v-btn color="green darken-1" text to="/">
+          Ir al login
+        </v-btn>
+      </center>
+    </v-main>
+  </v-app> -->
 </template>
 
 <script>
 export default {
+  beforeMount() {
+    this.loadUser();
+  },
   data() {
     return {
       openMenu: false,
+      usuario: null,
       items: [
         {
           id: "perfil",
@@ -101,10 +116,17 @@ export default {
       title: "Vuetify.js",
     };
   },
+  methods: {
+    loadUser() {
+      let stringUser = localStorage.getItem("user-in");
+      this.usuario = JSON.parse(stringUser);
+    },
+  },
 };
 </script>
 <style scoped>
-  #app { background: url("../static/images/enfermera.jpeg") no-repeat center
-    fixed !important; background-size: cover; }
-</style>
+#app {
+  background: url("../static/images/enfermera.jpeg") no-repeat center fixed !important;
+  background-size: cover;
+}
 </style>

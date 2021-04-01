@@ -15,54 +15,80 @@
       </v-btn>
     </v-toolbar>
     <v-card-text>
-      <v-row>
-        <v-col cols="12" sm="6">
-          <v-text-field label="Nombres" disabled="isDisabled"></v-text-field>
-        </v-col>
-        <v-col cols="12" sm="6">
-          <v-text-field label="Apellidos" disabled="isDisabled"></v-text-field>
-        </v-col>
-      </v-row>
-      <v-text-field label="Cédula" disabled="isDisabled"></v-text-field>
-      <v-row>
-        <v-col cols="12" sm="4">
-          <v-text-field
-            label="Fecha de Nacimiento"
-            disabled="isDisabled"
-          ></v-text-field>
-        </v-col>
-        <v-col cols="12" sm="4">
-          <v-text-field label="Edad" disabled="isDisabled"></v-text-field>
-        </v-col>
-        <v-col cols="12" sm="4">
-          <v-text-field label="Sexo" disabled="isDisabled"></v-text-field>
-        </v-col>
-      </v-row>
-      <v-text-field label="Ocupación" :disabled="!isEditing"></v-text-field>
-      <v-select
-        :items="estado_civil"
-        label="Estado civil"
-        :disabled="!isEditing"
-      ></v-select>
-      <v-text-field label="Correo" :disabled="!isEditing"></v-text-field>
-      <v-text-field label="Teléfono" :disabled="!isEditing"></v-text-field>
-      <v-row>
-        <v-col cols="12" sm="6">
-          <v-select
-            :items="departamentos"
-            label="Departamento"
-            :disabled="!isEditing"
-          ></v-select>
-        </v-col>
-        <v-col cols="12" sm="6">
-          <v-select
-            :items="ciudades"
-            label="Ciudad"
-            :disabled="!isEditing"
-          ></v-select>
-        </v-col>
-      </v-row>
-      <v-text-field :disabled="!isEditing" label="Dirección"></v-text-field>
+      <v-form ref="formUsuario" v-model="valid" lazy-validation>
+        <v-row>
+          <v-col cols="12" sm="6">
+            <v-text-field label="Nombres" disabled></v-text-field>
+          </v-col>
+          <v-col cols="12" sm="6">
+            <v-text-field label="Apellidos" disabled></v-text-field>
+          </v-col>
+        </v-row>
+        <v-text-field label="Cédula" disabled></v-text-field>
+        <v-row>
+          <v-col cols="12" sm="4">
+            <v-text-field label="Fecha de Nacimiento" disabled></v-text-field>
+          </v-col>
+          <v-col cols="12" sm="4">
+            <v-text-field label="Edad" disabled></v-text-field>
+          </v-col>
+          <v-col cols="12" sm="4">
+            <v-text-field label="Sexo" disabled></v-text-field>
+          </v-col>
+        </v-row>
+        <!--DATOS QUE SE PUEDEN ACTUALIZAR -->
+        <v-text-field
+          v-model="usuario.ocupacion"
+          label="Ocupación"
+          :rules="rules.required"
+          :disabled="!isEditing"
+        ></v-text-field>
+        <v-select
+          v-model="usuario.estado_civil"
+          :items="estado_civil"
+          label="Estado civil"
+          :rules="rules.required"
+          :disabled="!isEditing"
+        ></v-select>
+        <v-text-field
+          v-model="usuario.correo"
+          label="Correo"
+          :rules="rules.required"
+          :disabled="!isEditing"
+        ></v-text-field>
+        <v-text-field
+          v-model="usuario.telefono"
+          label="Teléfono"
+          :rules="rules.required"
+          :disabled="!isEditing"
+        ></v-text-field>
+        <v-row>
+          <v-col cols="12" sm="6">
+            <v-select
+              v-model="usuario.departamento"
+              :items="departamentos"
+              label="Departamento"
+              :rules="rules.required"
+              :disabled="!isEditing"
+            ></v-select>
+          </v-col>
+          <v-col cols="12" sm="6">
+            <v-select
+              v-model="usuario.ciudad"
+              :items="ciudades"
+              label="Ciudad"
+              :rules="rules.required"
+              :disabled="!isEditing"
+            ></v-select>
+          </v-col>
+        </v-row>
+        <v-text-field
+          v-model="usuario.direccion"
+          :disabled="!isEditing"
+          label="Dirección"
+          :rules="rules.required"
+        ></v-text-field>
+      </v-form>
     </v-card-text>
     <v-divider></v-divider>
     <v-card-actions>
@@ -71,7 +97,7 @@
         class="white--text"
         :disabled="!isEditing"
         color="#ee6f57"
-        @click="save"
+        @click="updateUser"
       >
         Guardar
       </v-btn>
@@ -86,21 +112,42 @@
 <script>
 export default {
   layout: "usuario",
-  isDisabled: false,
-  data() {
-    return {
-      hasSaved: false,
-      isEditing: null,
-      model: null,
-      estado_civil: ["Soltero", "Casado", "Divorciado", "Viudo"],
-      departamentos: ["Antioquia", "Arauca", "Atrlántico", "Bolívar"],
-      ciudades: ["Medellín", "Bogotá", "Barranquilla", "Cartagena"],
-    };
+  data: () => ({
+    valid: true,
+    hasSaved: false,
+    isEditing: null,
+    model: null,
+    usuario: {},
+    estado_civil: ["Soltero", "Casado", "Divorciado", "Viudo"],
+    departamentos: ["Antioquia", "Arauca", "Atrlántico", "Bolívar"],
+    //ciudades: ["Medellín", "Bogotá", "Barranquilla", "Cartagena"],
+    ciudades: [],
+    rules: {
+      required: [(v) => !!v || "El campo es obligatorio"],
+    },
+  }),
+
+  beforeMount() {
+    this.getCiudades();
   },
+ 
   methods: {
-    save() {
-      this.isEditing = !this.isEditing;
-      this.hasSaved = true;
+    
+    async getUsers() {
+      let response = await this.$axios.get(
+        "http://localhost:3000/Usuario/usuarioPerfil"
+      );
+      this.usuario = response.data;
+    },
+    async getCiudades() {
+      try {
+        let response = await this.$axios.get(
+          "http://localhost:3000/Usuario/usuarioPerfil"
+        );
+        this.ciudades = response.data;
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
 };

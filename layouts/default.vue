@@ -26,7 +26,7 @@
             </v-toolbar>
 
             <v-form
-              ref="form"
+              ref="formLogin"
               v-model="valid"
               class="pa-3 pt-4"
               lazy-validation
@@ -47,6 +47,7 @@
                 :rules="rules.required"
                 label="Contraseña"
                 style="height: 100px"
+                type="password"
                 required
               ></v-text-field>
 
@@ -55,13 +56,13 @@
                 hide-details
                 :items="rol"
                 label="Elegir rol"
-                v-model="rol_seleccionado"
+                v-model="usuario.rol"
               ></v-select>
               <!--@change="filterRol"-->
             </v-form>
             <v-divider></v-divider>
             <v-card-actions>
-              <v-btn class="white--text" color="#ee6f57" @click="validate">
+              <v-btn class="white--text" color="#ee6f57" @click="login()">
                 Ingresar
               </v-btn>
               <v-spacer></v-spacer>
@@ -117,16 +118,19 @@
   </v-app>
 </template>
 
-  </v-app>
-</template>
 
 <script>
+const url_apipaciente = "http://localhost:3001/pacientes/";
+const url_apimedico = "http://localhost:3001/medicos/";
+const url_apiauxiliar = "http://localhost:3001/auxiliares/";
 export default {
   data: () => ({
-    dialog: false,
+    valid: true,
+    //usuario: {},
     usuario: {
       user: "",
       password: "",
+      rol: "",
     },
     rules: {
       required: [(v) => !!v || "El campo es obligatorio"],
@@ -135,8 +139,93 @@ export default {
   }),
 
   methods: {
-    validate() {
-      this.$refs.form.validate();
+    async login() {
+      try {
+        if (this.$refs.formLogin.validate()) {
+          //llamado a la api
+          if (this.usuario.rol == "Auxiliar") {
+            let response = await this.$axios.get(url_apiauxiliar);
+            let users = response.data;
+            let findUser = users.find((x) => {
+              return (
+                x.cedula === this.usuario.user &&
+                x.cedula === this.usuario.password
+              );
+            });
+            if (findUser) {
+              delete findUser.password;
+              localStorage.setItem("user-system", JSON.stringify(findUser));
+              this.$router.push("Auxiliar/auxiliarHome");
+            } else {
+              this.$swal.fire({
+                type: "error",
+                title: "Oops",
+                text:
+                  "El correo o la contraseña diligenciados son incorrectos.",
+                allowEscapeKey: false,
+                alowOutsideClick: false,
+              });
+            }
+          } else if (this.usuario.rol == "Medico") {
+            let response = await this.$axios.get(url_apimedico);
+            let users = response.data;
+            let findUser = users.find((x) => {
+              return (
+                x.cedula === this.usuario.user &&
+                x.cedula === this.usuario.password
+              );
+            });
+            if (findUser) {
+              this.$router.push("Medico/MedicoHome");
+            } else {
+              this.$swal.fire({
+                type: "error",
+                title: "Oops",
+                text:
+                  "El correo o la contraseña diligenciados son incorrectos.",
+                allowEscapeKey: false,
+                alowOutsideClick: false,
+              });
+            }
+            
+          } else if (this.usuario.rol == "Paciente") {
+            let response = await this.$axios.get(url_apipaciente);
+            let users = response.data;
+            let findUser = users.find((x) => {
+              return (
+                x.cedula === this.usuario.user &&
+                x.cedula === this.usuario.password
+              );
+            });
+            if (findUser) {
+  
+              this.$router.push("Usuario/usuarioPerfil");
+            } else {
+              this.$swal.fire({
+                type: "error",
+                title: "Oops",
+                text:
+                  "El correo o la contraseña diligenciados son incorrectos.",
+                allowEscapeKey: false,
+                alowOutsideClick: false,
+              });
+            }
+          }
+        } else {
+          this.$swal.fire({
+            type: "warning",
+            title: "Formulario incompleto.",
+            text: "Hay campos que deben ser diligenciados.",
+          });
+        }
+      } catch (error) {
+        console.log(error);
+        this.$swal.fire({
+          type: "error",
+          title: "Error al iniciar sesión.",
+          text: "",
+        });
+      }
     },
   },
 };

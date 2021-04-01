@@ -37,13 +37,19 @@
                     solo-inverted
                     hide-details
                     label="Buscar por fecha"
-                    prepend-icon="mdi-calendar"
+                    prepend-inner-icon="mdi-calendar"
                     readonly
                     v-bind="attrs"
                     v-on="on"
                   ></v-text-field>
                 </template>
-                <v-date-picker @change="filterMes" v-model="date" type="month" no-title scrollable>
+                <v-date-picker
+                  @change="filterMes"
+                  v-model="date"
+                  type="month"
+                  no-title
+                  scrollable
+                >
                   <v-spacer></v-spacer>
                   <v-btn text color="primary" @click="menu = false">
                     Cancel
@@ -55,7 +61,13 @@
               </v-menu>
             </v-col>
             <v-col cols="12" sm="2" justify="center" align="center">
-              <v-btn class="text-center" small color="#ee6f57" dark @click="limpiarFiltros">
+              <v-btn
+                class="text-center"
+                small
+                color="#ee6f57"
+                dark
+                @click="limpiarFiltros"
+              >
                 Limpiar filtros
               </v-btn>
             </v-col>
@@ -65,12 +77,16 @@
 
       <template v-slot:default="props">
         <v-row>
-          <v-col v-for="item in props.items" :key="item.especializacion" cols="12">
+          <v-col
+            v-for="item in props.items"
+            :key="item.especializacion"
+            cols="12"
+          >
             <v-card>
               <v-card-title class="subheading font-weight-bold">
-                <!--<v-btn class="mx-2" fab dark small color="primary">
+                <v-btn class="mx-2" fab dark small color="#ee6f57">
                   <v-icon dark> mdi-share </v-icon>
-                </v-btn>-->
+                </v-btn>
                 {{ item.especializacion }}
               </v-card-title>
 
@@ -104,6 +120,48 @@
                     {{ item.descripcion }}
                   </v-list-item-content>
                 </v-list-item>
+
+                <v-list-item>
+                  <v-list-item-content>Peso:</v-list-item-content>
+                  <v-list-item-content class="align-end">
+                    {{ item.peso }}
+                  </v-list-item-content>
+                </v-list-item>
+
+                <v-list-item>
+                  <v-list-item-content>Estatura:</v-list-item-content>
+                  <v-list-item-content class="align-end">
+                    {{ item.estatura }}
+                  </v-list-item-content>
+                </v-list-item>
+
+                <v-list-item>
+                  <v-list-item-content>Médico:</v-list-item-content>
+                  <v-list-item-content class="align-end">
+                    {{ item.medico }}
+                  </v-list-item-content>
+                </v-list-item>
+
+                <v-list-item>
+                  <v-list-item-content>Exámenes:</v-list-item-content>
+                  <v-list-item-content class="align-end">
+                    {{ item.examenes }}
+                  </v-list-item-content>
+                </v-list-item>
+
+                <v-list-item>
+                  <v-list-item-content>Medicamentos:</v-list-item-content>
+                  <v-list-item-content class="align-end">
+                    {{ item.medicamentos }}
+                  </v-list-item-content>
+                </v-list-item>
+
+                <v-list-item>
+                  <v-list-item-content>Remisiones:</v-list-item-content>
+                  <v-list-item-content class="align-end">
+                    {{ item.remisiones }}
+                  </v-list-item-content>
+                </v-list-item>
               </v-list>
             </v-card>
           </v-col>
@@ -116,13 +174,7 @@
           <span class="mr-4 grey--text">
             Page {{ page }} of {{ numberOfPages }}
           </span>
-          <v-btn
-            fab
-            dark
-            color="#3797a4"
-            class="mr-1"
-            @click="formerPage"
-          >
+          <v-btn fab dark color="#3797a4" class="mr-1" @click="formerPage">
             <v-icon>mdi-chevron-left</v-icon>
           </v-btn>
           <v-btn fab dark color="#3797a4" class="ml-1" @click="nextPage">
@@ -139,6 +191,7 @@ export default {
   layout: "usuario",
   beforeMount() {
     this.items = this.historias;
+    this.getHistorias();
   },
   data: () => ({
     date: new Date().toISOString().substr(0, 7),
@@ -166,6 +219,12 @@ export default {
         motivo_consulta: "Fiebre",
         descripcion:
           "On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain.",
+        peso: "58 kg",
+        estatura: "1.68 cm",
+        medico: "Javier Gonzales",
+        examenes: "Ninguno",
+        medicamentos: "Acetaminofem",
+        remisiones: "Ninguna",
       },
       {
         especializacion: "Odontología",
@@ -174,6 +233,12 @@ export default {
         motivo_consulta: "Carie",
         descripcion:
           "On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain.",
+        peso: "58 kg",
+        estatura: "1.68 cm",
+        medico: "Javier Gonzales",
+        examenes: "Ninguno",
+        medicamentos: "Acetaminofem",
+        remisiones: "Ninguna",
       },
       {
         especializacion: "Dermatología",
@@ -182,6 +247,12 @@ export default {
         motivo_consulta: "Grano",
         descripcion:
           "On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain.",
+        peso: "58 kg",
+        estatura: "1.68 cm",
+        medico: "Javier Gonzales",
+        examenes: "Ninguno",
+        medicamentos: "Acetaminofem",
+        remisiones: "Ninguna",
       },
       {
         especializacion: "Oftalmología",
@@ -190,6 +261,12 @@ export default {
         motivo_consulta: "Ciego",
         descripcion:
           "On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain.",
+        peso: "58 kg",
+        estatura: "1.68 cm",
+        medico: "Javier Gonzales",
+        examenes: "Ninguno",
+        medicamentos: "Acetaminofem",
+        remisiones: "Ninguna",
       },
     ],
   }),
@@ -215,14 +292,21 @@ export default {
         (item) => item.especializacion === this.especializacion_seleccionada
       );
     },
-    filterMes(){
+    filterMes() {
       this.items = this.historias.filter(
-        (item) => item.fecha.substr(0,7) == this.date
+        (item) => item.fecha.substr(0, 7) == this.date
       );
     },
 
     limpiarFiltros() {
       this.items = this.historias;
+    },
+
+    async getHistorias() {
+      let response = await this.$axios.get(
+        "http://localhost:3000/Usuario/usuarioPerfil"
+      );
+      console.log(response);
     },
   },
 };
