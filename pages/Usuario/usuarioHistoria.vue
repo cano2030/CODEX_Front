@@ -191,6 +191,7 @@ export default {
   layout: "usuario",
   beforeMount() {
     this.items = this.historias;
+    this.getHistorias();
   },
   data: () => ({
     date: new Date().toISOString().substr(0, 7),
@@ -299,6 +300,13 @@ export default {
 
     limpiarFiltros() {
       this.items = this.historias;
+    },
+
+    async getHistorias() {
+      let response = await this.$axios.get(
+        "http://localhost:3000/Usuario/usuarioPerfil"
+      );
+      console.log(response);
     },
   },
 };

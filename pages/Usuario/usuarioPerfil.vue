@@ -117,32 +117,38 @@ export default {
     hasSaved: false,
     isEditing: null,
     model: null,
-    usuario: {
-      ocupacion: "",
-    },
+    usuario: {},
     estado_civil: ["Soltero", "Casado", "Divorciado", "Viudo"],
     departamentos: ["Antioquia", "Arauca", "Atrlántico", "Bolívar"],
-    ciudades: ["Medellín", "Bogotá", "Barranquilla", "Cartagena"],
+    //ciudades: ["Medellín", "Bogotá", "Barranquilla", "Cartagena"],
+    ciudades: [],
     rules: {
       required: [(v) => !!v || "El campo es obligatorio"],
     },
   }),
+
+  beforeMount() {
+    this.getCiudades();
+  },
+ 
   methods: {
-    updateUser() {
-      if (this.$refs.formUsuario.validate()) {
-        this.isEditing = !this.isEditing;
-        this.hasSaved = true;
-        let usuario = Object.assign({}, this.usuario);
-        console.log(this.usuario);
-      }else{
-        console.log('Formulario incompleto');
+    
+    async getUsers() {
+      let response = await this.$axios.get(
+        "http://localhost:3000/Usuario/usuarioPerfil"
+      );
+      this.usuario = response.data;
+    },
+    async getCiudades() {
+      try {
+        let response = await this.$axios.get(
+          "http://localhost:3000/Usuario/usuarioPerfil"
+        );
+        this.ciudades = response.data;
+      } catch (error) {
+        console.error(error);
       }
     },
-
-    getUser(){
-
-    },
-
   },
 };
 </script>
