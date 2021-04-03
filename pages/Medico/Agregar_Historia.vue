@@ -1,103 +1,157 @@
 <template>
-    <div>
-      <h1>Agregar entrada a historia clinica</h1>
-      <template>
-        <v-form ref="form" v-model="valid" lazy-validation>
-          <v-select
-            v-model="Especialidad"
-            :items="especializaciones"
-            :rules="especialidadRules"
-            label="Especialidad"
-            required
-          ></v-select>
-
-          <v-text-field
-            v-model="Peso"
-            :rules="pesoRules"
-            label="Peso"
-            required
-          ></v-text-field>
-
-          <v-text-field
-            v-model="Estatura"
-            :rules="estaturaRules"
-            label="Estatura"
-            required
-          ></v-text-field>
-
-          <v-textarea
-            filled
-            name="input-7-4"
-            label="Filled textarea"
-            value="Aca es donde debera ingresar, algo que necesite ser descrito relacionado al estado del paciente."
-          ></v-textarea>
-
-          <template>
-            <v-file-input
-              label="File input"
-              outlined
-              multiple
-              dense
-            ></v-file-input>
-          </template>
-
-          <v-row>
-            <v-text-field
-              v-model="Medicamento"
-              :rules="medicamentoRules"
-              label="Medicamento"
-              required
-            ></v-text-field>
-            <v-btn elevation="2" fab small>
-              <v-icon>mdi-plus</v-icon>
-            </v-btn>
-          </v-row>
-
-          <v-row>
-            <v-text-field
-              v-model="Posologia"
-              :rules="posologiaRules"
-              label="Receta"
-              required
-            ></v-text-field>
-            <v-btn elevation="2" fab small>
-              <v-icon>mdi-plus</v-icon>
-            </v-btn>
-          </v-row>
-
-          <v-row>
-            <v-text-field
-              v-model="Remision"
-              :rules="remisionRules"
-              label="Remision"
-              required
-            ></v-text-field>
-            <v-btn elevation="2" fab small>
-              <v-icon>mdi-plus</v-icon>
-            </v-btn>
-          </v-row>
-
-          <v-btn
-            :disabled="!valid"
-            color="success"
-            class="mr-4"
-            @click="validate"
-            text
-            to="/Medico/Historia_clinica"
+  <div>
+    <h1>Agregar entrada a historia clinica</h1>
+    <template>
+      <v-form ref="formHistoria" v-model="valid" lazy-validation>
+        <v-row>
+          <v-menu
+            ref="menu"
+            v-model="menu"
+            :close-on-content-click="false"
+            :return-value.sync="historia.fecha"
+            transition="scale-transition"
+            offset-y
+            max-width="290px"
+            min-width="auto"
           >
-            Agregar
-          </v-btn>
+            <template v-slot:activator="{ on, attrs }">
+              <v-select
+                v-model="historia.especialidad"
+                :items="especializaciones"
+                :rules="especialidadRules"
+                label="Especialidad"
+                required
+              ></v-select>
 
-          <v-btn color="error" class="mr-4" @click="reset">
-            Reiniciar
-          </v-btn>
+              <v-text-field
+                v-model="historia.fecha"
+                solo-inverted
+                hide-details
+                label="Seleccionar fecha"
+                prepend-icon="mdi-calendar"
+                readonly
+                v-bind="attrs"
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-date-picker v-model="historia.fecha" no-title scrollable>
+              <v-spacer></v-spacer>
+              <v-btn text color="primary" @click="menu = false">
+                Cancel
+              </v-btn>
+              <v-btn
+                text
+                color="primary"
+                @click="$refs.menu.save(historia.fecha)"
+              >
+                OK
+              </v-btn>
+            </v-date-picker>
+          </v-menu>
+        </v-row>
 
-          <v-btn color="warning" @click="resetValidation">
-            Reiniciar validacion
+        <v-select
+          v-model="historia.cedula_medico"
+          :items="cedula_medico"
+          :rules="cedula_medicoRUles"
+          label="cedula del medico que atiende"
+          required
+        ></v-select>
+
+        <v-select
+          v-model="historia.cedula_paciente"
+          :items="cedula_paciente"
+          :rules="cedula_pacienteRUles"
+          label="cedula del paciente"
+          required
+        ></v-select>
+
+        <v-text-field
+          v-model="historia.peso"
+          :rules="pesoRules"
+          label="Peso"
+          required
+        ></v-text-field>
+
+        <v-text-field
+          v-model="historia.estatura"
+          :rules="estaturaRules"
+          label="Estatura"
+          required
+        ></v-text-field>
+
+        <v-textarea
+          v-model="historia.motivo_consulta"
+          filled
+          name="input-7-4"
+          label="Acá es donde deberá ingresar, algo que necesite ser descrito relacionado al estado del paciente."
+        ></v-textarea>
+        <!--         <template>
+          <v-file-input
+            v-model="historia.examen"
+            label="File input"
+            outlined
+            multiple
+            dense
+          ></v-file-input>
+        </template> -->
+
+        <v-row>
+          <v-text-field
+            v-model="historia.medicamento"
+            :rules="medicamentoRules"
+            label="Medicamento"
+            required
+          ></v-text-field>
+          <v-btn elevation="2" fab small>
+            <v-icon>mdi-plus</v-icon>
           </v-btn>
-        </v-form>
-      </template>
-    </div>
+        </v-row>
+
+        <v-row>
+          <v-text-field
+            v-model="historia.posologia"
+            :rules="posologiaRules"
+            label="Receta"
+            required
+          ></v-text-field>
+          <v-btn elevation="2" fab small>
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+        </v-row>
+
+        <v-row>
+          <v-text-field
+            v-model="historia.remision"
+            :rules="remisionRules"
+            label="Remision"
+            required
+          ></v-text-field>
+          <v-btn elevation="2" fab small>
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+        </v-row>
+
+        <v-btn
+          :disabled="!valid"
+          color="success"
+          class="mr-4"
+          @click="saveHistoria()"
+         
+        >
+          Agregar
+        </v-btn>
+
+        <v-btn color="error" class="mr-4" @click="reset">
+          Reiniciar
+        </v-btn>
+
+        <v-btn color="warning" @click="resetValidation">
+          Reiniciar validacion
+        </v-btn>
+      </v-form>
+    </template>
+  </div>
 </template>
 
 <script>
@@ -105,17 +159,32 @@ export default {
   layout: "medico",
   data: () => ({
     valid: true,
-    posologia: "",
-    posologiaRules: [v => /.+@.+\..+/.test(v) || "Posologia must be valid"],
-    especialidad: "",
+    historia: {
+      fecha: new Date().toISOString().substr(0, 10),
+      especialidad: "",
+      cedula_medico: "",
+      cedula_paciente: "",
+      peso: "",
+      estatura: "",
+      motivo_consulta: "",
+      //examen: "",
+      medicamento: "",
+      posologia: "",
+      remision: "",
+      id: ""
+    },
+    menu: "",
+
+    idRules: [v => !!v || "Id must be valid"],
+    cedula_medico: "",
+    cedula_medicoRUles: [v => !!v || "La cedula del medico must be valid"],
+    cedula_paciente: "",
+    cedula_pacienteRUles: [v => !!v || "La cedula del paciente must be valid"],
+    posologiaRules: [v => !!v || "Posologia must be valid"],
     especialidadRules: [v => !!v || "Especialidad is required"],
-    peso: "",
     pesoRules: [v => !!v || "Peso is required"],
-    estatura: "",
     estaturaRules: [v => !!v || "Estatura is required"],
-    medicamento: "",
     medicamentoRules: [v => !!v || "Medicamento is required"],
-    remision: "",
     remisionRules: [v => !!v || "Remision is required"],
     select: null,
     especializaciones: [
@@ -125,19 +194,38 @@ export default {
       "Oftalmología",
       "Cirugía general",
       "Dermatología",
-      "Ortopedía y traumatología",
+      "Ortopedía y traumatología"
     ],
+    cedula_medico: ["111"],
+    cedula_paciente: ["333", "444", "555", "666", "777", "888"]
   }),
-
+  
   methods: {
-    validate() {
-      this.$refs.form.validate();
+    async saveHistoria() {
+      if (this.$refs.formHistoria.validate()) {
+        console.log("--Inicio guardar historia--");
+        let historia = Object.assign({}, this.historia);
+        //enviar una solicitud (Request) en un metodo post
+        let response = await this.$axios.post(
+          "http://localhost:3001/Historias_clinicas",
+          historia
+        );
+        console.log(response);
+      } else {
+        console.log("Formulario incompleto");
+      }
+    },
+    deleteHistoria() {
+      //enviar una solicitud (Request) en un metodo delete
+    },
+    updateHistoria() {
+      //enviar una solicitud (Request) en un metodo update
     },
     reset() {
-      this.$refs.form.reset();
+      this.$refs.formHistoria.reset();
     },
     resetValidation() {
-      this.$refs.form.resetValidation();
+      this.$refs.formHistoria.resetValidation();
     }
   }
 };

@@ -38,8 +38,8 @@
           <v-text-field label="Sexo" disabled="isDisabled"></v-text-field>
         </v-col>
       </v-row>
-      <v-text-field label="Ocupación" :disabled="!isEditing"></v-text-field>
       <v-select :items="estado_civil" label="Estado civil" :disabled="!isEditing"></v-select>
+      <v-select :items="especialidad"  label="Especialidad" :disabled="!isEditing" ></v-select>
       <v-text-field label="Correo" :disabled="!isEditing"></v-text-field>
       <v-text-field label="Teléfono" :disabled="!isEditing"></v-text-field>
       <v-row>
@@ -47,7 +47,7 @@
           <v-select :items="departamentos" label="Departamento" :disabled="!isEditing"></v-select>
         </v-col>
         <v-col cols="12" sm="6">
-          <v-select :items="ciudades" label="Ciudad" :disabled="!isEditing"></v-select>
+          <v-select  :items="ciudades" label="Ciudad" :disabled="!isEditing"></v-select>
         </v-col>
       </v-row>
       <v-text-field :disabled="!isEditing" label="Dirección"></v-text-field>
@@ -81,6 +81,14 @@ export default {
       model: null,
       estado_civil: ["Soltero", "Casado", "Divorciado", "Viudo"],
       departamentos: ["Antioquia", "Arauca", "Atrlántico", "Bolívar"],
+      especialidad: [
+      "Medico general",
+      "Odontólogo",
+      "Ginecólogo",
+      "Oftalmólogo",
+      "Cirujano",
+      "Dermatólogo",
+      "Ortopedista"],
       ciudades: ["Medellín", "Bogotá", "Barranquilla", "Cartagena"],
     };
   },

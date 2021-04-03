@@ -39,7 +39,7 @@
           <v-row >
              <div v-text="item.documento"></div>
             <v-btn text to="/Medico/Historia_clinica"> Detalles </v-btn>
-            <v-btn text to="/Medico/editarPerfil_usuario"> Editar perfil </v-btn>
+            <v-btn text to="/usuario/usuarioPerfil"> Editar perfil </v-btn>
           </v-row>
         </v-list-item-content>
       </v-list-item>
