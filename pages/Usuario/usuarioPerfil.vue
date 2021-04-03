@@ -112,6 +112,10 @@
 <script>
 export default {
   layout: "usuario",
+  async asyncData({ params }) {
+    let id_usuario = params.id;
+    return { id_usuario };
+  },
   data: () => ({
     valid: true,
     hasSaved: false,
@@ -128,16 +132,32 @@ export default {
   }),
 
   beforeMount() {
-    this.getCiudades();
+    this.getUsuario();
   },
- 
+
   methods: {
-    
-    async getUsers() {
-      let response = await this.$axios.get(
-        "http://localhost:3000/Usuario/usuarioPerfil"
-      );
-      this.usuario = response.data;
+    async getUsuario() {
+      try {
+        //
+        let response = await this.$axios.get(
+          "http://localhost:3001/Usuario/usuarioPerfil" + this.id_usuario
+        );
+        this.usuario = response.data;
+      } catch (error) {
+        this.$swal
+          .fire({
+            type: "error",
+            title: "Oops...",
+            text: "El usuario no existe o hubo un error cargandolo.",
+            allowEscapeKey: false,
+            allowOutsideClick: false,
+          })
+          .then((result) => {
+            if (result.value) {
+              this.$router.push("/Usuario/usuarioPerfil");
+            }
+          });
+      }
     },
     async getCiudades() {
       try {
