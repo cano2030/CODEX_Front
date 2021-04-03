@@ -355,7 +355,7 @@ export default {
     menu1: false,
     valid: true,
     sexo: ["Masculino", "Femenino"],
-    estado_civil: ["Soltero", "Casado", "Divoriado", "Viudo"],
+    estado_civil: ["Soltero", "Casado", "Divorciado", "Viudo"],
     departamentos: ["Antioquia", "Arauca", "Atlántico", "Bolívar"],
     ciudades: ["Medellín", "Bogotá", "Barranquilla", "Cartagena"],
     especialidad: ["a", "b", "c", "d"],

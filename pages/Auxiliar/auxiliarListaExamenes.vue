@@ -1,10 +1,11 @@
 <template>
-  <v-card>
-    <v-card-title>
+  <v-card color="#3797a4">
+    <v-card-title class="#0c354a--text" >
       Examenes
       <v-spacer></v-spacer>
       <v-text-field
         v-model="search"
+        color="#0c354a"
         append-icon="mdi-magnify"
         label="Buscar"
         single-line
@@ -139,6 +140,7 @@
 
 <script>
 export default {
+  //this.$router.push("Medico/MedicoHome");
   layout: "auxiliar",
 
   data() {

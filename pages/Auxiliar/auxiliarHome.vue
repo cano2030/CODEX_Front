@@ -1,138 +1,191 @@
 <template>
-  <v-card>
-    <v-card-title>
-      <v-icon large left> </v-icon>
+<v-card>
+    
+  <v-data-table :headers="headers" :items="pacientes" :search="search" class="elevation-1">
+    <template v-slot:top>
+      <v-toolbar flat color="#3797a4">
+        <v-toolbar-title class="#0c354a--text"
+          >Búsqueda de pacientes en el banco de las EPS e IPS</v-toolbar-title>
+       
+        <v-dialog v-model="dialog" max-width="800px">
+          <v-card>
+            <v-toolbar color="#3797a4">
+              <v-card-title>
+                Ficha informativa del paciente
+                <v-spacer>
+                  <v-avatar color="#ee6f57">
+                    <v-icon dark size="40"> mdi-account </v-icon>
+                  </v-avatar>
+                </v-spacer>
+              </v-card-title>
+            </v-toolbar>
 
-      <div>
-        <strong class="#0c354a"
-          >Búsqueda de pacientes en el banco de las EPS e IPS</strong>
-      </div>
-    </v-card-title>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      v-model="CamposDetalle.id"
+                      label="Id Paciente"
+                      readonly
+                    >
+                    </v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      v-model="CamposDetalle.cedula"
+                      label="Cedula Paciente"
+                      readonly
+                    ></v-text-field>
+                  </v-col>
 
-    <v-toolbar flat color="transparent">
+                  <v-col cols="12" sm="8" md="4">
+                    <v-text-field
+                      v-model="CamposDetalle.nombre"
+                      label="Nombre"
+                      readonly
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      v-model="CamposDetalle.apellidos"
+                      label="Apellidos"
+                      readonly
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      v-model="CamposDetalle.fecha_nac"
+                      label="Fecha de Nacimiento"
+                      readonly
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      v-model="CamposDetalle.edad"
+                      label="Edad"
+                      readonly
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      v-model="CamposDetalle.sexo"
+                      label="Sexo"
+                      readonly
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      v-model="CamposDetalle.ocupacion"
+                      label="Ocupación"
+                      readonly
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      v-model="CamposDetalle.estado_civil"
+                      label="Estado Civil"
+                      readonly
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card-text>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="close"> Cerrar </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-toolbar>
+       <v-card-title>
       <v-text-field
         v-model="search"
         append-icon="mdi-magnify"
-        label="Buscar Pacientes"
+        label="Buscar"
         single-line
+        hide-details
       ></v-text-field>
-    </v-toolbar>
-
-    <v-list three-line
-    color="#f4f9f9">
-      <v-list-item
-        v-for="(item, i) in searching"
-        :key="i"
-        ripple
-        @click="() => {}"
-      >
-        <v-img
-          :src="item.image"
-          class="mr-4"
-          max-width="64"
-          min-width="64"
-        >
-        </v-img>
-
-        <v-list-item-content>
-          <span
-            class="text-uppercase font-weight-regular caption"
-            v-text="item.nombre"
-          ></span>
-
-          <div v-text="item.documento"></div>
-          <v-btn text to="/Auxiliar/auxiliarListaExamenes"> Detalles </v-btn>
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
+    </v-card-title>
+    </template>
+    <template v-slot:item.actions="{ item }">
+      <v-icon small class="mr-2" @click="VerDetalle(item)">
+        mdi-account
+      </v-icon>
+      <v-icon small @click="ExamenesPaciente(item)"> mdi-delete </v-icon>
+    </template>
+    
+  </v-data-table>
   </v-card>
 </template>
 
 <script>
+const url_api = "http://localhost:3001/pacientes/";
 export default {
   layout: "auxiliar",
+  beforeMount() {
+    localStorage.setItem("user-detalle", "");
+    this.getPacientes();
+  },
   data: () => ({
-    items: [
+    dialog: false,
+
+    headers: [
       {
-        image: "https://randomuser.me/api/portraits/women/10.jpg",
-        nombre: "Mariana Palacios Hinestroza",
-        documento: "123456789",
+        text: "Id",
+        align: "start",
+        value: "id",
       },
-      {
-        image: "https://randomuser.me/api/portraits/women/20.jpg",
-        nombre: "Yesenia Lopez Giraldo",
-        documento: "1365478216",
-      },
-      {
-        image: "https://randomuser.me/api/portraits/women/30.jpg",
-        nombre: "Maria Alejandra Franco Alzate",
-        documento: "112365749",
-      },
-      {
-        image: "https://randomuser.me/api/portraits/women/40.jpg",
-        nombre: "Angie Rivera Hinestroza",
-        documento: "114796632",
-      },
-      {
-        image: "https://randomuser.me/api/portraits/women/50.jpg",
-        nombre: "Dayana Mosquera Mosquera",
-        documento: "974632114",
-      },
-      {
-        image: "https://randomuser.me/api/portraits/women/60.jpg",
-        nombre: "Mariana Palacios Hinestroza",
-        documento: "123456789",
-      },
-      {
-        image: "https://randomuser.me/api/portraits/men/10.jpg",
-        nombre: "Mariana Palacios Hinestroza",
-        documento: "123456789",
-      },
-      {
-        image: "https://randomuser.me/api/portraits/men/10.jpg",
-        nombre: "Mariana Palacios Hinestroza",
-        documento: "123456789",
-      },
-      {
-        image: "https://randomuser.me/api/portraits/men/10.jpg",
-        nombre: "Mariana Palacios Hinestroza",
-        documento: "123456789",
-      },
-      {
-        image: "https://randomuser.me/api/portraits/men/10.jpg",
-        nombre: "Mariana Palacios Hinestroza",
-        documento: "123456789",
-      },
-      {
-        image: "https://randomuser.me/api/portraits/men/10.jpg",
-        nombre: "Mariana Palacios Hinestroza",
-        documento: "123456789",
-      },
-      {
-        image: "https://randomuser.me/api/portraits/men/10.jpg",
-        nombre: "Mariana Palacios Hinestroza",
-        documento: "123456789",
-      },
-      {
-        image: "https://randomuser.me/api/portraits/men/10.jpg",
-        nombre: "Mariana Palacios Hinestroza",
-        documento: "123456789",
-      },
+      { text: "Cedula", value: "cedula" },
+      { text: "Nombre", value: "nombre" },
+      { text: "Apellidos", value: "apellidos" },
+      { text: "Edad", value: "edad" },
+      { text: "Operaciones", value: "actions" },
     ],
-    search: "",
+    pacientes: [],
+    search: '',
+    CamposDetalle: {
+      nombre: "",
+      apellidos: "",
+      cedula: "",
+      fecha_nac: "",
+      edad: "",
+      sexo: "",
+      ocupacion: "",
+      estado_civil: "",
+      correo: "",
+      telefono: "",
+      departamento: "",
+      ciudad: "",
+      direccion: "",
+      id: 0,
+    },
   }),
 
-  computed: {
-    searching() {
-      if (!this.search) return this.items;
+  methods: {
+    async getPacientes() {
+      try {
+        let response = await this.$axios.get(url_api);
+        this.pacientes = response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
 
-      const search = this.search.toLowerCase();
+    VerDetalle(item) {
+      console.log(item);
+      this.CamposDetalle = Object.assign({}, item);
+      this.dialog = true;
+    },
 
-      return this.items.filter((item) => {
-        const text = item.documento.toLowerCase();
+    ExamenesPaciente(item) {
+      localStorage.setItem("user-detalle", JSON.stringify(item));
+      this.$router.push("auxiliarListaExamenes");
+    },
 
-        return text.indexOf(search) > -1;
-      });
+    close() {
+      this.dialog = false;
     },
   },
 };
