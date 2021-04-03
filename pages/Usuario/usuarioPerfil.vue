@@ -18,22 +18,22 @@
       <v-form ref="formUsuario" v-model="valid" lazy-validation>
         <v-row>
           <v-col cols="12" sm="6">
-            <v-text-field label="Nombres" disabled></v-text-field>
+            <v-text-field v-model="usuario.nombre" label="Nombres" disabled  ></v-text-field>
           </v-col>
           <v-col cols="12" sm="6">
-            <v-text-field label="Apellidos" disabled></v-text-field>
+            <v-text-field v-model="usuario.apellidos" label="Apellidos" disabled></v-text-field>
           </v-col>
         </v-row>
-        <v-text-field label="Cédula" disabled></v-text-field>
+        <v-text-field v-model="usuario.cedula" label="Cédula" disabled></v-text-field>
         <v-row>
           <v-col cols="12" sm="4">
-            <v-text-field label="Fecha de Nacimiento" disabled></v-text-field>
+            <v-text-field v-model="usuario.fecha_nac" label="Fecha de Nacimiento" disabled></v-text-field>
           </v-col>
           <v-col cols="12" sm="4">
-            <v-text-field label="Edad" disabled></v-text-field>
+            <v-text-field v-model="usuario.edad" label="Edad" disabled></v-text-field>
           </v-col>
           <v-col cols="12" sm="4">
-            <v-text-field label="Sexo" disabled></v-text-field>
+            <v-text-field v-model="usuario.sexo" label="Sexo" disabled></v-text-field>
           </v-col>
         </v-row>
         <!--DATOS QUE SE PUEDEN ACTUALIZAR -->
@@ -97,7 +97,7 @@
         class="white--text"
         :disabled="!isEditing"
         color="#ee6f57"
-        @click="updateUser"
+        @click="updateUsuario"
       >
         Guardar
       </v-btn>
@@ -110,6 +110,7 @@
 
 
 <script>
+const url_api = "http://localhost:3001/pacientes/";
 export default {
   layout: "usuario",
   data: () => ({
@@ -120,30 +121,50 @@ export default {
     usuario: {},
     estado_civil: ["Soltero", "Casado", "Divorciado", "Viudo"],
     departamentos: ["Antioquia", "Arauca", "Atrlántico", "Bolívar"],
-    //ciudades: ["Medellín", "Bogotá", "Barranquilla", "Cartagena"],
-    ciudades: [],
+    ciudades: ["Medellín", "Bogotá", "Barranquilla", "Cartagena"],
+    //ciudades: {},
     rules: {
       required: [(v) => !!v || "El campo es obligatorio"],
     },
   }),
 
   beforeMount() {
-    this.getCiudades();
+    this.getUsuario();
+    //this.getCiudades();
   },
- 
+
   methods: {
-    
-    async getUsers() {
-      let response = await this.$axios.get(
-        "http://localhost:3000/Usuario/usuarioPerfil"
-      );
-      this.usuario = response.data;
+    getUsuario() {
+      let stringUser = localStorage.getItem("user-in");
+      this.usuario = JSON.parse(stringUser);
     },
+
+     async updateUsuario() {
+      if (this.$refs.formUsuario.validate()) {
+        // Crear un nuevo objeto con la info del usuario
+        let usuario = Object.assign({}, this.usuario);
+        let response = await this.$axios.put(url_api + this.usuario.id, usuario);
+        this.$swal.fire({
+          type: "success",
+          title: "Operación exitosa.",
+          text: "El perfil se actualizo correctamente.",
+        });
+        this.isEditing = !this.isEditing;
+      } else {
+        this.$swal.fire({
+          type: "warning",
+          title: "Formulario incompleto.",
+          text: "Hay campos que deben ser diligenciados.",
+        });
+      }
+    },
+
+
+
+    //No funciona :(
     async getCiudades() {
       try {
-        let response = await this.$axios.get(
-          "http://localhost:3000/Usuario/usuarioPerfil"
-        );
+        let response = await this.$axios.get("http://localhost:3001/ciudades");
         this.ciudades = response.data;
       } catch (error) {
         console.error(error);

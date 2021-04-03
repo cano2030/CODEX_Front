@@ -106,12 +106,9 @@ export default {
     loadUser() {
       let stringUser=localStorage.getItem("user-system");
       this.usuario = JSON.parse(stringUser);
-      this.validarRol(this.usuario);
     },
-    validarRol(usuario){
-      //if(usuario.perfil)
+    
 
-    }
   },
 };
 </script>
