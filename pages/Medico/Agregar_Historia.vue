@@ -79,12 +79,20 @@
           label="Estatura"
           required
         ></v-text-field>
-
+        <h3>Motivo de la consulta</h3>
         <v-textarea
           v-model="historia.motivo_consulta"
           filled
+          text-color="accent"
           name="input-7-4"
-          label="Acá es donde deberá ingresar, algo que necesite ser descrito relacionado al estado del paciente."
+          label="Acá es donde deberá ingresar, la razon por la que el paciente viene."
+        ></v-textarea>
+        <h3>Descripcion</h3>
+        <v-textarea
+          v-model="historia.descripcion"
+          filled
+          name="input-7-4"
+          label="Acá es donde deberá ingresar el estado del paciente y todo lo que se relacione a ello."
         ></v-textarea>
         <!--         <template>
           <v-file-input
@@ -167,6 +175,7 @@ export default {
       peso: "",
       estatura: "",
       motivo_consulta: "",
+      descripcion:"",
       //examen: "",
       medicamento: "",
       posologia: "",
@@ -199,7 +208,7 @@ export default {
     cedula_medico: ["111"],
     cedula_paciente: ["333", "444", "555", "666", "777", "888"]
   }),
-  
+
   methods: {
     async saveHistoria() {
       if (this.$refs.formHistoria.validate()) {
