@@ -304,7 +304,7 @@ export default {
 
     async getHistorias() {
       let response = await this.$axios.get(
-        "http://localhost:3000/Usuario/usuarioPerfil"
+        "http://localhost:3001/Usuario/usuarioPerfil"
       );
       console.log(response);
     },

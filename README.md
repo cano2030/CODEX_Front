@@ -1,5 +1,5 @@
 # CODEX_Front
-
+json-server --watch db.json -p 3001
 ## Build Setup
 
 ```bash
