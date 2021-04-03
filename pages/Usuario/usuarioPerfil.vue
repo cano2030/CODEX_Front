@@ -122,7 +122,7 @@ export default {
     estado_civil: ["Soltero", "Casado", "Divorciado", "Viudo"],
     departamentos: ["Antioquia", "Arauca", "Atrlántico", "Bolívar"],
     ciudades: ["Medellín", "Bogotá", "Barranquilla", "Cartagena"],
-    //ciudades: [],
+    //ciudades: {},
     rules: {
       required: [(v) => !!v || "El campo es obligatorio"],
     },
@@ -130,6 +130,7 @@ export default {
 
   beforeMount() {
     this.getUsuario();
+    //this.getCiudades();
   },
 
   methods: {
@@ -146,8 +147,9 @@ export default {
         this.$swal.fire({
           type: "success",
           title: "Operación exitosa.",
-          text: "El item se actualizo correctamente.",
+          text: "El perfil se actualizo correctamente.",
         });
+        this.isEditing = !this.isEditing;
       } else {
         this.$swal.fire({
           type: "warning",
@@ -162,9 +164,7 @@ export default {
     //No funciona :(
     async getCiudades() {
       try {
-        let response = await this.$axios.get(
-          "http://localhost:3001/ciudades"
-        );
+        let response = await this.$axios.get("http://localhost:3001/ciudades");
         this.ciudades = response.data;
       } catch (error) {
         console.error(error);
