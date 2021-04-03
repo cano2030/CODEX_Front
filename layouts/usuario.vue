@@ -11,7 +11,7 @@
         </v-list-item>
 
         <v-list-item-content class="text-md-center">
-          <v-list-item-title class="title"> aaaaa </v-list-item-title>
+          <v-list-item-title class="title"> {{usuario.nombre }} {{ usuario.apellidos}} </v-list-item-title>
           <v-list-item-subtitle>Paciente</v-list-item-subtitle>
         </v-list-item-content>
       </template>
@@ -79,8 +79,8 @@ export default {
   },
   data() {
     return {
-      openMenu: false,
       usuario: null,
+      openMenu: false,
       items: [
         {
           id: "perfil",
@@ -120,6 +120,11 @@ export default {
     loadUser() {
       let stringUser = localStorage.getItem("user-in");
       this.usuario = JSON.parse(stringUser);
+      this.validarRol(this.usuario);
+      console.log(stringUser);
+    },
+    validarRol(usuario) {
+      //if(usuario.perfil)
     },
   },
 };
