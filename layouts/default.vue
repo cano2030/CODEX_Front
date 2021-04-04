@@ -118,7 +118,6 @@
   </v-app>
 </template>
 
-
 <script>
 const url_apipaciente = "http://localhost:3001/pacientes/";
 const url_apimedico = "http://localhost:3001/medicos/";
@@ -131,13 +130,13 @@ export default {
     usuario: {
       user: "",
       password: "",
-      rol: "",
+      rol: ""
     },
-    admin:{codigo:""},
+    admin: { codigo: "" },
     rules: {
-      required: [(v) => !!v || "El campo es obligatorio"],
+      required: [v => !!v || "El campo es obligatorio"]
     },
-    rol: ["Paciente", "Medico", "Auxiliar"],
+    rol: ["Paciente", "Medico", "Auxiliar"]
   }),
 
   methods: {
@@ -148,7 +147,7 @@ export default {
           if (this.usuario.rol == "Auxiliar") {
             let response = await this.$axios.get(url_apiauxiliar);
             let users = response.data;
-            let findUser = users.find((x) => {
+            let findUser = users.find(x => {
               return (
                 x.cedula === this.usuario.user &&
                 x.cedula === this.usuario.password
@@ -165,19 +164,20 @@ export default {
                 text:
                   "El correo o la contraseña diligenciados son incorrectos.",
                 allowEscapeKey: false,
-                alowOutsideClick: false,
+                alowOutsideClick: false
               });
             }
           } else if (this.usuario.rol == "Medico") {
             let response = await this.$axios.get(url_apimedico);
             let users = response.data;
-            let findUser = users.find((x) => {
+            let findUser = users.find(x => {
               return (
                 x.cedula === this.usuario.user &&
                 x.cedula === this.usuario.password
               );
             });
             if (findUser) {
+              localStorage.setItem("user-doctor", JSON.stringify(findUser));
               this.$router.push("Medico/MedicoHome");
             } else {
               this.$swal.fire({
@@ -186,14 +186,13 @@ export default {
                 text:
                   "El correo o la contraseña diligenciados son incorrectos.",
                 allowEscapeKey: false,
-                alowOutsideClick: false,
+                alowOutsideClick: false
               });
             }
-            
           } else if (this.usuario.rol == "Paciente") {
             let response = await this.$axios.get(url_apipaciente);
             let users = response.data;
-            let findUser = users.find((x) => {
+            let findUser = users.find(x => {
               return (
                 x.cedula === this.usuario.user &&
                 x.cedula === this.usuario.password
@@ -210,7 +209,7 @@ export default {
                 text:
                   "El correo o la contraseña diligenciados son incorrectos.",
                 allowEscapeKey: false,
-                alowOutsideClick: false,
+                alowOutsideClick: false
               });
             }
           }
@@ -218,7 +217,7 @@ export default {
           this.$swal.fire({
             type: "warning",
             title: "Formulario incompleto.",
-            text: "Hay campos que deben ser diligenciados.",
+            text: "Hay campos que deben ser diligenciados."
           });
         }
       } catch (error) {
@@ -226,7 +225,7 @@ export default {
         this.$swal.fire({
           type: "error",
           title: "Error al iniciar sesión.",
-          text: "",
+          text: ""
         });
       }
     },
@@ -234,33 +233,29 @@ export default {
       try {
         if (this.$refs.formAdmin.validate()) {
           //llamado a la api
-          
-            let response = await this.$axios.get(url_apiadmin);
-            let admin = response.data;
-            let findUser = admin.find((x) => {
-              return (
-                x.codigo === this.admin.codigo
-              );
+
+          let response = await this.$axios.get(url_apiadmin);
+          let admin = response.data;
+          let findUser = admin.find(x => {
+            return x.codigo === this.admin.codigo;
+          });
+          if (findUser) {
+            //localStorage.setItem("user-system", JSON.stringify(findUser));
+            this.$router.push("Administrador/adminUsuarios");
+          } else {
+            this.$swal.fire({
+              type: "error",
+              title: "Oops",
+              text: "El codigo ingresado es incorrecto.",
+              allowEscapeKey: false,
+              alowOutsideClick: false
             });
-            if (findUser) {
-              //localStorage.setItem("user-system", JSON.stringify(findUser));
-              this.$router.push("Administrador/adminUsuarios");
-            } else {
-              this.$swal.fire({
-                type: "error",
-                title: "Oops",
-                text:
-                  "El codigo ingresado es incorrecto.",
-                allowEscapeKey: false,
-                alowOutsideClick: false,
-              });
-            }
-           
+          }
         } else {
           this.$swal.fire({
             type: "warning",
             title: "Formulario incompleto.",
-            text: "Hay campos que deben ser diligenciados.",
+            text: "Hay campos que deben ser diligenciados."
           });
         }
       } catch (error) {
@@ -268,11 +263,11 @@ export default {
         this.$swal.fire({
           type: "error",
           title: "Error al iniciar sesión.",
-          text: "",
+          text: ""
         });
       }
-    },
-  },
+    }
+  }
 };
 </script>
 <style>

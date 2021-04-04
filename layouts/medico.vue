@@ -14,10 +14,10 @@
 
         <v-list-item-content>
           <v-list-item-title class="text-md-center">
-            Luisa Lopez
+            {{usuario.nombre }}{{ usuario.apellidos}}
           </v-list-item-title>
           <v-list-item-subtitle class="text-md-center"
-            >Doctor especialista</v-list-item-subtitle
+            >{{usuario.especialidad}}</v-list-item-subtitle
           >
         </v-list-item-content>
       </template>
@@ -78,6 +78,9 @@
 
 <script>
 export default {
+    beforeMount() {
+    this.loadUser();
+  },
   data() {
     return {
       openMenu: false,
@@ -97,6 +100,13 @@ export default {
       ],
       title: "Vuetify.js",
     };
+  },
+    methods: {
+    loadUser() {
+      let stringUser = localStorage.getItem("user-doctor");
+      this.usuario = JSON.parse(stringUser);
+      console.log(stringUser);
+    }
   },
 };
 </script>

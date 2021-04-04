@@ -179,8 +179,7 @@ export default {
       //examen: "",
       medicamento: "",
       posologia: "",
-      remision: "",
-      id: ""
+      remision: ""
     },
     menu: "",
 

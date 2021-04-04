@@ -16,7 +16,7 @@
                 hide-details
                 :items="especializaciones"
                 label="Buscar por especialización"
-                @change="filterEspecializacion"
+                @change="filterEspecializacion" 
                 v-model="especializacion_seleccionada"
               ></v-select>
             </v-col>
@@ -158,9 +158,9 @@
 <script>
 export default {
   layout: "medico",
-  beforeMount() {
-    this.items = this.historias;
-    this.getHistorias
+   beforeMount() {
+    this.loadUser();
+    this.getHistorias();
   },
   data: () => ({
     date: new Date().toISOString().substr(0, 7),
@@ -188,23 +188,9 @@ export default {
       return Math.ceil(this.items.length / this.itemsPerPage);
     }
   },
-  beforeMount() {
-    this.getHistorias();
-  },
   methods: {
     nextPage() {
       if (this.page + 1 <= this.numberOfPages) this.page += 1;
-    },
-    async getHistorias() {
-      try {
-        //enviar una solicitud (Request) en un metodo get
-        let response = await this.$axios.get(
-          "http://localhost:3001/Historias_clinicas"
-        );
-        this.historias = response.data;
-      } catch (error) {
-        console.error(error)
-      }
     },
     formerPage() {
       if (this.page - 1 >= 1) this.page -= 1;
@@ -216,7 +202,7 @@ export default {
     filterEspecializacion() {
       console.log(this.especializacion_seleccionada);
       this.items = this.historias.filter(
-        item => item.especializacion === this.t5
+        item => item.especialidad === this.especializacion_seleccionada
       );
     },
     filterMes() {
@@ -224,7 +210,26 @@ export default {
         item => item.fecha.substr(0, 7) == this.date
       );
     },
-
+    loadUser() {
+      let stringUser = localStorage.getItem("user-in");
+      this.usuario = JSON.parse(stringUser);
+    },
+    async getHistorias() {
+      try {
+        let response = await this.$axios.get(
+          "http://localhost:3001/Historias_clinicas"
+        );
+        this.datos = response.data;
+        for (var i of this.datos) {
+          if (this.usuario.cedula == i.cedula_paciente) {
+            this.items.push(i);
+            this.historias.push(i);
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
     limpiarFiltros() {
       this.items = this.historias;
     }
