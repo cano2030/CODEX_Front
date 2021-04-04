@@ -88,9 +88,9 @@
                   </v-toolbar>
                   <v-card-text>
                     <v-container>
-                      <v-form ref="form" v-model="valid" lazy-validation>
+                      <v-form ref="formAdmin" v-model="valid" lazy-validation>
                         <v-text-field
-                          v-model="code"
+                          v-model="admin.codigo"
                           :rules="rules.required"
                           label="Codigo"
                           style="height: 100px"
@@ -100,7 +100,7 @@
                           <v-btn
                             class="white--text"
                             color="#ff5722"
-                            @click="validate"
+                            @click="loginadmin()"
                           >
                             Ingresar
                           </v-btn>
@@ -123,6 +123,7 @@
 const url_apipaciente = "http://localhost:3001/pacientes/";
 const url_apimedico = "http://localhost:3001/medicos/";
 const url_apiauxiliar = "http://localhost:3001/auxiliares/";
+const url_apiadmin = "http://localhost:3001/administrador/";
 export default {
   data: () => ({
     valid: true,
@@ -132,6 +133,7 @@ export default {
       password: "",
       rol: "",
     },
+    admin:{codigo:""},
     rules: {
       required: [(v) => !!v || "El campo es obligatorio"],
     },
@@ -212,6 +214,48 @@ export default {
               });
             }
           }
+        } else {
+          this.$swal.fire({
+            type: "warning",
+            title: "Formulario incompleto.",
+            text: "Hay campos que deben ser diligenciados.",
+          });
+        }
+      } catch (error) {
+        console.log(error);
+        this.$swal.fire({
+          type: "error",
+          title: "Error al iniciar sesión.",
+          text: "",
+        });
+      }
+    },
+    async loginadmin() {
+      try {
+        if (this.$refs.formAdmin.validate()) {
+          //llamado a la api
+          
+            let response = await this.$axios.get(url_apiadmin);
+            let admin = response.data;
+            let findUser = admin.find((x) => {
+              return (
+                x.codigo === this.admin.codigo
+              );
+            });
+            if (findUser) {
+              //localStorage.setItem("user-system", JSON.stringify(findUser));
+              this.$router.push("Administrador/adminUsuarios");
+            } else {
+              this.$swal.fire({
+                type: "error",
+                title: "Oops",
+                text:
+                  "El codigo ingresado es incorrecto.",
+                allowEscapeKey: false,
+                alowOutsideClick: false,
+              });
+            }
+           
         } else {
           this.$swal.fire({
             type: "warning",

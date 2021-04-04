@@ -1,18 +1,24 @@
 <template>
-  <v-card color="#3797a4">
-    <v-card-title class="#0c354a--text">
-      Examenes
-      <v-spacer></v-spacer>
+<v-card>
+    
+  <v-data-table :headers="headers" :items="examenpac" :search="search" class="elevation-1">
+    <template v-slot:top>
+      <v-toolbar flat color="#3797a4">
+        <v-toolbar-title class="#0c354a--text"
+          >Lista de examenes</v-toolbar-title>
+       
+       
+      </v-toolbar>
+       <v-card-title>
+         
       <v-text-field
         v-model="search"
-        color="#0c354a"
         append-icon="mdi-magnify"
         label="Buscar"
         single-line
         hide-details
-      >
-      </v-text-field>
-      <v-spacer></v-spacer>
+      ></v-text-field>
+       <v-spacer></v-spacer>
       <v-spacer>
         <div>
           <v-row justify="center">
@@ -45,7 +51,7 @@
                           <v-text-field
                             label="Numero de Identificación (Paciente)"
                             required
-                            :disabled="true"
+                            readonly
                             v-model="paciente.cedula"
                             
                           
@@ -57,7 +63,7 @@
                           <v-text-field
                             label="Numero de Identificación (Medico/Auxiliar)"
                             required
-                            :disabled="true"
+                            readonly
                             
                             v-model="auxiliar.cedula"
                             :rules="rules.required"
@@ -69,7 +75,7 @@
                             :items="area"
                             label="Area de laboratorio"
                             :rules="rules.required"
-                            v-model="examen.arealab"
+                            v-model="CamposExamen.arealab"
                             required
                           ></v-select>
                         </v-col>
@@ -78,11 +84,12 @@
                             label="Nombre del examen"
                             required
                             :rules="rules.required"
-                            v-model="examen.nombre"
+                            v-model="CamposExamen.nombre"
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12">
                           <v-file-input
+                          :rules="rules.required"
                             accept="image/*"
                             label="Archivo de la orden"
                           ></v-file-input>
@@ -106,135 +113,66 @@
         </div>
       </v-spacer>
     </v-card-title>
-
-    <v-data-table :headers="headers" :items="desserts" :search="search">
-      <template v-slot:[`item.actions`]="{}">
-        <v-btn
-          color="secondary"
-          fab
-          x-small
-          dark
-          href="https://www.ramajudicial.gov.co/documents/8957139/23136201/F-SST-04+Solicitud+de+Ex%C3%A1menes+M%C3%A9dicos+Ocupacionales+11-06-2019+V1.doc/74f5db35-26bf-4c10-ba02-84829bbc77b2"
-          download
-        >
-          <v-icon>mdi-clipboard-edit-outline</v-icon>
-        </v-btn>
-      </template>
-      <template>
-        <v-btn
-          color="secondary"
-          fab
-          x-small
-          dark
-          href="https://www.ramajudicial.gov.co/documents/8957139/23136201/F-SST-04+Solicitud+de+Ex%C3%A1menes+M%C3%A9dicos+Ocupacionales+11-06-2019+V1.doc/74f5db35-26bf-4c10-ba02-84829bbc77b2"
-          download
-        >
-          <v-icon>mdi:clipboard-search-outline</v-icon>
-        </v-btn>
-      </template>
-    </v-data-table>
+    </template>
+    <template v-slot:item.actions="{ item }">
+      <v-icon small class="mr-2" @click="VerDetalle(item)">
+        mdi-account
+      </v-icon>
+      <v-icon small @click="ExamenesPaciente(item)"> mdi-delete </v-icon>
+    </template>
+    
+  </v-data-table>
   </v-card>
 </template>
 
-
 <script>
-import auxiliarPerfilVue from './auxiliarPerfil.vue';
 const url_apiexamen = "http://localhost:3001/examenes/";
 
 export default {
+  layout: "auxiliar",
   beforeMount() {
     this.loadUser();
-    //this.getPacientes();
+    this.getExamen();
   },
-  //this.$router.push("Medico/MedicoHome");
-  layout: "auxiliar",
-
-  data() {
-    return {
-      auxiliar:{},
+  data: () => ({
+    dialog: false,
+    auxiliar:{},
       paciente:{},
       rules: {
       required: [(v) => !!v || "El campo es obligatorio"],
     },
-      dialog: false,
+    
       search: "",
       area:['Hematología y coagulación','Químicas','Orina y heces','Inmunología','Serología','	Microbiología','Citometría de flujo y biología molecular'],
-      headers: [
-        {
-          text: "Examenes de Laboratorio",
-          align: "start",
-          sortable: false,
-          value: "nombre",
-        },
-        { text: "Area de laboratorio", value: "area" },
-        { text: "Orden del examen", value: "actions", sortable: false },
-        { text: "fecha", value: "fecha" },
-        { text: "Resultados", value: "actions", sortable: false },
-      ],
-       examen:{
-        idpaciente:'',
+     
+
+    headers: [
+      {
+        text: "Id",
+        align: "start",
+        value: "id",
+      },
+      
+      { text: "Nombre", value: "nombre" },
+      { text: "Area", value: "arealab" },
+      { text: "Fecha", value: "fecha" },
+      { text: "Operaciones", value: "actions" },
+    ],
+    examen: [],
+    examenpac:[],
+    search: '',
+    CamposExamen: {
+      idpaciente:'',
         idauxiliar:'',
         arealab:'',
         nombre:'',
-        fecha:new Date().getDay()+"/"+new Date().getMonth()+"/"+new Date().getFullYear()
-      },
-      desserts: [
-        {
-          nombre: "Hemograma completo",
-          area: "Hematología y coagulación",
-          orden: 5,
-          fecha: "12/11/2020",
-          resultados: 4.0,
-        },
-        {
-          nombre: "Perfil lipídico: Colesterol, LDL; HDL; triglicérido",
-          area: "Químicas",
-          orden: 9.0,
-          fecha: "27/09/2020",
-          resultados: 4.3,
-        },
-        {
-          nombre: "Heces por parásito, sangre oculta",
-          area: "Orina y heces",
-          orden: 16.0,
-          fecha: "06/18/2020",
-          resultados: 6.0,
-        },
-        {
-          nombre: "Perfil hepático: Bilirrubina, total y directa, AST, LDH",
-          area: "Inmunología",
-          orden: 3.7,
-          fecha: "10/08/2019",
-          resultados: 4.3,
-        },
-        {
-          nombre: "Perfil triode: TSH, T3, T4",
-          area: "Serología",
-          orden: 16.0,
-          fecha: "5/04/2020",
-          resultados: 3.9,
-        },
-        {
-          nombre: "Perfil hepático",
-          area: "Microbiología",
-          orden: 0.0,
-          fecha: "19/02/2020",
-          resultados: 0.0,
-        },
-        {
-          nombre:
-            "Panel básico metabólico: Electrolitos, glucosa, nitrógeno de urea,creatinina",
-          area: "Citometría de flujo y biología molecular",
-          orden: 0.2,
-          fecha: "25/07/2020",
-          resultados: 0,
-        },
-      ],
-    };
-  },
+        fecha:'',
+    },
+  }),
+
   methods: {
-    
-    loadUser() {
+
+        loadUser() {
       let stringUser=localStorage.getItem("user-system");
       this.auxiliar = JSON.parse(stringUser);
       let stringUser2=localStorage.getItem("user-detalle");
@@ -245,14 +183,33 @@ export default {
       this.$refs.form.validate();
     },
 
+    async getExamen() {
+      try {
+        let response = await this.$axios.get(url_apiexamen);
+        this.examen = response.data;
+        for(var i of this.examen){
+          if(this.paciente.cedula==i.idpaciente){
+            this.examenpac.push(i);
+          }
+        }
+
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+  
+
     async GuardarExamen() {
-      this.examen.idpaciente=this.paciente.cedula;
-      this.examen.idauxiliar=this.auxiliar.cedula;
+      
       
       if (this.$refs.formExamen.validate()) {
+        this.CamposExamen.idpaciente=this.paciente.cedula;
+      this.CamposExamen.idauxiliar=this.auxiliar.cedula;
+      this.CamposExamen.fecha=new Date().getDay()+"/"+new Date().getMonth()+"/"+new Date().getFullYear();
         // Crear un nuevo objeto con la info del usuario
         try {
-          let examen = Object.assign({}, this.examen);
+          let examen = Object.assign({}, this.CamposExamen);
           let response = await this.$axios.post(url_apiexamen, examen);
           this.$swal.fire({
             type: "success",
@@ -262,7 +219,9 @@ export default {
         } catch (error) {
           console.log(error);
         }
+        
         this.dialog = false;
+        this.getExamen();
       } else {
         this.$swal.fire({
           type: "warning",
@@ -271,6 +230,12 @@ export default {
         });
       }
       
+    },
+
+
+
+    close() {
+      this.dialog = false;
     },
   },
 };
