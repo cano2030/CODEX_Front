@@ -86,10 +86,10 @@ export default {
       }
     },
     
-    VerDetalle(item) {
-      console.log(item);
-      this.CamposDetalle = Object.assign({}, item);
-      this.dialog = true;
+
+    verHistoria(item) {
+      localStorage.setItem("user-historia-admin", JSON.stringify(item));
+      this.$router.push("adminDetalleHistoria");
     },
 
     
@@ -98,23 +98,6 @@ export default {
       this.dialog = false;
     },
 
-    editItem(item) {
-      if (this.perfil == "Pacientes"){
-        localStorage.setItem("pac-editar", JSON.stringify(item));
-      this.$router.push('adminActualizarPaciente');
-      }
-      if (this.perfil == "Medicos"){
-        localStorage.setItem("med-editar", JSON.stringify(item));
-        localStorage.setItem("aux-editar", "");
-      this.$router.push('adminActualizarPersonal');
-      }
-      if (this.perfil == "Auxiliares"){
-        localStorage.setItem("aux-editar", JSON.stringify(item));
-        localStorage.setItem("med-editar", "");
-      this.$router.push('adminActualizarPersonal');
-      }
-      
-    },
 
     
   },
