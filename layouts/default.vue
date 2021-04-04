@@ -200,7 +200,7 @@ export default {
             });
             if (findUser) {
               delete findUser.password;
-              localStorage.setItem("user-in", JSON.stringify(findUser));
+              localStorage.setItem("user-paciente", JSON.stringify(findUser));
               this.$router.push("Usuario/usuarioPerfil");
             } else {
               this.$swal.fire({

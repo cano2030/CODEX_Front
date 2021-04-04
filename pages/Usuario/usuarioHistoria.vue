@@ -242,7 +242,7 @@ export default {
     },
 
     loadUser() {
-      let stringUser = localStorage.getItem("user-in");
+      let stringUser = localStorage.getItem("user-paciente");
       this.usuario = JSON.parse(stringUser);
     },
 

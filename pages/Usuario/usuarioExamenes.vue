@@ -77,7 +77,7 @@ export default {
   methods: {
 
         loadUser() {
-      let stringUser2=localStorage.getItem("user-in");
+      let stringUser2=localStorage.getItem("user-paciente");
       this.paciente = JSON.parse(stringUser2);
     },
 
