@@ -206,6 +206,7 @@ export default {
     headers: [],
     items: [],
     historias: [],
+    datos: [],
   }),
   computed: {
     numberOfPages() {
@@ -240,25 +241,42 @@ export default {
       this.items = this.historias;
     },
 
-   /**
+    loadUser() {
+      let stringUser = localStorage.getItem("user-in");
+      this.usuario = JSON.parse(stringUser);
+    },
+
+    /**
      * Enviar una solicitud (Request) en un método get
-     * Para obtener un solo producto dado el código
-     */
-   async getHistorias() {
+     * Para obtener una sola historia dado el código del usuario
+     * 
+      async getHistorias() {
       try {
         let response = await this.$axios.get(
-          "http://localhost:3001/Historias_clinicas" + this.usuario.cedula
+          "http://localhost:3001/Historias_clinicas" + this.usuario.cedula 
         );
         this.items = response.data;
         this.historias = response.data;
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
     },
-
-    loadUser() {
-      let stringUser = localStorage.getItem("user-in");
-      this.usuario = JSON.parse(stringUser);
+     */
+    async getHistorias() {
+      try {
+        let response = await this.$axios.get(
+          "http://localhost:3001/Historias_clinicas"
+        );
+        this.datos = response.data;
+        for (var i of this.datos) {
+          if (this.usuario.cedula == i.cedula_paciente) {
+            this.items.push(i);
+            this.historias.push(i);
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
 };
