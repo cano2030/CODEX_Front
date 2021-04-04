@@ -155,7 +155,7 @@ export default {
             });
             if (findUser) {
               delete findUser.password;
-              localStorage.setItem("user-system", JSON.stringify(findUser));
+              localStorage.setItem("user-auxiliar", JSON.stringify(findUser));
               this.$router.push("Auxiliar/auxiliarHome");
             } else {
               this.$swal.fire({

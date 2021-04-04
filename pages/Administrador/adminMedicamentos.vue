@@ -4,36 +4,28 @@
       <v-card style="width: 800px" elevation="12">
         <v-toolbar color="#3797a4">
           <v-card-title class="#0c354a--text">
-            <center>Agregar medicamento</center>
+            <center>Agregar medicamentos</center>
           </v-card-title>
         </v-toolbar>
         <v-card-text>
-          <v-form ref="form" v-model="valid" lazy-validation>
+          <v-form ref="formMedicamentos" v-model="valid" lazy-validation>
             <v-text-field
-              v-model="nombre"
+              v-model="CamposMedicamento.nombre"
               :rules="rules.required"
               label="Nombre Medicamento"
               style="height: 100px"
               required
             ></v-text-field>
             <v-text-field
-              v-model="descripcion"
+              v-model="CamposMedicamento.descripcion"
               label="Descripcion"
               style="height: 100px"
             ></v-text-field>
             <center>
-              <v-btn class="white--text" color="#ee6f57" @click="validate">
+              <v-btn class="white--text" color="#ee6f57" @click="agregarMedicamento()">
                 Agregar
               </v-btn>
-              <v-btn
-                color="#0c354a"
-                class="ma-1"
-                v-bind="attrs"
-                v-on="on"
-                plain
-              >
-                Eliminar
-              </v-btn>
+              
             </center>
           </v-form>
         </v-card-text>
@@ -42,7 +34,7 @@
     <v-container>
       <v-card>
         <v-card-title>
-          Base de datos de Medicamentos
+          Base de datos de medicamentos
           <v-spacer></v-spacer>
           <v-text-field
             v-model="search"
@@ -54,7 +46,7 @@
         </v-card-title>
         <v-data-table
           :headers="headers"
-          :items="desserts"
+          :items="medicamento"
           :search="search"
         ></v-data-table>
       </v-card>
@@ -63,14 +55,24 @@
 </template>
 
 <script>
+const url_apimedicamento = "http://localhost:3001/medicamentos/";
 export default {
+  beforeMount() {
+    //this.loadUser();
+    this.getMedicamentos();
+  },
   layout: "admin",
   data: () => ({
     rules: {
       required: [(v) => !!v || "El campo es obligatorio"],
     },
-
     search: "",
+    medicamento: [],
+
+    CamposMedicamemto: {
+      nombre: "",
+      descripcion:"",
+    },
 
     headers: [
       {
@@ -82,23 +84,51 @@ export default {
       { text: "ID", value: "id" },
       { text: "Descripcion", value: "descripcion" },
     ],
-    desserts: [
-      {
-        
-        id: "111",
-        nombre: "Acetaminofen",
-        descripcion: "Analgesico",
-      },
-      {
-        id: "222",
-        nombre: "Loratadina",
-        descripcion: "Antialergico",
-      },
-    ],
+    
   }),
   methods: {
     validate() {
       this.$refs.form.validate();
+    },
+    resetForm () {
+      this.CamposMedicamemto.nombre = ''
+      this.CamposMedicamemto.descripcion = ''
+      
+    },
+    async getMedicamentos() {
+      try {
+        let response = await this.$axios.get(url_apimedicamento);
+        this.medicamento = response.data;
+        
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async agregarMedicamento() {
+      if (this.$refs.formMedicamento.validate()) {
+        
+        // Crear un nuevo objeto con la info del usuario
+        try {
+          let medicamento = Object.assign({}, this.CamposMedicamemto);
+          let response = await this.$axios.post(url_apimedicamento, medicamento);
+          this.$swal.fire({
+            type: "success",
+            title: "Operación exitosa.",
+            text: "El medicamento se guardó correctamente.",
+          });
+        } catch (error) {
+          console.log(error);
+        }
+        this.resetForm();
+        
+        this.getMedicamentos();
+      } else {
+        this.$swal.fire({
+          type: "warning",
+          title: "Formulario incompleto.",
+          text: "Hay campos que deben ser diligenciados.",
+        });
+      }
     },
   },
 };

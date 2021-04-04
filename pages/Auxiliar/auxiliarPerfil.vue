@@ -125,7 +125,7 @@ export default {
       }
     },
     loadUser() {
-      let stringUser=localStorage.getItem("user-system");
+      let stringUser=localStorage.getItem("user-auxiliar");
       this.usuario = JSON.parse(stringUser);
     },
   },

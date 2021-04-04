@@ -14,6 +14,7 @@
                     label="Nombre"
                     :rules="rules.required"
                     required
+                    readonly
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
@@ -22,6 +23,7 @@
                     label="Apellidos"
                     :rules="rules.required"
                     required
+                    readonly
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -30,6 +32,7 @@
                 label="Cédula"
                 :rules="rules.required"
                 required
+                readonly
               ></v-text-field>
               <v-row>
                 <v-col cols="12" sm="4">
@@ -43,15 +46,18 @@
                   >
                     <template v-slot:activator="{ on, attrs }">
                       <v-text-field
+                      
                         v-model="personal.fecha_nac"
                         label="Fecha de Nacimiento"
                         prepend-icon="mdi-calendar"
                         readonly
                         v-bind="attrs"
                         v-on="on"
+                        
                       ></v-text-field>
                     </template>
                     <v-date-picker
+                    readonly
                       v-model="personal.fecha_nac"
                       @input="menu1 = false"
                     ></v-date-picker>
@@ -63,6 +69,7 @@
                     label="Edad"
                     :rules="rules.required"
                     required
+                    readonly
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="4">
@@ -72,6 +79,7 @@
                     label="Sexo"
                     :rules="rules.required"
                     required
+                    readonly
                   ></v-select>
                 </v-col>
               </v-row>
@@ -91,6 +99,7 @@
                     v-model="personal.perfil"
                     label="Peril"
                     :rules="rules.required"
+                    readonly
                     required
                   ></v-select>
                 </v-col>
@@ -156,7 +165,13 @@
 <script>
 const url_apimedico = "http://localhost:3001/medicos/";
 const url_apiauxiliar = "http://localhost:3001/auxiliares/";
+const url_apiesp = "http://localhost:3001/especialidades/";
 export default {
+   beforeMount() {
+    
+    this.loadUser();
+    this.getEspecialidad();
+  },
     layout: "admin",
     data: () => ({
     date: new Date().toISOString().substr(0, 10),
@@ -166,7 +181,8 @@ export default {
     estado_civil: ["Soltero", "Casado", "Divorciado", "Viudo"],
     departamentos: ["Antioquia", "Arauca", "Atlántico", "Bolívar"],
     ciudades: ["Medellín", "Bogotá", "Barranquilla", "Cartagena"],
-    especialidad: ["a", "b", "c", "d"],
+    especialidad: [],
+    esp:[],
     perfil: ["Medico", "Auxiliar"],
 
     personal: {
@@ -179,9 +195,9 @@ export default {
     
     search: "",
   }),
-  beforeMount() {
-    this.loadUser();
-  },
+
+
+ 
 
   methods: {
     validate() {
@@ -196,6 +212,19 @@ export default {
         this.personal = JSON.parse(stringUser)
       }else{
       this.personal = JSON.parse(stringUser);
+      }
+    },
+
+    async getEspecialidad() {
+      try {
+        let response = await this.$axios.get(url_apiesp);
+        this.esp= response.data;
+        for(var i of this.esp){
+            this.especialidad.push(i.nombre);
+        }
+
+      } catch (error) {
+        console.error(error);
       }
     },
 

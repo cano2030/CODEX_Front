@@ -82,7 +82,7 @@ export default {
           id: "adminCrearUsuarios",
           icon: "mdi-account",
           title: "Usuarios",
-          to: "/Administrador/adminCrearUsuarios",
+          to: "/Administrador/adminUsuarios",
         },
         {
           id: "adminHistoriasClinicas",

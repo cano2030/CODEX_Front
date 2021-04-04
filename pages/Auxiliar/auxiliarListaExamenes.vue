@@ -175,7 +175,7 @@ export default {
   methods: {
 
         loadUser() {
-      let stringUser=localStorage.getItem("user-system");
+      let stringUser=localStorage.getItem("user-auxiliar");
       this.auxiliar = JSON.parse(stringUser);
       let stringUser2=localStorage.getItem("user-detalle");
       this.paciente = JSON.parse(stringUser2);
