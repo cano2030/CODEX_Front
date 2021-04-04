@@ -87,7 +87,7 @@
                 <v-btn class="mx-2" fab dark small color="#ee6f57">
                   <v-icon dark> mdi-share </v-icon>
                 </v-btn>
-                {{ item.especializacion }}
+                {{ item.especialidad }}
               </v-card-title>
 
               <v-divider></v-divider>
@@ -96,7 +96,7 @@
                 <v-list-item>
                   <v-list-item-content>Número de historia:</v-list-item-content>
                   <v-list-item-content class="align-end">
-                    {{ item.num_historia }}
+                    {{ item.id }}
                   </v-list-item-content>
                 </v-list-item>
 
@@ -138,28 +138,21 @@
                 <v-list-item>
                   <v-list-item-content>Médico:</v-list-item-content>
                   <v-list-item-content class="align-end">
-                    {{ item.medico }}
-                  </v-list-item-content>
-                </v-list-item>
-
-                <v-list-item>
-                  <v-list-item-content>Exámenes:</v-list-item-content>
-                  <v-list-item-content class="align-end">
-                    {{ item.examenes }}
+                    {{ item.cedula_medico }}
                   </v-list-item-content>
                 </v-list-item>
 
                 <v-list-item>
                   <v-list-item-content>Medicamentos:</v-list-item-content>
                   <v-list-item-content class="align-end">
-                    {{ item.medicamentos }}
+                    {{ item.medicamento }}: {{ item.posologia }}
                   </v-list-item-content>
                 </v-list-item>
 
                 <v-list-item>
                   <v-list-item-content>Remisiones:</v-list-item-content>
                   <v-list-item-content class="align-end">
-                    {{ item.remisiones }}
+                    {{ item.remision }}
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
@@ -190,12 +183,13 @@
 export default {
   layout: "usuario",
   beforeMount() {
-    this.items = this.historias;
+    this.loadUser();
     this.getHistorias();
   },
   data: () => ({
     date: new Date().toISOString().substr(0, 7),
     menu: false,
+    usuario: {},
     page: 1,
     itemsPerPage: 3,
     especializacion_seleccionada: null,
@@ -211,70 +205,14 @@ export default {
     ],
     headers: [],
     items: [],
-    historias: [
-      {
-        especializacion: "Medicina general",
-        num_historia: "23659",
-        fecha: "2021-03-18",
-        motivo_consulta: "Fiebre",
-        descripcion:
-          "On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain.",
-        peso: "58 kg",
-        estatura: "1.68 cm",
-        medico: "Javier Gonzales",
-        examenes: "Ninguno",
-        medicamentos: "Acetaminofem",
-        remisiones: "Ninguna",
-      },
-      {
-        especializacion: "Odontología",
-        num_historia: "36985",
-        fecha: "2021-11-02",
-        motivo_consulta: "Carie",
-        descripcion:
-          "On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain.",
-        peso: "58 kg",
-        estatura: "1.68 cm",
-        medico: "Javier Gonzales",
-        examenes: "Ninguno",
-        medicamentos: "Acetaminofem",
-        remisiones: "Ninguna",
-      },
-      {
-        especializacion: "Dermatología",
-        num_historia: "8547",
-        fecha: "2021-09-10",
-        motivo_consulta: "Grano",
-        descripcion:
-          "On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain.",
-        peso: "58 kg",
-        estatura: "1.68 cm",
-        medico: "Javier Gonzales",
-        examenes: "Ninguno",
-        medicamentos: "Acetaminofem",
-        remisiones: "Ninguna",
-      },
-      {
-        especializacion: "Oftalmología",
-        num_historia: "123",
-        fecha: "2020-03-01",
-        motivo_consulta: "Ciego",
-        descripcion:
-          "On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain.",
-        peso: "58 kg",
-        estatura: "1.68 cm",
-        medico: "Javier Gonzales",
-        examenes: "Ninguno",
-        medicamentos: "Acetaminofem",
-        remisiones: "Ninguna",
-      },
-    ],
+    historias: [],
   }),
   computed: {
     numberOfPages() {
       return Math.ceil(this.items.length / this.itemsPerPage);
     },
   },
+
   methods: {
     nextPage() {
       if (this.page + 1 <= this.numberOfPages) this.page += 1;
@@ -289,7 +227,7 @@ export default {
     filterEspecializacion() {
       console.log(this.especializacion_seleccionada);
       this.items = this.historias.filter(
-        (item) => item.especializacion === this.especializacion_seleccionada
+        (item) => item.especialidad === this.especializacion_seleccionada
       );
     },
     filterMes() {
@@ -302,22 +240,26 @@ export default {
       this.items = this.historias;
     },
 
-    async getHistorias() {
-      let response = await this.$axios.get(
-        "http://localhost:3001/Usuario/usuarioPerfil"
-      );
-      console.log(response);
+   /**
+     * Enviar una solicitud (Request) en un método get
+     * Para obtener un solo producto dado el código
+     */
+   async getHistorias() {
+      try {
+        let response = await this.$axios.get(
+          "http://localhost:3001/Historias_clinicas" + this.usuario.cedula
+        );
+        this.items = response.data;
+        this.historias = response.data;
+      } catch (error) {
+        console.error(error)
+      }
+    },
+
+    loadUser() {
+      let stringUser = localStorage.getItem("user-in");
+      this.usuario = JSON.parse(stringUser);
     },
   },
 };
 </script>
-<!--items: [
-        'Medicina general',
-        'Odontología',
-        'Ginecología',
-        'Oftalmología',
-        'Cirugía general',
-        'Dermatología',
-        'Ortopedía y traumatología',
-      ],
-    }),*/-->
