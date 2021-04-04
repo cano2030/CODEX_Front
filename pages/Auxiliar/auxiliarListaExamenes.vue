@@ -158,9 +158,11 @@ export default {
       { text: "Fecha", value: "fecha" },
       { text: "Operaciones", value: "actions" },
     ],
-    examen: [],
+
     examenpac:[],
     search: '',
+    examen: [],
+    
     CamposExamen: {
       idpaciente:'',
         idauxiliar:'',
@@ -204,7 +206,7 @@ export default {
       
       
       if (this.$refs.formExamen.validate()) {
-        this.CamposExamen.idpaciente=this.paciente.cedula;
+      this.CamposExamen.idpaciente=this.paciente.cedula;
       this.CamposExamen.idauxiliar=this.auxiliar.cedula;
       this.CamposExamen.fecha=new Date().getDay()+"/"+new Date().getMonth()+"/"+new Date().getFullYear();
         // Crear un nuevo objeto con la info del usuario
