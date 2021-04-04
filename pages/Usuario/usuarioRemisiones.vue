@@ -13,7 +13,7 @@
     </v-card-title>
     <v-data-table
       :headers="headers"
-      :items="desserts"
+      :items="remisiones"
       :search="search"
     ></v-data-table>
   </v-card>
@@ -21,55 +21,50 @@
 
 
 <script>
-  export default {
-    layout: 'usuario',
-    data () {
-      return {
-        search: '',
-        headers: [
-          {
-            text: 'Tipo de remisión',
-            align: 'start',
-            sortable: false,
-            value: 'nombre',
-          },
-          { text: 'Número de orden', value: 'codigo' },
-          { text: 'Fecha de remisión', value: 'Fecha' },
-         
-        ],
-        desserts: [
-          {
-            nombre: 'Ortopedia',
-            codigo: '36598',
-            Fecha: '2021-10-10',
-          },
-          {
-            nombre: 'Psicología',
-            codigo: '98562',
-            Fecha: '2021-05-01',
-          },
-          {
-            nombre: 'Medicina interna',
-            codigo: '632458',
-            Fecha: '2021-03-15',
-          },
-          {
-            nombre: 'Ortopedia',
-            codigo: '968745',
-            Fecha: '2021-11-10',
-          },
-          {
-            nombre: 'Psicología',
-            codigo: '521478',
-            Fecha: '2021-06-01',
-          },
-          {
-            nombre: 'Medicina interna',
-            codigo: '96587',
-            Fecha: '2021-02-14',
-          },
-        ],
-      }
+export default {
+  layout: "usuario",
+  beforeMount() {
+    this.loadUser();
+    this.getRemisiones();
+  },
+  data() {
+    return {
+      search: "",
+      headers: [
+        {
+          text: "Tipo de remisión",
+          align: "start",
+          sortable: false,
+          value: "remision",
+        },
+        { text: "Número de orden", value: "id" },
+        { text: "Fecha de remisión", value: "fecha" },
+      ],
+      datos: [],
+      remisiones: [],
+    };
+  },
+  methods: {
+    loadUser() {
+      let stringUser = localStorage.getItem("user-in");
+      this.usuario = JSON.parse(stringUser);
     },
-  }
+
+    async getRemisiones(){
+      try {
+        let response = await this.$axios.get(
+          "http://localhost:3001/Historias_clinicas"
+        );
+        this.datos = response.data;
+        for (var i of this.datos) {
+          if (this.usuario.cedula == i.cedula_paciente) {
+            this.remisiones.push(i);
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  },
+};
 </script>
