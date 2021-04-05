@@ -26,18 +26,12 @@
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
                       v-model="CamposDetalle.id"
-                      label="Id Paciente"
+                      label="Cedula Paciente"
                       readonly
                     >
                     </v-text-field>
                   </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="CamposDetalle.cedula"
-                      label="Cedula Paciente"
-                      readonly
-                    ></v-text-field>
-                  </v-col>
+                
 
                   <v-col cols="12" sm="8" md="4">
                     <v-text-field
@@ -133,11 +127,10 @@ export default {
 
     headers: [
       {
-        text: "Id",
+        text: "Cedula",
         align: "start",
         value: "id",
       },
-      { text: "Cedula", value: "cedula" },
       { text: "Nombre", value: "nombre" },
       { text: "Apellidos", value: "apellidos" },
       { text: "Edad", value: "edad" },
@@ -148,7 +141,6 @@ export default {
     CamposDetalle: {
       nombre: "",
       apellidos: "",
-      cedula: "",
       fecha_nac: "",
       edad: "",
       sexo: "",

@@ -40,7 +40,7 @@
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
-                        v-model="CamposDetalle.cedula"
+                        v-model="CamposDetalle.id"
                         label="Cedula Paciente"
                         readonly
                       ></v-text-field>
@@ -187,7 +187,7 @@ export default {
       {
         text: "Cedula",
         align: "start",
-        value: "cedula",
+        value: "id",
       },
       { text: "Nombre", value: "nombre" },
       { text: "Apellidos", value: "apellidos" },
@@ -202,7 +202,6 @@ export default {
     CamposDetalle: {
       nombre: "",
       apellidos: "",
-      cedula: "",
       fecha_nac: "",
       edad: "",
       sexo: "",

@@ -269,7 +269,7 @@ export default {
         );
         this.datos = response.data;
         for (var i of this.datos) {
-          if (this.usuario.cedula == i.cedula_paciente) {
+          if (this.usuario.id == i.cedula_paciente) {
             this.items.push(i);
             this.historias.push(i);
           }

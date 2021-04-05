@@ -28,7 +28,7 @@
                 </v-col>
               </v-row>
               <v-text-field
-                v-model="personal.cedula"
+                v-model="personal.id"
                 label="Cédula"
                 :rules="rules.required"
                 required

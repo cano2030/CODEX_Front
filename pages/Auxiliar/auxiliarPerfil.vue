@@ -29,7 +29,7 @@
         </v-col>
       </v-row>
       
-      <v-text-field  v-model="usuario.cedula" label="Cédula" disabled="isDisabled"></v-text-field>
+      <v-text-field  v-model="usuario.id" label="Cédula" disabled="isDisabled"></v-text-field>
       
       <v-row>
         <v-col cols="12" sm="4">

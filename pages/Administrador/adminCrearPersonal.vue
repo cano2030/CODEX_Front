@@ -26,7 +26,7 @@
           </v-col>
         </v-row>
         <v-text-field
-          v-model="personal.cedula"
+          v-model="personal.id"
           label="Cédula"
           :rules="rules.required"
           required
@@ -173,7 +173,7 @@ export default {
     personal: {
       nombre: "",
       apellidos: "",
-      cedula: "",
+      id: 0,
       fecha_nac: new Date().toISOString().substr(0, 10),
       edad: "",
       sexo: "",

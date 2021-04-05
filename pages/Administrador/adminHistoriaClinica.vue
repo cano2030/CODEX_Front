@@ -42,7 +42,7 @@ export default {
       {
         text: "Cedula",
         align: "start",
-        value: "cedula",
+        value: "id",
       },
       { text: "Nombre", value: "nombre" },
       { text: "Apellidos", value: "apellidos" },

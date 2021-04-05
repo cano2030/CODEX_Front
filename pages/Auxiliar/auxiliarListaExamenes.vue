@@ -52,7 +52,7 @@
                             label="Numero de Identificación (Paciente)"
                             required
                             readonly
-                            v-model="paciente.cedula"
+                            v-model="paciente.id"
                             
                           
                             :rules="rules.required"
@@ -65,7 +65,7 @@
                             required
                             readonly
                             
-                            v-model="auxiliar.cedula"
+                            v-model="auxiliar.id"
                             :rules="rules.required"
                           ></v-text-field>
                         </v-col>
@@ -175,7 +175,7 @@ export default {
   methods: {
 
         loadUser() {
-      let stringUser=localStorage.getItem("user-system");
+      let stringUser=localStorage.getItem("user-auxiliar");
       this.auxiliar = JSON.parse(stringUser);
       let stringUser2=localStorage.getItem("user-detalle");
       this.paciente = JSON.parse(stringUser2);
@@ -190,7 +190,7 @@ export default {
         let response = await this.$axios.get(url_apiexamen);
         this.examen = response.data;
         for(var i of this.examen){
-          if(this.paciente.cedula==i.idpaciente){
+          if(this.paciente.id==i.idpaciente){
             this.examenpac.push(i);
           }
         }
@@ -206,8 +206,8 @@ export default {
       
       
       if (this.$refs.formExamen.validate()) {
-      this.CamposExamen.idpaciente=this.paciente.cedula;
-      this.CamposExamen.idauxiliar=this.auxiliar.cedula;
+      this.CamposExamen.idpaciente=this.paciente.id;
+      this.CamposExamen.idauxiliar=this.auxiliar.id;
       this.CamposExamen.fecha=new Date().getDay()+"/"+new Date().getMonth()+"/"+new Date().getFullYear();
         // Crear un nuevo objeto con la info del usuario
         try {

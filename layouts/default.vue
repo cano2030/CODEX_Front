@@ -149,8 +149,8 @@ export default {
             let users = response.data;
             let findUser = users.find(x => {
               return (
-                x.cedula === this.usuario.user &&
-                x.cedula === this.usuario.password
+                x.id === this.usuario.user &&
+                x.id === this.usuario.password
               );
             });
             if (findUser) {
@@ -172,8 +172,8 @@ export default {
             let users = response.data;
             let findUser = users.find(x => {
               return (
-                x.cedula === this.usuario.user &&
-                x.cedula === this.usuario.password
+                x.id === this.usuario.user &&
+                x.id === this.usuario.password
               );
             });
             if (findUser) {
@@ -194,8 +194,8 @@ export default {
             let users = response.data;
             let findUser = users.find(x => {
               return (
-                x.cedula === this.usuario.user &&
-                x.cedula === this.usuario.password
+                x.id === this.usuario.user &&
+                x.id === this.usuario.password
               );
             });
             if (findUser) {

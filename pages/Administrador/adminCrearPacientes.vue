@@ -28,7 +28,7 @@
                 </v-col>
               </v-row>
               <v-text-field
-                v-model="paciente.cedula"
+                v-model="paciente.id"
                 label="Cédula"
                 :rules="rules.required"
                 required
@@ -156,7 +156,7 @@ export default {
     paciente: {
       nombre: "",
       apellidos: "",
-      cedula: "",
+      id: "",
       fecha_nac: new Date().toISOString().substr(0, 10),
       edad: "",
       sexo: "",
@@ -184,6 +184,21 @@ export default {
   methods: {
     validate() {
       this.$refs.form.validate();
+    },
+
+    async validarId() {
+      try {
+        let response = await this.$axios.get(url_apiexamen);
+        this.examen = response.data;
+        for(var i of this.examen){
+          if(this.paciente.id==i.idpaciente){
+            this.examenpac.push(i);
+          }
+        }
+
+      } catch (error) {
+        console.error(error);
+      }
     },
 
     async GuardarPaciente() {

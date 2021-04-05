@@ -30,7 +30,7 @@
                 </v-col>
               </v-row>
               <v-text-field
-                v-model="paciente.cedula"
+                v-model="paciente.id"
                 label="Cédula"
                 :rules="rules.required"
                 required

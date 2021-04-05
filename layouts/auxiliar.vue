@@ -117,3 +117,6 @@ this.$router.push("/");
   },
 };
 </script>
+<style >
+
+</style>
