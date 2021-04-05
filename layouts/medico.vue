@@ -7,18 +7,17 @@
           <v-avatar size="180">
             <v-img
               src="https://res.cloudinary.com/postedin/image/upload/d_psu:no-image.jpg,f_auto,q_80/psu/c-postedin-image-65344.jpeg"
-             
             ></v-img>
           </v-avatar>
         </v-list-item>
 
         <v-list-item-content>
           <v-list-item-title class="text-md-center">
-            {{usuario.nombre }}{{ usuario.apellidos}}
+            {{ usuario.nombre }}{{ usuario.apellidos }}
           </v-list-item-title>
-          <v-list-item-subtitle class="text-md-center"
-            >{{usuario.especialidad}}</v-list-item-subtitle
-          >
+          <v-list-item-subtitle class="text-md-center">{{
+            usuario.especialidad
+          }}</v-list-item-subtitle>
         </v-list-item-content>
       </template>
 
@@ -41,7 +40,7 @@
 
       <template v-slot:append>
         <div>
-          <v-btn block text to="/">
+          <v-btn @click="cerrarSesion()" block text to="/">
             Logout
             <v-icon> mdi-exit-to-app </v-icon>
           </v-btn>
@@ -78,7 +77,7 @@
 
 <script>
 export default {
-    beforeMount() {
+  beforeMount() {
     this.loadUser();
   },
   data() {
@@ -89,24 +88,34 @@ export default {
           id: "homemeedico",
           icon: "mdi-home",
           title: "Home",
-          to: "/Medico/MedicoHome",
+          to: "/Medico/MedicoHome"
         },
         {
           id: "perfilmeedico",
           icon: "mdi-account",
           title: "Perfil",
-          to: "/Medico/MedicoPerfil",
-        },
+          to: "/Medico/MedicoPerfil"
+        }
       ],
-      title: "Vuetify.js",
+      title: "Vuetify.js"
     };
   },
-    methods: {
+  methods: {
     loadUser() {
       let stringUser = localStorage.getItem("user-doctor");
       this.usuario = JSON.parse(stringUser);
       console.log(stringUser);
+    },
+    cerrarSesion() {
+      localStorage.clear();
+      this.$router.push("/");
     }
-  },
+  }
 };
 </script>
+<style>
+#app {
+  background: url("../static/images/fondoAzul.jpeg")  !important;
+  background-size: cover;
+}
+</style>

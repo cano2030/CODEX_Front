@@ -16,7 +16,7 @@
                 hide-details
                 :items="especializaciones"
                 label="Buscar por especialización"
-                @change="filterEspecializacion" 
+                @change="filterEspecializacion"
                 v-model="especializacion_seleccionada"
               ></v-select>
             </v-col>
@@ -37,7 +37,7 @@
                     solo-inverted
                     hide-details
                     label="Buscar por fecha"
-                    prepend-icon="mdi-calendar"
+                    prepend-inner-icon="mdi-calendar"
                     readonly
                     v-bind="attrs"
                     v-on="on"
@@ -60,7 +60,7 @@
                 </v-date-picker>
               </v-menu>
             </v-col>
-            <v-col cols="12" sm="2" justify="center" align="center">
+            <v-col cols="12" sm="2" justify="center" align="center">  
               <v-btn
                 class="text-center"
                 small
@@ -70,17 +70,7 @@
               >
                 Limpiar filtros
               </v-btn>
-              <v-btn
-                class="text-center"
-                small
-                color="#FFFFFF"
-                @click="Agregar_Historia"
-                text
-                to="/Medico/Agregar_Historia"
-                style="margin:4px; background-color:#ee6f57"
-              >
-                Agregar Entrada
-              </v-btn>
+               <v-icon big @click="HistoriasPaciente()"> mdi-plus-box-multiple </v-icon>
             </v-col>
           </v-row>
         </v-toolbar>
@@ -90,17 +80,10 @@
         <v-row>
           <v-col
             v-for="item in props.items"
-            :key="item.especialidad"
+            :key="item.especializacion"
             cols="12"
           >
             <v-card>
-              <v-card-title class="subheading font-weight-bold">
-                <!--<v-btn class="mx-2" fab dark small color="primary">
-                  <v-icon dark> mdi-share </v-icon>
-                </v-btn>-->
-                {{ item.especialidad }}
-              </v-card-title>
-
               <v-divider></v-divider>
 
               <v-list dense>
@@ -131,6 +114,41 @@
                     {{ item.descripcion }}
                   </v-list-item-content>
                 </v-list-item>
+
+                <v-list-item>
+                  <v-list-item-content>Peso:</v-list-item-content>
+                  <v-list-item-content class="align-end">
+                    {{ item.peso }}
+                  </v-list-item-content>
+                </v-list-item>
+
+                <v-list-item>
+                  <v-list-item-content>Estatura:</v-list-item-content>
+                  <v-list-item-content class="align-end">
+                    {{ item.estatura }}
+                  </v-list-item-content>
+                </v-list-item>
+
+                <v-list-item>
+                  <v-list-item-content>Médico:</v-list-item-content>
+                  <v-list-item-content class="align-end">
+                    {{ item.cedula_medico }}
+                  </v-list-item-content>
+                </v-list-item>
+
+                <v-list-item>
+                  <v-list-item-content>Medicamentos:</v-list-item-content>
+                  <v-list-item-content class="align-end">
+                    {{ item.medicamento }}: {{ item.posologia }}
+                  </v-list-item-content>
+                </v-list-item>
+
+                <v-list-item>
+                  <v-list-item-content>Remisiones:</v-list-item-content>
+                  <v-list-item-content class="align-end">
+                    {{ item.remision }}
+                  </v-list-item-content>
+                </v-list-item>
               </v-list>
             </v-card>
           </v-col>
@@ -158,13 +176,15 @@
 <script>
 export default {
   layout: "medico",
-   beforeMount() {
-    this.loadUser();
+  beforeMount() {
+    console.log(localStorage.getItem("estres"));
+    //this.loadUser();
     this.getHistorias();
   },
   data: () => ({
     date: new Date().toISOString().substr(0, 7),
     menu: false,
+    paciente: {},
     page: 1,
     itemsPerPage: 3,
     especializacion_seleccionada: null,
@@ -180,14 +200,15 @@ export default {
     ],
     headers: [],
     items: [],
-    historias: [
-    ]
+    historias: [],
+    datos: []
   }),
   computed: {
     numberOfPages() {
       return Math.ceil(this.items.length / this.itemsPerPage);
     }
   },
+
   methods: {
     nextPage() {
       if (this.page + 1 <= this.numberOfPages) this.page += 1;
@@ -210,18 +231,25 @@ export default {
         item => item.fecha.substr(0, 7) == this.date
       );
     },
-    loadUser() {
-      let stringUser = localStorage.getItem("user-in");
-      this.usuario = JSON.parse(stringUser);
+
+    limpiarFiltros() {
+      this.items = this.historias;
     },
+
+    loadUser() {
+      this.paciente = JSON.parse(stringUser);
+    },
+
     async getHistorias() {
       try {
         let response = await this.$axios.get(
           "http://localhost:3001/Historias_clinicas"
         );
+        let stringUser = JSON.parse(localStorage.getItem("estres"));
+        console.log(stringUser.cedula);
         this.datos = response.data;
         for (var i of this.datos) {
-          if (this.usuario.cedula == i.cedula_paciente) {
+          if (stringUser.cedula == i.cedula_paciente) {
             this.items.push(i);
             this.historias.push(i);
           }
@@ -230,8 +258,9 @@ export default {
         console.error(error);
       }
     },
-    limpiarFiltros() {
-      this.items = this.historias;
+    HistoriasPaciente() {
+      localStorage.getItem("estres");
+      this.$router.push("Agregar_Historia");
     }
   }
 };
