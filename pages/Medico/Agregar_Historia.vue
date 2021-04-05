@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1> Agregar entrada a historia clinica</h1>
+    <h1>Agregar entrada a historia clinica</h1>
     <template>
       <v-card-title>
         <v-spacer>
@@ -35,7 +35,7 @@
                           <v-col cols="12" sm="8" md="6">
                             <v-text-field
                               label="Numero de Identificación (Paciente)"
-                              v-model="paciente.cedula"
+                              v-model="paciente.id"
                               required
                               readonly
                               :rules="rules.required"
@@ -44,7 +44,7 @@
                           <v-col cols="12" sm="8" md="6">
                             <v-text-field
                               label="Numero de Identificación (Medico/Auxiliar)"
-                              v-model="auxiliar.cedula"
+                              v-model="auxiliar.id"
                               required
                               readonly
                               :rules="rules.required"
@@ -314,10 +314,10 @@ export default {
 
     async GuardarExamen() {
       if (this.$refs.formHistoria.validate()) {
-        this.CamposExamen.idpaciente = this.paciente.cedula;
-        this.historia.cedula_paciente = this.paciente.cedula;
-        this.CamposExamen.idauxiliar = this.auxiliar.cedula;
-        this.historia.cedula_medico = this.auxiliar.cedula;
+        this.CamposExamen.idpaciente = this.paciente.id;
+        this.historia.cedula_paciente = this.paciente.id;
+        this.CamposExamen.idauxiliar = this.auxiliar.id;
+        this.historia.cedula_medico = this.auxiliar.id;
         this.CamposExamen.fecha =
           new Date().getDay() +
           "/" +
@@ -352,10 +352,10 @@ export default {
         if (this.$refs.formHistoria.validate()) {
           let stringUser = JSON.parse(localStorage.getItem("user-doctor"));
           let stringUser2 = JSON.parse(localStorage.getItem("estres"));
-          console.log(stringUser.cedula);
-          console.log(stringUser2.cedula);
-          this.historia.cedula_paciente = stringUser.cedula;
-          this.historia.cedula_medico = stringUser2.cedula;
+          console.log(stringUser.id);
+          console.log(stringUser2.id);
+          this.historia.cedula_medico = stringUser.id;
+          this.historia.cedula_paciente = stringUser2.id;
           // Crear un nuevo objeto con la info del usuario
           try {
             let historia = Object.assign({}, this.historia);
@@ -365,6 +365,7 @@ export default {
               title: "Operación exitosa.",
               text: "La entrada se guardó correctamente."
             });
+            this.$router.push("Historia_clinica");
           } catch (error) {
             console.log(error);
           }

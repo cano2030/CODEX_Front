@@ -246,10 +246,10 @@ export default {
           "http://localhost:3001/Historias_clinicas"
         );
         let stringUser = JSON.parse(localStorage.getItem("estres"));
-        console.log(stringUser.cedula);
+        console.log(stringUser.id);
         this.datos = response.data;
         for (var i of this.datos) {
-          if (stringUser.cedula == i.cedula_paciente) {
+          if (stringUser.id == i.cedula_paciente) {
             this.items.push(i);
             this.historias.push(i);
           }

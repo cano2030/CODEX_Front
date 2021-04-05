@@ -6,7 +6,8 @@
         <v-list-item two-line>
           <v-avatar size="180">
             <v-img
-              src="https://res.cloudinary.com/postedin/image/upload/d_psu:no-image.jpg,f_auto,q_80/psu/c-postedin-image-65344.jpeg"
+              src=
+              "https://images.generated.photos/hCJpcCDshv_zQx6eNs4v4S_AzD4Uf2JKheA1-Iap0d8/rs:fit:512:512/wm:0.95:sowe:18:18:0.33/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzA1MDU3MjIuanBn.jpg"
             ></v-img>
           </v-avatar>
         </v-list-item>
