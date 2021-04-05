@@ -121,8 +121,8 @@ export default {
     usuario: {},
     estado_civil: ["Soltero", "Casado", "Divorciado", "Viudo"],
     departamentos: ["Antioquia", "Arauca", "Atrlántico", "Bolívar"],
-    ciudades: ["Medellín", "Bogotá", "Barranquilla", "Cartagena"],
-    //ciudades: {},
+    ciudades: [],
+    arrayCiudades:[],
     rules: {
       required: [(v) => !!v || "El campo es obligatorio"],
     },
@@ -130,12 +130,12 @@ export default {
 
   beforeMount() {
     this.getUsuario();
-    //this.getCiudades();
+    this.getCiudades();
   },
 
   methods: {
     getUsuario() {
-      let stringUser = localStorage.getItem("user-in");
+      let stringUser = localStorage.getItem("user-paciente");
       this.usuario = JSON.parse(stringUser);
     },
 
@@ -159,13 +159,14 @@ export default {
       }
     },
 
-
-
     //No funciona :(
     async getCiudades() {
       try {
         let response = await this.$axios.get("http://localhost:3001/ciudades");
-        this.ciudades = response.data;
+        this.arrayCiudades = response.data;
+        for(var i of this.arrayCiudades){
+          this.ciudades.push(i.ciudad);
+        }
       } catch (error) {
         console.error(error);
       }
