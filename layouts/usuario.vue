@@ -131,7 +131,7 @@ export default {
 </script>
 <style scoped>
 #app {
-  background: url("../static/images/enfermera.jpeg") no-repeat center fixed !important;
-  background-size: cover;
+  background: url("../static/images/fondoAzul.jpeg") no-repeat center fixed !important;
+  background-size: 1366px 788px;
 }
 </style>

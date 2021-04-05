@@ -1,5 +1,5 @@
 <template>
-  <v-app background="../static/images/FondoIndex.png">
+  <v-app background="../static/images/medico.jpg">
     <br />
     <center>
       <h1 style="font-family: Copperplate">APOLO SALUD</h1>
@@ -272,7 +272,7 @@ export default {
 </script>
 <style>
 #app {
-  background: url("../static/images/FondoIndex.png") no-repeat center fixed !important;
+  background: url("../static/images/fondoAzul.jpeg")  !important;
   background-size: cover;
 }
 </style>
