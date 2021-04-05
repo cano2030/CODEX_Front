@@ -24,7 +24,7 @@
             <v-text-field v-model="usuario.apellidos" label="Apellidos" disabled></v-text-field>
           </v-col>
         </v-row>
-        <v-text-field v-model="usuario.cedula" label="Cédula" disabled></v-text-field>
+        <v-text-field v-model="usuario.id" label="Cédula" disabled></v-text-field>
         <v-row>
           <v-col cols="12" sm="4">
             <v-text-field v-model="usuario.fecha_nac" label="Fecha de Nacimiento" disabled></v-text-field>
