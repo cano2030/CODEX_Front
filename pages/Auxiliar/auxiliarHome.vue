@@ -110,10 +110,10 @@
     </v-card-title>
     </template>
     <template v-slot:item.actions="{ item }">
-      <v-icon small class="mr-2" @click="VerDetalle(item)">
+      <v-icon  class="mr-2" @click="VerDetalle(item)">
         mdi-account
       </v-icon>
-      <v-icon small @click="ExamenesPaciente(item)"> mdi-delete </v-icon>
+      <v-icon  @click="ExamenesPaciente(item)"> mdi-needle </v-icon>
     </template>
     
   </v-data-table>

@@ -40,7 +40,7 @@
 
       <template v-slot:append>
         <div>
-          <v-btn block text to="/">
+          <v-btn block text @click="cerrarSesion()">
             Cerrar sesión
             <v-icon> mdi-exit-to-app </v-icon>
           </v-btn>
@@ -106,6 +106,11 @@ export default {
     loadUser() {
       let stringUser=localStorage.getItem("user-auxiliar");
       this.usuario = JSON.parse(stringUser);
+    },
+
+    cerrarSesion(){
+localStorage.clear();
+this.$router.push("/");
     },
     
 

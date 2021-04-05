@@ -16,6 +16,7 @@
                     label="Nombre"
                     :rules="rules.required"
                     required
+                    disabled
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
@@ -24,6 +25,7 @@
                     label="Apellidos"
                     :rules="rules.required"
                     required
+                    disabled
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -32,6 +34,7 @@
                 label="Cédula"
                 :rules="rules.required"
                 required
+                disabled
               ></v-text-field>
               <v-row>
                 <v-col cols="12" sm="4">
@@ -51,9 +54,11 @@
                         readonly
                         v-bind="attrs"
                         v-on="on"
+                        disabled
                       ></v-text-field>
                     </template>
                     <v-date-picker
+                    disabled
                       v-model="paciente.fecha_nac"
                       @input="menu2 = false"
                     ></v-date-picker>
@@ -65,6 +70,7 @@
                     label="Edad"
                     :rules="rules.required"
                     required
+                    disabled
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="4">
@@ -74,6 +80,7 @@
                     label="Sexo"
                     :rules="rules.required"
                     required
+                    disabled
                   ></v-select>
                 </v-col>
               </v-row>
@@ -93,7 +100,7 @@
               <v-text-field
                 v-model="paciente.correo"
                 label="Correo"
-                :rules="rules.required"
+                :rules="emailRules"
                 required
               ></v-text-field>
               <v-text-field
@@ -164,6 +171,10 @@ export default {
     rules: {
       required: [(v) => !!v || "El campo es obligatorio"],
     },
+    emailRules: [
+      (v) => !!v || "El correo es obligatorio",
+      (v) => /.+@.+\..+/.test(v) || "El correo no es valido",
+    ],
     
     search: "",
   }),
@@ -189,7 +200,7 @@ export default {
         this.$swal.fire({
           type: "success",
           title: "Operación exitosa.",
-          text: "El item se actualizo correctamente.",
+          text: "La información del paciente se actualizo correctamente.",
         });
         localStorage.setItem("pac-editar", "");
         this.$router.push("adminUsuarios");

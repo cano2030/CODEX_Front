@@ -240,7 +240,7 @@ export default {
             return x.codigo === this.admin.codigo;
           });
           if (findUser) {
-            //localStorage.setItem("user-system", JSON.stringify(findUser));
+            localStorage.setItem("admin-system", JSON.stringify(findUser));
             this.$router.push("Administrador/adminUsuarios");
           } else {
             this.$swal.fire({

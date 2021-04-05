@@ -93,7 +93,7 @@
               <v-text-field
                 v-model="paciente.correo"
                 label="Correo"
-                :rules="rules.required"
+                :rules="emailRules"
                 required
               ></v-text-field>
               <v-text-field
@@ -173,6 +173,10 @@ export default {
     rules: {
       required: [(v) => !!v || "El campo es obligatorio"],
     },
+    emailRules: [
+      (v) => !!v || "El correo es obligatorio",
+      (v) => /.+@.+\..+/.test(v) || "El correo no es valido",
+    ],
     
     search: "",
   }),

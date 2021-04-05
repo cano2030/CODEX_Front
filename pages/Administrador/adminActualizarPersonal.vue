@@ -14,7 +14,7 @@
                     label="Nombre"
                     :rules="rules.required"
                     required
-                    readonly
+                    disabled
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
@@ -23,7 +23,7 @@
                     label="Apellidos"
                     :rules="rules.required"
                     required
-                    readonly
+                    disabled
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -32,7 +32,7 @@
                 label="Cédula"
                 :rules="rules.required"
                 required
-                readonly
+                disabled
               ></v-text-field>
               <v-row>
                 <v-col cols="12" sm="4">
@@ -50,16 +50,17 @@
                         v-model="personal.fecha_nac"
                         label="Fecha de Nacimiento"
                         prepend-icon="mdi-calendar"
-                        readonly
                         v-bind="attrs"
                         v-on="on"
+                        disabled
                         
                       ></v-text-field>
                     </template>
                     <v-date-picker
-                    readonly
+                    
                       v-model="personal.fecha_nac"
                       @input="menu1 = false"
+                      disabled
                     ></v-date-picker>
                   </v-menu>
                 </v-col>
@@ -69,7 +70,7 @@
                     label="Edad"
                     :rules="rules.required"
                     required
-                    readonly
+                    disabled
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="4">
@@ -79,7 +80,7 @@
                     label="Sexo"
                     :rules="rules.required"
                     required
-                    readonly
+                    disabled
                   ></v-select>
                 </v-col>
               </v-row>
@@ -115,7 +116,7 @@
               <v-text-field
                 v-model="personal.correo"
                 label="Correo"
-                :rules="rules.required"
+                :rules="emailRules"
                 required
               ></v-text-field>
               <v-text-field
@@ -192,6 +193,10 @@ export default {
     rules: {
       required: [(v) => !!v || "El campo es obligatorio"],
     },
+    emailRules: [
+      (v) => !!v || "El correo es obligatorio",
+      (v) => /.+@.+\..+/.test(v) || "El correo no es valido",
+    ],
     
     search: "",
   }),
@@ -248,7 +253,7 @@ export default {
         this.$swal.fire({
           type: "success",
           title: "Operación exitosa.",
-          text: "El item se actualizo correctamente.",
+          text: "El perfil del auxiliar se actualizo correctamente.",
         });
         localStorage.setItem("aux-editar", "");
         this.$router.push("adminUsuarios");

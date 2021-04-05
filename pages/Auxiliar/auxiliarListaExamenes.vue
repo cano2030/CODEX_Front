@@ -114,12 +114,7 @@
       </v-spacer>
     </v-card-title>
     </template>
-    <template v-slot:item.actions="{ item }">
-      <v-icon small class="mr-2" @click="VerDetalle(item)">
-        mdi-account
-      </v-icon>
-      <v-icon small @click="ExamenesPaciente(item)"> mdi-delete </v-icon>
-    </template>
+
     
   </v-data-table>
   </v-card>
@@ -156,7 +151,6 @@ export default {
       { text: "Nombre", value: "nombre" },
       { text: "Area", value: "arealab" },
       { text: "Fecha", value: "fecha" },
-      { text: "Operaciones", value: "actions" },
     ],
 
     examenpac:[],
@@ -208,7 +202,7 @@ export default {
       if (this.$refs.formExamen.validate()) {
       this.CamposExamen.idpaciente=this.paciente.cedula;
       this.CamposExamen.idauxiliar=this.auxiliar.cedula;
-      this.CamposExamen.fecha=new Date().getDay()+"/"+new Date().getMonth()+"/"+new Date().getFullYear();
+      this.CamposExamen.fecha=new Date().getDate()+"/"+(new Date().getMonth()+1)+"/"+new Date().getFullYear();
         // Crear un nuevo objeto con la info del usuario
         try {
           let examen = Object.assign({}, this.CamposExamen);

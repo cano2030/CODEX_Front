@@ -112,7 +112,7 @@
         <v-data-table :headers="headers" :items="especialidad" :search="search">
           <template v-slot:item.actions="{ item }">
             <v-icon small class="mr-2" @click="Editar(item)">
-              mdi-account
+              mdi-pencil
             </v-icon>
             <v-icon small @click="deleteItem(item)">
               mdi-delete
@@ -154,12 +154,12 @@ export default {
 
     headers: [
       {
-        text: "Nombre de la Especialidad",
+        text: "Id",
         align: "start",
         sortable: false,
-        value: "nombre",
+        value: "id",
       },
-      { text: "ID", value: "id" },
+      { text: "Nombre de la Especialidad", value: "nombre" },
       { text: "Descripcion", value: "descripcion" },
 
       { text: "Operaciones", value: "actions" },
@@ -266,7 +266,7 @@ export default {
               this.$swal.fire({
                 type: "success",
                 title: "Operación exitosa.",
-                text: "El item se eliminó correctamente.",
+                text: "La especialidad se eliminó correctamente.",
               });
               this.getEspecialidad();
             } catch (error) {

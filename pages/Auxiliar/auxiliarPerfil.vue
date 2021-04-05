@@ -114,8 +114,9 @@ export default {
         this.$swal.fire({
           type: "success",
           title: "Operación exitosa.",
-          text: "El item se actualizo correctamente.",
+          text: "La información de tu perfil se actualizó correctamente.",
         });
+        this.$router.push("auxiliarHome");
       } else {
         this.$swal.fire({
           type: "warning",

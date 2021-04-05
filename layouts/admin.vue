@@ -23,7 +23,7 @@
 
       <template v-slot:append>
         <div>
-          <v-btn block>
+          <v-btn block @click="cerrarSesion()">
             Cerrar sesion
             <v-icon> mdi-exit-to-app </v-icon>
           </v-btn>
@@ -73,10 +73,13 @@
 
 <script>
 export default {
+  beforeMount() {
+    this.loadUser();
+  },
   data() {
     return {
       openMenu: false,
-
+admin:null,
       items: [
         {
           id: "adminCrearUsuarios",
@@ -106,6 +109,16 @@ export default {
       title: "Vuetify.js",
     };
   },
+  methods: {
+    loadUser() {
+      let stringUser=localStorage.getItem("admin-system");
+      this.admin = JSON.parse(stringUser);
+    },
+    cerrarSesion(){
+localStorage.clear();
+this.$router.push("/");
+    },
+    }
 };
 </script>
 

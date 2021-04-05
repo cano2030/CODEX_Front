@@ -19,7 +19,7 @@
 
       </template>
       <template v-slot:item.actions="{ item }">
-        <v-icon class="mr-2" @click="verHistoria(item)"> mdi-pencil </v-icon>
+        <v-icon class="mr-2" @click="verHistoria(item)"> mdi-file-document-multiple-outline </v-icon>
       </template>
     </v-data-table>
   </v-card>
