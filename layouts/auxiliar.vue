@@ -117,6 +117,9 @@ this.$router.push("/");
   },
 };
 </script>
-<style >
-
+<style scoped>
+#app {
+  background: url("../static/images/fondoAzul.jpeg") no-repeat center fixed !important;
+  background-size: 1366px 788px;
+}
 </style>

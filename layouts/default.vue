@@ -272,7 +272,7 @@ export default {
 </script>
 <style>
 #app {
-  background: url("../static/images/fondoAzul.jpeg")  !important;
+  background: url("../static/images/FondoIndex.png") no-repeat center fixed !important;
   background-size: cover;
 }
 </style>
