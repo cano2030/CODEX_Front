@@ -180,11 +180,13 @@
 </template>
 
 <script>
+const url_apiesp = "http://localhost:3001/especialidades/";
 export default {
   layout: "usuario",
   beforeMount() {
     this.loadUser();
     this.getHistorias();
+    this.getEspecialidad();
   },
   data: () => ({
     date: new Date().toISOString().substr(0, 7),
@@ -195,14 +197,9 @@ export default {
     especializacion_seleccionada: null,
     filter: {},
     especializaciones: [
-      "Medicina general",
-      "Odontología",
-      "Ginecología",
-      "Oftalmología",
-      "Cirugía general",
-      "Dermatología",
-      "Ortopedía y traumatología",
+      
     ],
+    esp:[],
     headers: [],
     items: [],
     historias: [],
@@ -223,6 +220,17 @@ export default {
     },
     updateItemsPerPage(number) {
       this.itemsPerPage = number;
+    },
+    async getEspecialidad() {
+      try {
+        let response = await this.$axios.get(url_apiesp);
+        this.esp = response.data;
+        for (var i of this.esp) {
+          this.especializaciones.push(i.nombre);
+        }
+      } catch (error) {
+        console.error(error);
+      }
     },
 
     filterEspecializacion() {

@@ -44,29 +44,16 @@
             cantidad: '4,28 ml',
           },
           {
-            nombre: 'Augmentine "100" suspensión, (100/12,5 mg/1 ml)',
-            posologia: 'cada 8 horas',
+            nombre: 'Ácido acetilsalicílico (200/75,5 mg/1 ml)',
+            posologia: 'cada 4 horas',
             cantidad: '1,07 ml ',
           },
           {
-            nombre: ' Augmentine "125" suspensión, (125/31,25 mg/5 ml)',
-            posologia: 'cada 8 horas',
-            cantidad: '4,28 ml',
+            nombre: ' Paracetamol, (180/31,25 mg/5 ml)',
+            posologia: 'cada 12 horas',
+            cantidad: '2,26 ml',
           },
-          {
-            nombre: 'Augmentine "100" suspensión, (100/12,5 mg/1 ml)',
-            posologia: 'cada 8 horas',
-            cantidad: '1,07 ml ',
-          },{
-            nombre: ' Augmentine "125" suspensión, (125/31,25 mg/5 ml)',
-            posologia: 'cada 8 horas',
-            cantidad: '4,28 ml',
-          },
-          {
-            nombre: 'Augmentine "100" suspensión, (100/12,5 mg/1 ml)',
-            posologia: 'cada 8 horas',
-            cantidad: '1,07 ml ',
-          },
+         
         ],
       }
     },

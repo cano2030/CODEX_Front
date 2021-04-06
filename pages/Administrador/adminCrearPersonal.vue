@@ -173,7 +173,7 @@ export default {
     personal: {
       nombre: "",
       apellidos: "",
-      id: 0,
+      id: "",
       fecha_nac: new Date().toISOString().substr(0, 10),
       edad: "",
       sexo: "",

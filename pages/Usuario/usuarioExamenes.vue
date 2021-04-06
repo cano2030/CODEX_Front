@@ -90,7 +90,7 @@ export default {
         let response = await this.$axios.get(url_apiexamen);
         this.examen = response.data;
         for(var i of this.examen){
-          if(this.paciente.cedula==i.idpaciente){
+          if(this.paciente.id==i.idpaciente){
             this.examenpac.push(i);
           }
         }
