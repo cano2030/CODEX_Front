@@ -114,7 +114,7 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 #app {
   background: url("../static/images/fondoAzul.jpeg")  !important;
   background-size: cover;
