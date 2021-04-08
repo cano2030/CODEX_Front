@@ -251,6 +251,7 @@ export default {
       }
     },
     async getMedicos() {
+      
       try {
         let response = await this.$axios.get(url_apimedico);
         this.medicos = response.data;
@@ -259,6 +260,7 @@ export default {
       }
     },
     async getAuxiliares() {
+     
       try {
         let response = await this.$axios.get(url_apiauxiliar);
         this.auxiliares = response.data;

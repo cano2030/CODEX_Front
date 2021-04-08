@@ -180,6 +180,7 @@ export default {
     },
 
     async getExamen() {
+    this.examenpac=[];
       try {
         let response = await this.$axios.get(url_apiexamen);
         this.examen = response.data;

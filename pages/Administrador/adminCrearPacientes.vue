@@ -179,6 +179,7 @@ export default {
     pac: [],
     med: [],
     aux: [],
+    usu: [],
 
     rules: {
       required: [(v) => !!v || "El campo es obligatorio"],
@@ -196,38 +197,49 @@ export default {
       this.$refs.form.validate();
     },
 
-    async validarId() {
-      try {
+    async GuardarPaciente() {
+      this.validar = false;
+      
+       try {
         let response1 = await this.$axios.get(url_apipaciente);
         this.pac = response1.data;
         for (var i of this.pac) {
-          if (this.pac.id == i.id) {
-            return true;
-          }
-        }
-        let response2 = await this.$axios.get(url_apimedico);
-        this.med = response2.data;
-        for (var i of this.med) {
-          if (this.med.id == i.id) {
-            return true;
-          }
-        }
-        let response3 = await this.$axios.get(url_apiauxiliar);
-        this.aux = response3.data;
-        for (var i of this.aux) {
-          if (this.aux.id == i.id) {
-            return true;
-          }
+          this.usu.push(JSON.stringify(i.id));
         }
       } catch (error) {
         console.error(error);
       }
-    },
 
-    async GuardarPaciente() {
-      this.validarId();
-      if (this.$refs.formPaciente.validate()) {
-       
+      try {
+        let response2 = await this.$axios.get(url_apimedico);
+        this.med = response2.data;
+        for (var i of this.med) {
+          this.usu.push(JSON.stringify(i.id));
+        }
+      } catch (error) {
+        console.error(error);
+      }
+
+      try {
+        let response3 = await this.$axios.get(url_apiauxiliar);
+        this.aux = response3.data;
+        for (var i of this.aux) {
+          this.usu.push((JSON.stringify(i.id)));
+        }
+      } catch (error) {
+        console.error(error);
+      }
+
+      for (var i of this.usu) {
+        if(i==JSON.stringify(this.paciente.id)){
+          this.validar=true;
+        }
+      }
+      
+      console.log(this.validar);
+       if (this.$refs.formPaciente.validate()) {
+        if (this.validar == false) {
+          this.validar = false;
           try {
             let paciente = Object.assign({}, this.paciente);
             let response = await this.$axios.post(url_apipaciente, paciente);
@@ -241,7 +253,14 @@ export default {
           } catch (error) {
             console.log(error);
           }
-         
+        } else {
+          this.$swal.fire({
+            type: "warning",
+            title: "Formulario incorrecto.",
+            text: "Hay campos mal diligenciados .",
+          });
+        }
+
         // Crear un nuevo objeto con la info del usuario
       } else {
         this.$swal.fire({
@@ -249,7 +268,7 @@ export default {
           title: "Formulario incompleto.",
           text: "Hay campos que deben ser diligenciados.",
         });
-      }
+      }  
     },
   },
 };

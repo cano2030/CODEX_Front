@@ -153,6 +153,7 @@
 const url_apimedico = "http://localhost:3001/medicos/";
 const url_apiauxiliar = "http://localhost:3001/auxiliares/";
 const url_apiesp = "http://localhost:3001/especialidades/";
+const url_apipaciente = "http://localhost:3001/pacientes/";
 export default {
   beforeMount() {
     this.getEspecialidad();
@@ -162,6 +163,7 @@ export default {
     date: new Date().toISOString().substr(0, 10),
     menu1: false,
     valid: true,
+    validar: false,
     sexo: ["Masculino", "Femenino"],
     estado_civil: ["Soltero", "Casado", "Divorciado", "Viudo"],
     departamentos: ["Antioquia", "Arauca", "Atlántico", "Bolívar"],
@@ -169,6 +171,10 @@ export default {
     especialidad: [],
     esp: [],
     perfil: ["Medico", "Auxiliar"],
+        pac: [],
+    med: [],
+    aux: [],
+    usu: [],
 
     personal: {
       nombre: "",
@@ -193,7 +199,6 @@ export default {
       (v) => !!v || "El correo es obligatorio",
       (v) => /.+@.+\..+/.test(v) || "El correo no es valido",
     ],
-    
 
     search: "",
   }),
@@ -216,33 +221,84 @@ export default {
     },
 
     async GuardarPersonal() {
+      this.validar = false;
+
+      try {
+        let response1 = await this.$axios.get(url_apipaciente);
+        this.pac = response1.data;
+        for (var i of this.pac) {
+          this.usu.push(JSON.stringify(i.id));
+        }
+      } catch (error) {
+        console.error(error);
+      }
+
+      try {
+        let response2 = await this.$axios.get(url_apimedico);
+        this.med = response2.data;
+        for (var i of this.med) {
+          this.usu.push(JSON.stringify(i.id));
+        }
+      } catch (error) {
+        console.error(error);
+      }
+
+      try {
+        let response3 = await this.$axios.get(url_apiauxiliar);
+        this.aux = response3.data;
+        for (var i of this.aux) {
+          this.usu.push(JSON.stringify(i.id));
+        }
+      } catch (error) {
+        console.error(error);
+      }
+
+      for (var i of this.usu) {
+        if (i == JSON.stringify(this.personal.id)) {
+          this.validar = true;
+        }
+      }
+
+      console.log(this.validar);
       if (this.$refs.formPersonalMedico.validate()) {
-        if (this.personal.perfil == "Medico") {
-          try {
-            let medico = Object.assign({}, this.personal);
-            let response = await this.$axios.post(url_apimedico, medico);
-            this.$swal.fire({
-              type: "success",
-              title: "Operación exitosa.",
-              text: "El medico se guardó correctamente.",
-            });
-          } catch (error) {
-            console.log(error);
+        if (this.validar == false) {
+          this.validar = false;
+          if (this.personal.perfil == "Medico") {
+            try {
+              let medico = Object.assign({}, this.personal);
+              let response = await this.$axios.post(url_apimedico, medico);
+              this.$swal.fire({
+                type: "success",
+                title: "Operación exitosa.",
+                text: "El medico se guardó correctamente.",
+              });
+              this.personal = "";
+              this.$router.push("adminUsuarios");
+            } catch (error) {
+              console.log(error);
+            }
+          } else if (this.personal.perfil == "Auxiliar") {
+            try {
+              let auxiliar = Object.assign({}, this.personal);
+              let response = await this.$axios.post(url_apiauxiliar, auxiliar);
+              this.$swal.fire({
+                type: "success",
+                title: "Operación exitosa.",
+                text: "El auxiliar se guardó correctamente.",
+              });
+              this.personal = "";
+              this.$router.push("adminUsuarios");
+              
+            } catch (error) {
+              console.log(error);
+            }
           }
-        } else if (this.personal.perfil == "Auxiliar") {
-          try {
-            let auxiliar = Object.assign({}, this.personal);
-            let response = await this.$axios.post(url_apiauxiliar, auxiliar);
-            this.$swal.fire({
-              type: "success",
-              title: "Operación exitosa.",
-              text: "El auxiliar se guardó correctamente.",
-            });
-            this.personal = "";
-            this.$router.push("adminUsuarios");
-          } catch (error) {
-            console.log(error);
-          }
+        } else {
+          this.$swal.fire({
+            type: "warning",
+            title: "Formulario incorrecto.",
+            text: "Hay campos mal diligenciados .",
+          });
         }
       } else {
         this.$swal.fire({
